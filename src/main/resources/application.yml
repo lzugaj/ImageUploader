@@ -1,0 +1,35 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /image-uploader
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/image-uploader
+    username: imageuploader
+    password: '#Lzugaj89569855'
+    initialization-mode: embedded
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        lob:
+          non_contextual_creation: true
+        temp:
+          use_jdbc_metadata_defaults: false
+        default_schema: 'public'
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 772629366701-j6msln9vj3qd25qsh1t5nj9m64ti0i9q.apps.googleusercontent.com
+            client-secret: BcNRq0M9bDTA_iNiLMyRqwNm
+          github:
+            client-id: 4e747a9b02bd9d1e7aeb
+            client-secret: 203cf15cd2a2a458cc0dbe02da273f2451ea33a7

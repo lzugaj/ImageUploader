@@ -1,0 +1,64 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1300px;
+    height: 700px;
+}
+
+ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+a:hover {
+    color: #ff9900;
+}
+
+li a {
+    display: block;
+    color: white;
+}
+
+#linkToIndexPage {
+    margin-left: -40px;
+}
+
+#linkToPreviousPage {
+    margin-left: 15px;
+}
+
+#linkToCurrentPage {
+    margin: 0 15px;
+}
+
+#registrationContainer {
+    position: relative;
+    left: 25%;
+    top: 10%;
+}
+
+.input-fields {
+    margin-bottom: 25px;
+}
+
+.error-msg {
+    margin-bottom: 10px;
+}
+
+#signUpButton {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.error {
+    color:red
+}

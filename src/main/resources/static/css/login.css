@@ -1,0 +1,60 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1300px;
+    height: 700px;
+}
+
+ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+}
+
+a:hover {
+    color: #ff9900;
+}
+
+#linkToIndexPage {
+    margin-left: -40px;
+}
+
+#linkToCurrentPage {
+    margin: 0 10px;
+}
+
+#loginContainer {
+    position: relative;
+    left: 25%;
+    top: 10%;
+}
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+#loginButton {
+    text-align: center;
+    margin-top: 10px;
+}
+
+#signUpButton {
+    text-align: center;
+}
+
+#signUpButton span {
+    color: white;
+}

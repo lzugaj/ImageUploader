@@ -125,13 +125,15 @@
                                 <div th:if="!${#fields.hasErrors('password')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input type="password" th:field="*{password}" placeholder="Password" class="form-control" th:errorclass="fieldError" />
+                                        <input type="password" th:field="*{password}" placeholder="Password"
+                                               class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
                                 <div th:if="${#fields.hasErrors('password')}">
                                     <div class="input-group error-msg">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input type="password" th:field="*{password}" placeholder="Password" class="form-control is-invalid" th:errorclass="fieldError" required>
+                                        <input type="password" th:field="*{password}" placeholder="Password"
+                                               class="form-control is-invalid" th:errorclass="fieldError" required>
                                     </div>
                                     <div class="col-md-12">
                                         <p th:each="error : ${#fields.errors('password')}" th:text="${error}" class="col-form-label text-danger">
@@ -144,13 +146,15 @@
                                 <div th:if="!${#fields.hasErrors('matchingPassword')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input type="password" th:field="*{matchingPassword}" placeholder="Confirm password" class="form-control" th:errorclass="fieldError" />
+                                        <input type="password" th:field="*{matchingPassword}" placeholder="Confirm password"
+                                               class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
                                 <div th:if="${#fields.hasErrors('matchingPassword')}">
                                     <div class="input-group error-msg">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input type="password" th:field="*{matchingPassword}" placeholder="Confirm password" class="form-control is-invalid" th:errorclass="fieldError" required>
+                                        <input type="password" th:field="*{matchingPassword}" placeholder="Confirm password"
+                                               class="form-control is-invalid" th:errorclass="fieldError" required>
                                     </div>
                                     <div class="col-md-12">
                                         <p th:each="error : ${#fields.errors('matchingPassword')}" th:text="${error}" class="col-form-label text-danger">

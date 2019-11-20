@@ -1,13 +1,12 @@
 package com.luv2code.imageuploader.service.impl;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.stream.Collectors;
-
-import javax.transaction.Transactional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.luv2code.imageuploader.dto.UserDto;
+import com.luv2code.imageuploader.entity.Role;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.repository.RoleRepository;
+import com.luv2code.imageuploader.repository.UserRepository;
+import com.luv2code.imageuploader.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -16,21 +15,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.luv2code.imageuploader.dto.UserDto;
-import com.luv2code.imageuploader.entity.Role;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.repository.RoleRepository;
-import com.luv2code.imageuploader.repository.UserRepository;
-import com.luv2code.imageuploader.service.UserService;
+import javax.transaction.Transactional;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 /**
  * Created by lzugaj on Monday, November 2019
  */
 
+@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired
     private UserRepository userRepository;
@@ -39,7 +35,6 @@ public class UserServiceImpl implements UserService {
     private RoleRepository roleRepository;
 
     @Autowired
-    @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
@@ -59,7 +54,7 @@ public class UserServiceImpl implements UserService {
         user.setRoles(Collections.singletonList(roleRepository.findRoleByName("ROLE_USER")));
 
         User newUser = userRepository.save(user);
-        LOGGER.info("Creating new User with username: ´{}´", userDto.getUserName());
+        log.info("Creating new User with username: ´{}´", userDto.getUserName());
         return newUser;
     }
 

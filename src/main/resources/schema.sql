@@ -52,8 +52,8 @@ create table "user" (
 	user_name varchar(255) not null,
 	user_password varchar(80) not null,
 	number_of_posts int,
-	user_profile_id bigint not null,
-	package_id bigint not null,
+	user_profile_id bigint,
+	package_id bigint,
 	primary key(id_user),
 	constraint fk_user_profile
 	foreign key(user_profile_id)

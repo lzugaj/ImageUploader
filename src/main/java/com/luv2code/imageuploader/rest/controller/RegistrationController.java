@@ -4,7 +4,6 @@ import com.luv2code.imageuploader.dto.UserDto;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +25,11 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public RegistrationController(UserService userService) {
+        this.userService = userService;
+    }
 
     @InitBinder
     public void initBinder(WebDataBinder dataBinder) {

@@ -8,7 +8,7 @@ spring:
     url: jdbc:postgresql://localhost:5432/image-uploader
     username: imageuploader
     password: '#Lzugaj89569855'
-    initialization-mode: always
+#    initialization-mode: always
   jpa:
     hibernate:
       ddl-auto: none #create-drop

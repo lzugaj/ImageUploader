@@ -8,10 +8,10 @@ spring:
     url: jdbc:postgresql://localhost:5432/image-uploader
     username: imageuploader
     password: '#Lzugaj89569855'
-    initialization-mode: embedded
+    initialization-mode: always
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none #create-drop
     show-sql: true
     properties:
       hibernate:
@@ -19,7 +19,7 @@ spring:
           non_contextual_creation: true
         temp:
           use_jdbc_metadata_defaults: false
-        default_schema: 'public'
+        default_schema: public
     database-platform: org.hibernate.dialect.PostgreSQL9Dialect
   thymeleaf:
     cache: false

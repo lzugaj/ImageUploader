@@ -1,9 +1,9 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import javax.validation.Valid;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.luv2code.imageuploader.dto.UserDto;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -16,18 +16,15 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.luv2code.imageuploader.dto.UserDto;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.UserService;
+import javax.validation.Valid;
 
 /**
  * Created by lzugaj on Monday, November 2019
  */
 
+@Slf4j
 @Controller
 public class RegistrationController {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(RegistrationController.class);
 
     @Autowired
     private UserService userService;
@@ -41,7 +38,7 @@ public class RegistrationController {
     @GetMapping("/registration")
     public String showRegistrationForm(Model model) {
         model.addAttribute("userDto", new UserDto());
-        LOGGER.info("Uploading Registration Form");
+        log.info("Uploading Registration Form");
         return "registration/registration-form";
     }
 
@@ -50,9 +47,9 @@ public class RegistrationController {
             BindingResult bindingResult, Model model,
             RedirectAttributes redirectAttributes) {
         String userName = userDto.getUserName();
-        LOGGER.info("Signing Up User with username: ´{}´", userName);
+        log.info("Signing Up User with username: ´{}´", userName);
         if (bindingResult.hasErrors()) {
-            LOGGER.info("Error! Something went wrong while Signing Up User with username: ´{}´", userName);
+            log.info("Error! Something went wrong while Signing Up User with username: ´{}´", userName);
             return "registration/registration-form";
         }
 
@@ -60,12 +57,12 @@ public class RegistrationController {
         if (existing != null) {
             model.addAttribute("userDto", new UserDto());
             model.addAttribute("registrationError", "User name already exists. Please enter new user name.");
-            LOGGER.info("User name, ´{}´, already exists.", userName);
+            log.info("User name, ´{}´, already exists.", userName);
             return "registration/registration-form";
         }
 
         userService.save(userDto);
-        LOGGER.info("Successfully created new user with username: ´{}´", userDto.getUserName());
+        log.info("Successfully created new user with username: ´{}´", userDto.getUserName());
         redirectAttributes.addFlashAttribute("success", "Thank you " + userDto.getFirstName() + "!" + " You have successfully registered! :)");
         return "redirect:/login"; // TODO: Redirect to page where User will choose Package Option!!!
     }

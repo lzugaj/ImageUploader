@@ -1,5 +1,9 @@
 package com.luv2code.imageuploader.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,7 +16,10 @@ import javax.persistence.Table;
  */
 
 @Entity
-@Table(name = "role", schema = "public")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "role")
 public class Role {
 
     @Id
@@ -23,35 +30,4 @@ public class Role {
     @Column(name = "name")
     private String name;
 
-    public Role() {
-        // Default constructor
-    }
-
-    public Role(String name) {
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Role {" +
-                "id = " + id +
-                ", name = " + name +
-                "}";
-    }
 }

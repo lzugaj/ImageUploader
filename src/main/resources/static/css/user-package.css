@@ -1,0 +1,29 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1300px;
+    height: 700px;
+}
+
+#packageOptionTitle {
+    position: relative;
+    top: 15%;
+}
+
+#packageOptionContainer {
+    position: relative;
+    top: 20%;
+}
+
+.card-body h2, a {
+    text-align: center;
+}
+
+.card-body h2 {
+    color: #ff9900;
+}

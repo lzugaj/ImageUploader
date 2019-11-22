@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
-<head>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
     <head>
         <title>Image Uploader</title>
         <meta charset="utf-8">
@@ -9,10 +8,11 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     </head>
-</head>
-<body>
-<div th:if="${session.user}" >
-    <p th:text="'First name: ' + ${session.user.firstName} + ', Last name: ' + ${session.user.lastName} + ', Email: ' + ${session.user.email}"></p>
-</div>
-</body>
+    <body>
+        <h1>Welcome to Test page</h1>
+        <hr>
+        <div>
+            <p th:text="'First name: ' + ${user.firstName} + ', Last name: ' + ${user.lastName} + ', Email: ' + ${user.email} + ', Package: ' + ${user.userPackage.name}"></p>
+        </div>
+    </body>
 </html>

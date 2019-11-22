@@ -42,10 +42,6 @@ public class User {
     @JoinColumn(name = "user_profile_id", referencedColumnName = "id_user_profile")
     private UserProfile userProfile;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "package_id", referencedColumnName = "id_package")
-    private Package userPackage;
-
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = { CascadeType.DETACH, CascadeType.MERGE,
@@ -63,6 +59,10 @@ public class User {
             cascade = { CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.REFRESH, CascadeType.PERSIST })
     private List<DownloadImage> downloadImages;
+
+    @ManyToOne
+    @JoinColumn(name = "package_id", nullable = false)
+    private Package userPackage;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = { CascadeType.DETACH, CascadeType.MERGE,

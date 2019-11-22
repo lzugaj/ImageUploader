@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -28,7 +29,10 @@ public class ImageSize {
 	@Column(name = "height")
 	private Integer height;
 
-	@OneToOne(mappedBy = "imageSize")
-	private Post post;
+	@OneToMany(mappedBy = "imageSize",
+			fetch = FetchType.LAZY,
+			cascade = { CascadeType.DETACH, CascadeType.MERGE,
+					CascadeType.REFRESH, CascadeType.PERSIST })
+	private List<Post> post;
 
 }

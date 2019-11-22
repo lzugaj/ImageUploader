@@ -14,6 +14,6 @@ import com.luv2code.imageuploader.entity.User;
 public interface UserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User u where u.userName = ?1")
-    User findByUserName(String userName);
+    User findByUsername(String userName);
 
 }

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{css/user-package.css}">
+    </head>
+    <body>
+        <div id="container" class="col-lg-9 col-md-9 col-sm-9">
+            <div id="packageOptionTitle">
+                <h2>Please choose your package option and enjoy in publishing new post to everyone!</h2>
+                <br>
+                <div class="alert alert-info" role="alert">
+                    (*) The package you will choose now will be active till 12PM today. After that you will
+                    need to choose your package again so you can try another one or choose the same.
+                </div>
+            </div>
+            <div id="packageOptionContainer">
+                <div class="card-deck">
+                    <div th:each="package : ${packages}" class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h2 th:text="${package.name}" class="card-title">Header</h2>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>Upload size: </p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p th:text="${package.uploadSize} + 'MB'" class="card-text">Content</p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>Daily upload limit: </p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <p th:text="${package.dailyUploadLimit} + ' images'" class="card-text">Content</p>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="text-center">
+                                    <a th:href="@{/user-package-option/{packageId}(packageId=${package.id})}" class="btn btn-primary">Choose</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -40,14 +40,6 @@ public class Post {
 	@Column(name = "number_of_downloads")
 	private Integer numberOfDownloads;
 
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "image_size_id", referencedColumnName = "id_image_size")
-	private ImageSize imageSize;
-
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "image_format_id", referencedColumnName = "id_image_format")
-	private ImageFormat imageFormat;
-
 	@OneToMany(mappedBy = "post",
 			fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
@@ -59,6 +51,14 @@ public class Post {
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
 					CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<DownloadImage> downloadImages;
+
+	@ManyToOne
+	@JoinColumn(name = "image_size_id", nullable = false)
+	private ImageSize imageSize;
+
+	@ManyToOne
+	@JoinColumn(name = "image_format_id", nullable = false)
+	private ImageFormat imageFormat;
 
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)

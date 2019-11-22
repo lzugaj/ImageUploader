@@ -32,8 +32,11 @@ public class Package {
 	@Column(name = "daily_upload_limit")
 	private Integer dailyUploadLimit;
 
-	@OneToOne(mappedBy = "userPackage")
-	private User user;
+	@OneToMany(mappedBy = "userPackage",
+			fetch = FetchType.LAZY,
+			cascade = { CascadeType.DETACH, CascadeType.MERGE,
+					CascadeType.REFRESH, CascadeType.PERSIST })
+	private List<User> users;
 
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,

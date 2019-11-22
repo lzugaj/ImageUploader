@@ -63,9 +63,9 @@ public class RegistrationController {
             return "registration/registration-form";
         }
 
-        userService.save(userDto);
-        log.info("Successfully created new user with username: ´{}´", userDto.getUserName());
-        redirectAttributes.addFlashAttribute("success", "Thank you " + userDto.getFirstName() + "!" + " You have successfully registered! :)");
+        User user = userService.save(userDto);
+        log.info("Successfully created new user with username: ´{}´", user.getUserName());
+        redirectAttributes.addFlashAttribute("success", "Thank you " + user.getFirstName() + "!" + " You have successfully registered! :)");
         return "redirect:/login"; // TODO: Redirect to page where User will choose Package Option!!!
     }
 }

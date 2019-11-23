@@ -30,7 +30,7 @@ public class UserPackageScheduler {
 
 	// TODO: Later this: @Scheduled(cron = "0/50 * * * * ?")
 
-	@Scheduled(cron = "0 0 12 * * ?")
+	@Scheduled(cron = "0 0 2 * * ?")
 	public void resetPackagesOptionForAllUsersAfter12PM() {
 		List<User> users = userService.findAll();
 		for (User user : users) {

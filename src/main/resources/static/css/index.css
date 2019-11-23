@@ -1,0 +1,20 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+#aside {
+    background-color: #ff9900;
+    height: 400px;
+}
+
+#section {
+    background-color: #C33764;
+    height: 400px;
+}

@@ -36,7 +36,7 @@ public class PackageController {
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 		if (user.getUserPackage() != null) {
 			log.info("User `{}` already has a Package.", user.getUserName());
-			return "redirect:/home-page";
+			return "redirect:/home";
 		}
 
 		List<Package> packages = packageService.findAll();
@@ -54,6 +54,6 @@ public class PackageController {
 		log.info("Successfully saved Package option with id `{}` to User with username `{}`.", packageId, username);
 
 		model.addAttribute("user", user);
-		return "redirect:/home-page";
+		return "redirect:/home";
 	}
 }

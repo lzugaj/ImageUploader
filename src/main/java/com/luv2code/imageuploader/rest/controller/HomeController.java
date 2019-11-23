@@ -23,12 +23,12 @@ public class HomeController {
         this.userService = userService;
     }
 
-    @GetMapping("/home-page")
+    @GetMapping("/home")
     public String indexPage(Model model, Principal principal) {
         User user = userService.findByUserName(principal.getName());
         log.info("Successfully founded User with username: `{}`.", user.getUserName());
 
         model.addAttribute("user", user);
-        return "test";
+        return "home/index";
     }
 }

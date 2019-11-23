@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">
+                <img th:src="@{images/logo/image-uploader.png}" alt="ImageUploader" title="ImageUploader">
+            </a>
+            <a class="navbar-brand" href="#">
+                <h3>Image Uploader</h3>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav ml-auto nav-flex-icons">
+                    <li>
+                        <div sec:authorize="hasRole('ROLE_USER')">
+                            <form th:action="@{/post/form/}" method="get">
+                                <button type="submit" id="newPostButton" class="btn btn-primary">Add new post</button>
+                            </form>
+                        </div>
+                    </li>
+                    <li>
+                        <div th:if="${session.user}">
+                            <p id="greetingMessage" th:text="'Hi, ' + ${session.user.firstName} + '!'"></p>
+                        </div>
+                    </li>
+                    <li class="nav-item avatar dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink-55" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <img src="https://icon-library.net/images/facebook-user-icon/facebook-user-icon-17.jpg" class="rounded-circle z-depth-0" alt="avatar image">
+                        </a>
+                        <div th:if="${session.user == null}" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
+                            <a class="dropdown-item" th:href="@{/login}">Sign In</a>
+                            <a class="dropdown-item" th:href="@{/registration}">Sign Up</a>
+                        </div>
+                        <div th:if="${session.user}" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
+                            <div>
+                                <span th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></span>
+                            </div>
+                            <hr>
+                            <a class="dropdown-item" th:href="@{/user-profile/details}">
+                                <img th:src="@{images/user-options/profile.png}" alt="Profile" title="Profile">Profile
+                            </a>
+                            <a class="dropdown-item" th:href="@{/content}">
+                                <img th:src="@{images/user-options/package-tracker.png}" alt="Package Tracker" title="Package Tracker">Package Tracker
+                            </a>
+                            <hr>
+                            <div>
+                                <form th:action="@{/logout}" method="post">
+                                    <button href="#" id="signOutButton" class="btn btn-danger" type="submit">Sign Out</button>
+                                </form>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </body>
+</html>

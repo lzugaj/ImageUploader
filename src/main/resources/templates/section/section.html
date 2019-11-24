@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+
+<!--        <div th:each="post : ${posts}">-->
+<!--            <div class="card">-->
+<!--                <div class="card-header">-->
+<!--                    <a th:href="|@{/user-profile/info/__${post.user.userName}__}|">-->
+<!--                        <div class="col-md-2 col-4" style="float: left; margin-right: -50px; margin-left: -25px">-->
+<!--                            <img th:src="@{/images/avatar/avatar.jpg}"-->
+<!--                                 style="width: 70px; height: 70px;" th:alt="${post.user.firstName} + ' ' + ${post.user.lastName}"-->
+<!--                                 th:title="${post.user.firstName} + ' ' + ${post.user.lastName}">-->
+<!--                        </div>-->
+<!--                    </a>-->
+<!--                    <div class="col-md-10 col-8" style="margin-top: 10px;">-->
+<!--                        <span th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User</span><br>-->
+<!--                        <span th:text="'Updated ' + ${#temporals.format(post.createdDate, 'MMM dd, yyyy')}" style="color: #A9A9A9;">Created Date</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="card-body">-->
+<!--                    <span style="color: #A9A9A9" th:text="${'#' + #strings.toLowerCase(post.category.name)}">#Category</span>-->
+<!--                    <h5 class="card-title" th:text="${post.title}">Title</h5>-->
+<!--                    <div th:if="!${#strings.isEmpty(post.description)}">-->
+<!--                        <p th:if="${#strings.length(post.description) >= 350}" class="card-text" th:text="${#strings.substring(post.description, 0, 349)} + '...'">Description</p>-->
+<!--                        <p th:if="${#strings.length(post.description) > 0 and #strings.length(post.description) < 150}" class="card-text" th:text="${post.description}">Description</p>-->
+<!--                    </div>-->
+<!--                    <p th:if="${#strings.isEmpty(post.description)}" text="" class="card-text"></p>-->
+<!--                    <br>-->
+<!--                    <a th:href="|@{/post/details/__${post.id}__}|" class="btn btn-primary">More</a>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--            <br>-->
+<!--        </div>-->
+    </body>
+</html>

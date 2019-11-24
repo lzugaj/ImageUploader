@@ -15,17 +15,23 @@
         <header id="header" th:include="navbar/navbar.html">Header</header>
         <br>
         <div id="container">
-            <h1>Welcome to Home page</h1>
-            <hr>
             <div>
                 <p th:text="'First name: ' + ${user.firstName} + ', Last name: ' + ${user.lastName} + ', Email: ' + ${user.email} + ', Package: ' + ${user.userPackage.name}"></p>
             </div>
+            <form th:action="@{/user-post/create/form/}" method="get">
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Add new post</button>
+            </form>
+            <br>
             <div class="row">
                 <div id="aside" class="col-3">
-                    <h1>This is aside</h1>
+                    <h1>Aside</h1>
+                    <hr>
                 </div>
                 <div id="section" class="col-9">
-                    <h1>This is article</h1>
+                    <h1>Section</h1>
+                    <hr>
+                    <br>
+                    <section th:include="section/section.html">Section</section>
                 </div>
             </div>
         </div>

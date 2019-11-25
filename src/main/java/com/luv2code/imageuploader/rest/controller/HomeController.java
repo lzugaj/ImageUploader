@@ -1,13 +1,15 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.impl.UserServiceImpl;
-import lombok.extern.slf4j.Slf4j;
+import java.security.Principal;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.security.Principal;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -17,9 +19,9 @@ import java.security.Principal;
 @Controller
 public class HomeController {
 
-    private final UserServiceImpl userService;
+    private final UserService userService;
 
-    public HomeController(UserServiceImpl userService) {
+    public HomeController(UserService userService) {
         this.userService = userService;
     }
 

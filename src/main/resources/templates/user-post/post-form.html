@@ -70,29 +70,74 @@
             </div>
             <h1>You can upload new Post here!</h1>
             <hr>
-            <form>
-                <div class="form-group">
-                    <label for="postImage">Choose post image</label>
-                    <br>
-                    <input id="postImage" type="file">
+            <form th:object="${post}" method="post" class="form-horizontal">
+                <div class="col-md-12">
+                    <div th:if="${creatingPostError}" th:text="${creatingPostError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                        Error
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="inputDescription">Description</label>
-                    <input type="text" class="form-control" id="inputDescription" placeholder="Enter Post Description">
+                <div class="col-md-12">
+                    <div class="md-form form-group">
+                        <div th:if="!${#fields.hasErrors('postImage')}">
+                            <label for="postImage">Choose post image</label>
+                            <br>
+                            <input th:field="*{postImage}" id="postImage" type="file">
+                        </div>
+                        <div th:if="${#fields.hasErrors('postImage')}" class="text-danger">
+                            <div class="form-group row">
+                                <label for="postImageTitle" class="col-sm-2 col-form-label text-danger">Title</label>
+                                <div class="col-md-12">
+                                    <input type="text" th:field="*{postImage}" id="postImageTitle" class="form-control is-invalid" placeholder="Post Image">
+                                </div>
+                                <div class="col-md-3">
+                                    <p th:each="error : ${#fields.errors('postImage')}" th:text="${error}" class="col-form-label text-danger">
+                                        Error
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="md-form form-group">
+                        <div th:if="!${#fields.hasErrors('description')}">
+                            <label for="inputDescription">Description</label>
+                            <input th:field="*{description}" type="text" class="form-control" id="inputDescription" placeholder="Enter Post Description">
+                        </div>
+                        <div th:if="${#fields.hasErrors('description')}" class="text-danger">
+                            <div class="form-group row">
+                                <label for="descriptionTitle" class="col-sm-2 col-form-label text-danger">Title</label>
+                                <div class="col-md-12">
+                                    <input type="text" th:field="*{description}" id="descriptionTitle" class="form-control is-invalid" placeholder="Post Description">
+                                </div>
+                                <div class="col-md-3">
+                                    <p th:each="error : ${#fields.errors('description')}" th:text="${error}" class="col-form-label text-danger">
+                                        Error
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="imageSize">Image Size</label>
-                        <select id="imageSize" class="form-control">
-                            <option selected>Choose Image Size</option>
-                            <option>...</option>
+                        <select id="imageSize" class="custom-select custom-select-md">
+                            <option value="" selected>Choose category</option>
+                            <option th:each="imageSize : ${imageSizes}"
+                                    th:value="${imageSize.id}"
+                                    th:text="${imageSize.width} + ' x ' + ${imageSize.height}">
+                            </option>
                         </select>
                     </div>
                     <div class="form-group col-md-6">
                         <label for="imageFormat">Image Format</label>
-                        <select id="imageFormat" class="form-control">
-                            <option selected>Choose Image Format</option>
-                            <option>...</option>
+                        <select id="imageFormat" class="custom-select custom-select-md">
+                            <option value="" selected>Choose category</option>
+                            <option th:each="imageFormat : ${imageFormats}"
+                                    th:value="${imageFormat.id}"
+                                    th:text="'.' + ${imageFormat.extensionName}">
+                            </option>
                         </select>
                     </div>
                 </div>

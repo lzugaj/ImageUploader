@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -41,11 +42,12 @@ public class Post {
 	private Long id;
 
 	@NotNull(message = "Post description is required")
-	@Size(min = 1, message = "Minimum post description size is 1")
+	@Size(min = 1, message = "Post description is required")
 	@Column(name = "description")
 	private String description;
 
 	@Lob
+	@NotEmpty(message = "Post image is required")
 	@Column(name = "post_image")
 	private Byte[] postImage;
 
@@ -70,10 +72,12 @@ public class Post {
 					CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<DownloadImage> downloadImages;
 
+	@NotNull(message = "Image size is required")
 	@ManyToOne
 	@JoinColumn(name = "image_size_id", nullable = false)
 	private ImageSize imageSize;
 
+	@NotNull(message = "Image format is required")
 	@ManyToOne
 	@JoinColumn(name = "image_format_id", nullable = false)
 	private ImageFormat imageFormat;
@@ -82,6 +86,8 @@ public class Post {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	@NotNull(message = "Hash tags is required")
+	@Size(min = 1, message = "Post hash tags is required")
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
 					CascadeType.PERSIST, CascadeType.REFRESH })

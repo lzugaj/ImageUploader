@@ -3,6 +3,8 @@ package com.luv2code.imageuploader.rest.controller;
 import java.security.Principal;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -73,7 +75,7 @@ public class PostController {
 	}
 
 	@PostMapping("/submit/form")
-	public String saveUserPostForm(@ModelAttribute("post") Post post, BindingResult bindingResult,
+	public String saveUserPostForm(@Valid @ModelAttribute("post") Post post, BindingResult bindingResult,
 			Model model, Principal principal, RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
 			List<ImageFormat> imageFormats = getAllImageFormats();
@@ -89,8 +91,8 @@ public class PostController {
 		User user = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 
+		postService.save(post, user);
 		redirectAttributes.addFlashAttribute("postSuccessMessage", "You have successfully added new post!");
-
 		return "redirect:/home";
 	}
 

@@ -3,6 +3,7 @@ package com.luv2code.imageuploader.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -38,32 +39,38 @@ public class User {
     @Column(name = "user_password")
     private String password;
 
+    @ToString.Exclude
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_profile_id", referencedColumnName = "id_user_profile")
     private UserProfile userProfile;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = { CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.REFRESH, CascadeType.PERSIST })
     private List<Post> posts;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = { CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.REFRESH, CascadeType.PERSIST })
     private List<Comment> comments;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "user",
             fetch = FetchType.LAZY,
             cascade = { CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.REFRESH, CascadeType.PERSIST })
     private List<DownloadImage> downloadImages;
 
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name = "package_id", nullable = false)
     private Package userPackage;
 
+    @ToString.Exclude
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = { CascadeType.DETACH, CascadeType.MERGE,
                     CascadeType.REFRESH, CascadeType.PERSIST})

@@ -1,20 +1,18 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.security.Principal;
-import java.util.List;
-
+import com.luv2code.imageuploader.entity.Package;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.PackageService;
+import com.luv2code.imageuploader.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.luv2code.imageuploader.entity.Package;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.PackageService;
-import com.luv2code.imageuploader.service.UserService;
-
-import lombok.extern.slf4j.Slf4j;
+import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by lzugaj on Wednesday, November 2019
@@ -46,7 +44,6 @@ public class PackageController {
 		List<Package> packages = packageService.findAll();
 		model.addAttribute("packages", packages);
 		log.info("Successfully fetched all Packages.");
-
 		return "user-package/user-package-form";
 	}
 
@@ -56,7 +53,6 @@ public class PackageController {
 		log.info("Saving Package option for User with username: `{}`.", username);
 		User user = userService.choosePackageOption(packageId, principal.getName());
 		log.info("Successfully saved Package option with id `{}` to User with username `{}`.", packageId, username);
-
 		model.addAttribute("user", user);
 		return "redirect:/home";
 	}

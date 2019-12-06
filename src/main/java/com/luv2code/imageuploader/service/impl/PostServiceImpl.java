@@ -1,17 +1,19 @@
 package com.luv2code.imageuploader.service.impl;
 
-import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.repository.PostRepository;
 import com.luv2code.imageuploader.repository.UserRepository;
 import com.luv2code.imageuploader.service.PostService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -32,24 +34,32 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post save(Post post, User user) {
+	public List<Post> findAll() {
+		List<Post> posts = postRepository.findAll();
+		log.info("Getting all Posts.");
+		return posts;
+	}
+
+	@Override
+	public Post save(User user, MultipartFile postImage, String postDescription) throws IOException {
 		Post newPost = new Post();
-		newPost.setDescription(post.getDescription());
-		newPost.setPostImage(post.getPostImage());
-		newPost.setImageSize(post.getImageSize());
-		newPost.setImageFormat(post.getImageFormat());
-		newPost.setHashTags(post.getHashTags());
-
 		User postCreator = userRepository.findById(user.getId()).orElse(null);
-		newPost.setUser(postCreator);
+		log.info("Getting User with id: `{}`.", user.getId());
+		String imageFileName = StringUtils.cleanPath(postImage.getOriginalFilename());
+		log.info("Successfully get image file name: `{}`.", imageFileName);
 
+		newPost.setUser(postCreator);
+		newPost.setDescription(postDescription);
+		newPost.setPostImage(postImage.getBytes());
 		newPost.setNumberOfLikes(0);
 		newPost.setNumberOfDownloads(0);
 		newPost.setDateOfPost(LocalDateTime.now());
 		newPost.setComments(null);
 		newPost.setDownloadImages(null);
+		log.info("Setting Post attributes.");
 
 		newPost = postRepository.save(newPost);
+		log.info("Saving new Post with id: `{}`.", newPost.getId());
 		return newPost;
 	}
 }

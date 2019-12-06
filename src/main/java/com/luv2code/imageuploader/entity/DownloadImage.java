@@ -3,6 +3,7 @@ package com.luv2code.imageuploader.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -26,10 +27,12 @@ public class DownloadImage {
 	@Column(name = "date_of_download")
 	private LocalDateTime dateOfDownload;
 
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name="user_id", nullable = false)
 	private User user;
 
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name="post_id", nullable = false)
 	private Post post;

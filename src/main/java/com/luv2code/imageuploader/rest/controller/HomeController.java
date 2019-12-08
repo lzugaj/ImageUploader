@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.util.*;
+import java.util.Base64;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -21,7 +24,6 @@ import java.util.*;
 
 @Slf4j
 @Controller
-@RequestMapping("/home")
 public class HomeController {
 
     private final UserService userService;
@@ -35,6 +37,7 @@ public class HomeController {
     }
 
     @GetMapping
+    @RequestMapping("/home")
     public String indexPage(Model model, Principal principal) {
         User user = userService.findByUserName(principal.getName());
         log.info("Successfully founded User with username: `{}`.", user.getUserName());
@@ -44,14 +47,18 @@ public class HomeController {
         model.addAttribute("posts", posts);
 
         Map<Long, String> postImages = new HashMap<>();
+        Map<Long, String> hashTags = new HashMap<>();
         int dayOfMonth = 0;
         for (Post post : posts) {
             byte[] postImage = Base64.getEncoder().encode(post.getPostImage());
             String imageUrl = new String(postImage, StandardCharsets.UTF_8);
             postImages.put(post.getId(), imageUrl);
+            String hashTag = post.getHashTag().replace("[", "").replace("]", "").replace(',', ' ').trim();
+            hashTags.put(post.getId(), hashTag);
             dayOfMonth = post.getDateOfPost().getDayOfMonth();
         }
 
+        model.addAttribute("hashTags", hashTags);
         model.addAttribute("dayOfMonth", dayOfMonth);
         model.addAttribute("postImages", postImages);
         model.addAttribute("user", user);

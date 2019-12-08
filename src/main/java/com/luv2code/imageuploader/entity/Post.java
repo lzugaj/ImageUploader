@@ -7,9 +7,6 @@ import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,14 +26,14 @@ public class Post {
 	@Column(name = "id_post")
 	private Long id;
 
-	@NotNull(message = "Post description is required")
-	@Size(min = 1, message = "Post description is required")
 	@Column(name = "description")
 	private String description;
 
+	@Column(name = "hash_tag")
+	private String hashTag;
+
 	@Lob
 	@Type(type="org.hibernate.type.BinaryType")
-	@NotEmpty(message = "Post image is required")
 	@Column(name = "post_image")
 	private byte[] postImage;
 

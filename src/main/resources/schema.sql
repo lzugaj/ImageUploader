@@ -102,6 +102,7 @@ create table "package_image_format" (
 create table "post" (
 	id_post bigserial not null,
 	description varchar(1024) not null,
+	hash_tag varchar(512),
 	post_image bytea not null,
 	date_of_post timestamp not null,
 	number_of_likes int,

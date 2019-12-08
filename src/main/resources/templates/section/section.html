@@ -42,8 +42,16 @@
                             <img th:src="@{/images/post/save.png}" alt="Save To Profile" title="Save To Profile" id="saveToProfileIcon">
                         </div>
                         <br>
-                        <b><span th:text="${post.user.userName}">Username</span></b>
+                        <b>
+                            <span th:text="${post.user.userName}">Username</span>
+                        </b>
                         <span class="card-text" th:text="${post.description}">Description</span>
+                        <br>
+                        <div th:each="hashTag : ${hashTags}">
+                            <div th:if="${post.id == hashTag.key}">
+                                <span th:text="${hashTag.value}">HashTags</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

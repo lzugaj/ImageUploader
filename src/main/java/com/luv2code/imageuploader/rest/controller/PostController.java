@@ -51,6 +51,7 @@ public class PostController {
 	@PostMapping("/submit/form")
 	public String saveUserPostForm(@RequestParam("postImage") MultipartFile file,
 								   @RequestParam("postDescription") String description,
+								   @RequestParam("postHashTags") String hashTags,
 								   Principal principal, RedirectAttributes redirectAttributes) throws IOException {
 		if (file.isEmpty() || description.isEmpty()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Please fill all fields.");
@@ -60,7 +61,7 @@ public class PostController {
 		User user = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 
-		Post post = postService.save(user, file, description);
+		Post post = postService.save(user, file, description, hashTags);
 		log.info("Successfully saved new Post with id: ´{}´, for User with id: `{}`", post.getId(), user.getId());
 		redirectAttributes.addFlashAttribute("postSuccessMessage", "You have successfully added new post!");
 		return "redirect:/home";

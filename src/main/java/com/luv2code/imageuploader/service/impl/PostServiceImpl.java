@@ -13,6 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -41,7 +42,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
-	public Post save(User user, MultipartFile postImage, String postDescription) throws IOException {
+	public Post save(User user, MultipartFile postImage, String postDescription, String postHashTags) throws IOException {
 		Post newPost = new Post();
 		User postCreator = userRepository.findById(user.getId()).orElse(null);
 		log.info("Getting User with id: `{}`.", user.getId());
@@ -51,6 +52,10 @@ public class PostServiceImpl implements PostService {
 		newPost.setUser(postCreator);
 		newPost.setDescription(postDescription);
 		newPost.setPostImage(postImage.getBytes());
+
+		String generateHashTagsFormat = generateHastTagsFormat(postHashTags);
+		newPost.setHashTag(generateHashTagsFormat);
+
 		newPost.setNumberOfLikes(0);
 		newPost.setNumberOfDownloads(0);
 		newPost.setImageFileSize(postImage.getSize());
@@ -62,5 +67,16 @@ public class PostServiceImpl implements PostService {
 		newPost = postRepository.save(newPost);
 		log.info("Saving new Post with id: `{}`.", newPost.getId());
 		return newPost;
+	}
+
+	private String generateHastTagsFormat(String postHashTags) {
+		String[] hashTags = postHashTags.split("\\s+");
+		List<String> newHashTags = new ArrayList<>();
+		for (String hashTag : hashTags) {
+			hashTag = "#" + hashTag;
+			newHashTags.add(hashTag);
+		}
+
+		return String.valueOf(newHashTags);
 	}
 }

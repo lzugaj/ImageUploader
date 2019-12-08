@@ -15,6 +15,6 @@ public interface PostService {
 
 	List<Post> findAll();
 
-	Post save(User user, MultipartFile postImage, String postDescription) throws IOException;
+	Post save(User user, MultipartFile postImage, String postDescription, String postHashTags) throws IOException;
 
 }

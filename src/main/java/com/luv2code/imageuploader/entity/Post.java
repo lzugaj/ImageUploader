@@ -49,6 +49,9 @@ public class Post {
 	@Column(name = "number_of_downloads")
 	private Integer numberOfDownloads;
 
+	@Column(name = "image_file_size")
+	private Long imageFileSize;
+
 	@ToString.Exclude
 	@OneToMany(mappedBy = "post",
 			fetch = FetchType.LAZY,

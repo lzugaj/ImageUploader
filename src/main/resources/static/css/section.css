@@ -1,7 +1,3 @@
-#postImage {
-    border: 1px solid black;
-}
-
 .profileImage {
     float: left;
     margin-right: -80px;
@@ -14,10 +10,36 @@
     height: 50px;
 }
 
+#postImage {
+    border: 1px solid black;
+}
+
+#postImage:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
 .profileDescription {
     margin-top: 5px;
 }
 
 .postDateText {
     color: #A9A9A9;
+}
+
+#postIcons {
+    margin-top: 10px;
+}
+
+#postIcons img {
+    width: 25px;
+    height: 25px;
+}
+
+#downloadIcon {
+    margin-left: 10px;
+}
+
+#saveToProfileIcon {
+    margin-left: 10px;
 }

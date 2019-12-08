@@ -3,6 +3,7 @@
     <head>
         <title>Image Uploader</title>
         <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" th:href="@{/css/section.css}">
     </head>
     <body>
@@ -17,7 +18,7 @@
                         </div>
                     </a>
                     <div class="col-md-10 col-8 profileDescription">
-                        <span th:text="${post.user.firstName} + ' ' + ${post.user.lastName}">User</span><br>
+                        <span th:text="${post.user.userName}">User</span><br>
                         <div th:if="${dayOfMonth < 10}" class="postDateText">
                             <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM d, yyyy')}">Created Date</span>
                         </div>
@@ -35,8 +36,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="postIcons" class="input-group">
+                            <img th:src="@{/images/post/hearth.png}" alt="Like" title="Like" id="hearthIcon">
+                            <img th:src="@{/images/post/download.png}" alt="Download" title="Download" id="downloadIcon">
+                            <img th:src="@{/images/post/save.png}" alt="Save To Profile" title="Save To Profile" id="saveToProfileIcon">
+                        </div>
                         <br>
-                        <p class="card-text" th:text="${post.description}">Description</p>
+                        <b><span th:text="${post.user.userName}">Username</span></b>
+                        <span class="card-text" th:text="${post.description}">Description</span>
                     </div>
                 </div>
             </div>

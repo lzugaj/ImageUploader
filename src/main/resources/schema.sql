@@ -106,6 +106,7 @@ create table "post" (
 	date_of_post timestamp not null,
 	number_of_likes int,
 	number_of_downloads int,
+	image_file_size bigint,
 	user_id bigint not null,
 	primary key(id_post),
 	constraint fk_user_post

@@ -29,6 +29,12 @@
             </div>
             <h1>You can upload new Post here!</h1>
             <hr>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong th:text="${errorMessage}">Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
             <form th:action="@{/user-post/submit/form}" method="post" class="form-horizontal" enctype="multipart/form-data">
                 <div class="col-md-12">
                     <div th:if="${creatingPostError}" th:text="${creatingPostError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
@@ -37,50 +43,50 @@
                 </div>
                 <div class="md-form form-group">
                     <div class="col-md-12">
-                        <label for="postImage">Choose post image</label>
-                        <br>
-                        <input name="postImage" id="postImage" type="file" accept="image/*">
-<!--                        <div th:if="!${#fields.hasErrors('postImage')}">-->
-<!--                            <label for="postImage">Choose post image</label>-->
-<!--                            <br>-->
-<!--                            <input name="postImage" id="postImage" type="file" accept="image/*">-->
-<!--                        </div>-->
-<!--                        <div th:if="${#fields.hasErrors('postImage')}" class="text-danger">-->
-<!--                            <div class="form-group row">-->
-<!--                                <label for="postImage" class="col-sm-2 col-form-label text-danger">Choose post image</label>-->
-<!--                                <div class="col-md-12">-->
-<!--                                    <input name="postImage" id="postImage" type="file">-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <p th:each="error : ${#fields.errors('postImage')}" th:text="${error}" class="col-form-label text-danger">-->
-<!--                                        Error-->
-<!--                                    </p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+<!--                        <label for="postImage">Choose post image</label>-->
+<!--                        <br>-->
+<!--                        <input name="postImage" id="postImage" type="file" accept="image/*">-->
+                        <div th:if="!${errorMessage}">
+                            <label for="postImage">Choose post image</label>
+                            <br>
+                            <input name="postImage" id="postImage" type="file" accept="image/*">
+                        </div>
+                        <div th:if="${errorMessage}" class="text-danger">
+                            <div class="form-group row">
+                                <label for="postImage" class="col-sm-2 col-form-label text-danger">Choose post image</label>
+                                <div class="col-md-12">
+                                    <input name="postImage" id="postImage" type="file" accept="image/*">
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="col-form-label text-danger">
+                                        Post image is required
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-12">
                     <div class="md-form form-group">
-                        <label for="postDescription">Description</label>
-                        <input type="text" name="postDescription" id="postDescription" class="form-control" placeholder="Enter Post Description">
-<!--                        <div th:if="!${#fields.hasErrors('description')}">-->
-<!--                            <label for="postDescription">Description</label>-->
-<!--                            <input type="text" name="postDescription" id="postDescription" class="form-control" placeholder="Enter Post Description">-->
-<!--                        </div>-->
-<!--                        <div th:if="${#fields.hasErrors('description')}" class="text-danger">-->
-<!--                            <div class="form-group row">-->
-<!--                                <label for="postDescription" class="col-sm-2 col-form-label text-danger">Description</label>-->
-<!--                                <div class="col-md-12">-->
-<!--                                    <input type="text" name="postDescription" id="postDescription" class="form-control is-invalid" placeholder="Enter Post Description">-->
-<!--                                </div>-->
-<!--                                <div class="col-md-6">-->
-<!--                                    <p th:each="error : ${#fields.errors('description')}" th:text="${error}" class="col-form-label text-danger">-->
-<!--                                        Error-->
-<!--                                    </p>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
+<!--                        <label for="postDescription">Description</label>-->
+<!--                        <input type="text" name="postDescription" id="postDescription" class="form-control" placeholder="Enter Post Description">-->
+                        <div th:if="!${errorMessage}">
+                            <label for="postDescription">Description</label>
+                            <input type="text" name="postDescription" id="postDescription" class="form-control" placeholder="Enter Post Description">
+                        </div>
+                        <div th:if="${errorMessage}" class="text-danger">
+                            <div class="form-group row">
+                                <label for="postDescription" class="col-sm-2 col-form-label text-danger">Description</label>
+                                <div class="col-md-12">
+                                    <input type="text" name="postDescription" id="postDescription" class="form-control is-invalid" placeholder="Enter Post Description">
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="col-form-label text-danger">
+                                        Post description is required
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>

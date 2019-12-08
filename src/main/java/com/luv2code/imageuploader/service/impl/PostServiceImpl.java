@@ -53,6 +53,7 @@ public class PostServiceImpl implements PostService {
 		newPost.setPostImage(postImage.getBytes());
 		newPost.setNumberOfLikes(0);
 		newPost.setNumberOfDownloads(0);
+		newPost.setImageFileSize(postImage.getSize());
 		newPost.setDateOfPost(LocalDateTime.now());
 		newPost.setComments(null);
 		newPost.setDownloadImages(null);

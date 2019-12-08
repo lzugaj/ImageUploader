@@ -49,8 +49,14 @@ public class PostController {
 	}
 
 	@PostMapping("/submit/form")
-	public String saveUserPostForm(@RequestParam("postImage") MultipartFile file, @RequestParam("postDescription") String description,
+	public String saveUserPostForm(@RequestParam("postImage") MultipartFile file,
+								   @RequestParam("postDescription") String description,
 								   Principal principal, RedirectAttributes redirectAttributes) throws IOException {
+		if (file.isEmpty() || description.isEmpty()) {
+			redirectAttributes.addFlashAttribute("errorMessage", "Please fill all fields.");
+			return "redirect:/user-post/create/form";
+		}
+
 		User user = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/section.css}">
+    </head>
+    <body>
+        <div th:each="post : ${posts}">
+            <div class="card">
+                <div class="card-header">
+                    <a th:href="|@{/user-profile/info/__${post.user.userName}__}|">
+                        <div class="col-md-2 col-4 profileImage">
+                            <img th:src="@{/images/avatar/avatar.jpg}"
+                                 th:alt="${post.user.firstName} + ' ' + ${post.user.lastName}"
+                                 th:title="${post.user.firstName} + ' ' + ${post.user.lastName}">
+                        </div>
+                    </a>
+                    <div class="col-md-10 col-8 profileDescription">
+                        <span th:text="${post.user.userName}">User</span><br>
+                        <div th:if="${dayOfMonth < 10}" class="postDateText">
+                            <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM d, yyyy')}">Created Date</span>
+                        </div>
+                        <div th:if="${dayOfMonth >= 10}" class="postDateText">
+                            <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM dd, yyyy')}">Created Date</span>
+                        </div>
+                    </div>
+                </div>
+                <div id="card-content">
+                    <div class="card-body">
+                        <div th:each="image : ${postImages}">
+                            <div th:if="${post.id == image.key}">
+                                <div id="postImage">
+                                    <img th:src="${'data:image/png;base64,' + image.value}" width="925" height="500">
+                                </div>
+                            </div>
+                        </div>
+                        <div id="postIcons" class="input-group">
+                            <img th:src="@{/images/post/hearth.png}" alt="Like" title="Like" id="hearthIcon">
+                            <img th:src="@{/images/post/download.png}" alt="Download" title="Download" id="downloadIcon">
+                            <img th:src="@{/images/post/save.png}" alt="Save To Profile" title="Save To Profile" id="saveToProfileIcon">
+                        </div>
+                        <br>
+                        <b>
+                            <span th:text="${post.user.userName}">Username</span>
+                        </b>
+                        <span class="card-text" th:text="${post.description}">Description</span>
+                        <br>
+                        <div th:each="hashTag : ${hashTags}">
+                            <div th:if="${post.id == hashTag.key}">
+                                <span th:text="${hashTag.value}">HashTags</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+        </div>
+    </body>
+</html>

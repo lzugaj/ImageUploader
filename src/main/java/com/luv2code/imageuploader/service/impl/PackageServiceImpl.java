@@ -32,7 +32,7 @@ public class PackageServiceImpl implements PackageService {
 	@Override
 	public List<Package> findAll() {
 		List<Package> packages = packageRepository.findAll();
-		log.info("Fetching all Packages.");
+		log.info("Getting all Packages.");
 		return packages;
 	}
 }

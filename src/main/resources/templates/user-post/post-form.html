@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/post-form.css}">
+        <script type="text/javascript" th:src="@{/js/post-form.js}"></script>
+    </head>
+    <body>
+        <div id="container">
+            <div>
+                <br>
+                <nav>
+                    <ul>
+                        <li id="linkToIndexPage">
+                            <a th:href="@{/home}">Home <span id="breadcrumbSeparator">></span></a>
+                        </li>
+                        <li id="linkToCurrentPage">
+                            <a th:href="@{/user-post/create/form/}">Add new post</a>
+                        </li>
+                    </ul>
+                </nav>
+                <br>
+            </div>
+            <h1>You can upload new Post here!</h1>
+            <hr>
+            <div th:if="${errorMessage}" class="alert alert-danger alert-dismissible fade show" role="alert">
+                <strong th:text="${errorMessage}">Message</strong>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/user-post/submit/form}" method="post" class="form-horizontal" enctype="multipart/form-data">
+                <div class="col-md-12">
+                    <div th:if="${creatingPostError}" th:text="${creatingPostError}" class="alert alert-danger col-xs-offset-1 col-xs-10">
+                        Error
+                    </div>
+                </div>
+                <div class="md-form form-group">
+                    <div class="col-md-12">
+<!--                        <label for="postImage">Choose post image</label>-->
+<!--                        <br>-->
+<!--                        <input name="postImage" id="postImage" type="file" accept="image/*">-->
+                        <div th:if="!${errorMessage}">
+                            <label for="postImage">Choose post image</label>
+                            <br>
+                            <input name="postImage" id="postImage" type="file" accept="image/*">
+                        </div>
+                        <div th:if="${errorMessage}" class="text-danger">
+                            <div class="form-group row">
+                                <label for="postImage" class="col-sm-2 col-form-label text-danger">Choose post image</label>
+                                <div class="col-md-12">
+                                    <input name="postImage" id="postImage" type="file" accept="image/*">
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="col-form-label text-danger">
+                                        Post image is required
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="md-form form-group">
+<!--                        <label for="postDescription">Description</label>-->
+<!--                        <input type="text" name="postDescription" id="postDescription" class="form-control" placeholder="Enter Post Description">-->
+                        <div th:if="!${errorMessage}">
+                            <label for="postDescription">Description</label>
+                            <input type="text" name="postDescription" id="postDescription" class="form-control" placeholder="Enter Post Description">
+                        </div>
+                        <div th:if="${errorMessage}" class="text-danger">
+                            <div class="form-group row">
+                                <label for="postDescription" class="col-sm-2 col-form-label text-danger">Description</label>
+                                <div class="col-md-12">
+                                    <input type="text" name="postDescription" id="postDescription" class="form-control is-invalid" placeholder="Enter Post Description">
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="col-form-label text-danger">
+                                        Post description is required
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="md-form form-group">
+                        <label for="postHashTags">HashTags</label>
+                        <input type="text" name="postHashTags" id="postHashTags" class="form-control" placeholder="Enter Post HashTags">
+                    </div>
+                    <div class="alert alert-warning" role="alert">
+                        If you want more than one hash tag please separate them with space.
+                    </div>
+                </div>
+                <hr>
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Submit Post</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </body>
+</html>

@@ -2,12 +2,14 @@ package com.luv2code.imageuploader.rest.controller;
 
 import com.luv2code.imageuploader.entity.Package;
 import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.impl.PackageServiceImpl;
-import com.luv2code.imageuploader.service.impl.UserServiceImpl;
+import com.luv2code.imageuploader.service.PackageService;
+import com.luv2code.imageuploader.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
@@ -21,11 +23,11 @@ import java.util.List;
 @RequestMapping("/user-package-option")
 public class PackageController {
 
-	private final PackageServiceImpl packageService;
+	private final PackageService packageService;
 
-	private final UserServiceImpl userService;
+	private final UserService userService;
 
-	public PackageController(PackageServiceImpl packageService, UserServiceImpl userService) {
+	public PackageController(PackageService packageService, UserService userService) {
 		this.packageService = packageService;
 		this.userService = userService;
 	}
@@ -42,7 +44,6 @@ public class PackageController {
 		List<Package> packages = packageService.findAll();
 		model.addAttribute("packages", packages);
 		log.info("Successfully fetched all Packages.");
-
 		return "user-package/user-package-form";
 	}
 
@@ -52,7 +53,6 @@ public class PackageController {
 		log.info("Saving Package option for User with username: `{}`.", username);
 		User user = userService.choosePackageOption(packageId, principal.getName());
 		log.info("Successfully saved Package option with id `{}` to User with username `{}`.", packageId, username);
-
 		model.addAttribute("user", user);
 		return "redirect:/home";
 	}

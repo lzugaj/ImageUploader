@@ -93,49 +93,50 @@ create table "package_image_format" (
 	on delete cascade
 );
 
-create table "hash_tag" (
-	id_hash_tag bigserial not null,
-	name varchar(255) not null,
-	primary key(id_hash_tag)
-);
+-- create table "hash_tag" (
+-- 	id_hash_tag bigserial not null,
+-- 	name varchar(255) not null,
+-- 	primary key(id_hash_tag)
+-- );
 
 create table "post" (
 	id_post bigserial not null,
 	description varchar(1024) not null,
+	hash_tag varchar(512),
 	post_image bytea not null,
 	date_of_post timestamp not null,
 	number_of_likes int,
 	number_of_downloads int,
+	image_file_size bigint,
 	user_id bigint not null,
-	image_size_id bigint not null,
-	image_format_id bigint not null,
 	primary key(id_post),
 	constraint fk_user_post
 	foreign key(user_id)
-	references "user"(id_user),
-	constraint fk_image_size_post
-	foreign key(image_size_id)
-	references "image_size"(id_image_size)
-	on delete cascade,
-	constraint fk_image_format_post
-	foreign key(image_format_id)
-	references "image_format"(id_image_format)
-	on delete cascade
+	references "user"(id_user)
 );
 
-create table "post_hash_tag" (
-	post_id bigint not null,
-	hash_tag_id bigint not null,
-	primary key(post_id, hash_tag_id),
-	constraint fk_post_hash_tag
-	foreign key(post_id)
-	references "post" (id_post)
-	on delete cascade,
-	constraint fk_hash_tag_post
-	foreign key(hash_tag_id)
-	references "hash_tag" (id_hash_tag)
-	on delete cascade
-);
+-- constraint fk_image_size_post
+-- foreign key(image_size_id)
+-- references "image_size"(id_image_size)
+-- on delete cascade,
+-- constraint fk_image_format_post
+-- foreign key(image_format_id)
+-- references "image_format"(id_image_format)
+-- on delete cascade
+
+-- create table "post_hash_tag" (
+-- 	post_id bigint not null,
+-- 	hash_tag_id bigint not null,
+-- 	primary key(post_id, hash_tag_id),
+-- 	constraint fk_post_hash_tag
+-- 	foreign key(post_id)
+-- 	references "post" (id_post)
+-- 	on delete cascade,
+-- 	constraint fk_hash_tag_post
+-- 	foreign key(hash_tag_id)
+-- 	references "hash_tag" (id_hash_tag)
+-- 	on delete cascade
+-- );
 
 create table "comment" (
 	id_comment bigserial not null,

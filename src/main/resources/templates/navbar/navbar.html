@@ -19,8 +19,8 @@
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li>
                         <div sec:authorize="hasRole('ROLE_USER')">
-                            <form th:action="@{/post/form/}" method="get">
-                                <button type="submit" id="newPostButton" class="btn btn-primary">Add new post</button>
+                            <form th:action="@{/user-post/create/form/}" method="get">
+                                <button type="submit" id="newPostButton" class="btn btn-primary">Upload new post</button>
                             </form>
                         </div>
                     </li>
@@ -51,7 +51,7 @@
                             <hr>
                             <div>
                                 <form th:action="@{/logout}" method="post">
-                                    <button href="#" id="signOutButton" class="btn btn-danger" type="submit">Sign Out</button>
+                                    <button th:href="@{/home}" id="signOutButton" class="btn btn-danger" type="submit">Sign Out</button>
                                 </form>
                             </div>
                         </div>

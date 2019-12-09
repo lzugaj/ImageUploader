@@ -3,6 +3,7 @@ package com.luv2code.imageuploader.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.List;
@@ -32,12 +33,14 @@ public class Package {
 	@Column(name = "daily_upload_limit")
 	private Integer dailyUploadLimit;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy = "userPackage",
 			fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
 					CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<User> users;
 
+	@ToString.Exclude
 	@ManyToMany(fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
 					CascadeType.PERSIST, CascadeType.REFRESH })

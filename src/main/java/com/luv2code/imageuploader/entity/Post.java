@@ -3,6 +3,8 @@ package com.luv2code.imageuploader.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -25,11 +27,15 @@ public class Post {
 	private Long id;
 
 	@Column(name = "description")
-	private String varchar;
+	private String description;
+
+	@Column(name = "hash_tag")
+	private String hashTag;
 
 	@Lob
+	@Type(type="org.hibernate.type.BinaryType")
 	@Column(name = "post_image")
-	private Byte[] postImage;
+	private byte[] postImage;
 
 	@Column(name = "date_of_post")
 	private LocalDateTime dateOfPost;
@@ -40,36 +46,26 @@ public class Post {
 	@Column(name = "number_of_downloads")
 	private Integer numberOfDownloads;
 
+	@Column(name = "image_file_size")
+	private Long imageFileSize;
+
+	@ToString.Exclude
 	@OneToMany(mappedBy = "post",
 			fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
 					CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<Comment> comments;
 
+	@ToString.Exclude
 	@OneToMany(mappedBy = "post",
 			fetch = FetchType.LAZY,
 			cascade = { CascadeType.DETACH, CascadeType.MERGE,
 					CascadeType.REFRESH, CascadeType.PERSIST })
 	private List<DownloadImage> downloadImages;
 
-	@ManyToOne
-	@JoinColumn(name = "image_size_id", nullable = false)
-	private ImageSize imageSize;
-
-	@ManyToOne
-	@JoinColumn(name = "image_format_id", nullable = false)
-	private ImageFormat imageFormat;
-
+	@ToString.Exclude
 	@ManyToOne
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
-
-	@ManyToMany(fetch = FetchType.LAZY,
-			cascade = { CascadeType.DETACH, CascadeType.MERGE,
-					CascadeType.PERSIST, CascadeType.REFRESH })
-	@JoinTable(name = "post_hash_tag",
-			joinColumns = @JoinColumn(name = "post_id"),
-			inverseJoinColumns = @JoinColumn(name = "hash_tag_id"))
-	private List<HashTag> hashTags;
 
 }

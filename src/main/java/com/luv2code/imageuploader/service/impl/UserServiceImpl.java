@@ -1,13 +1,13 @@
 package com.luv2code.imageuploader.service.impl;
 
-import com.luv2code.imageuploader.dto.UserDto;
-import com.luv2code.imageuploader.entity.Package;
-import com.luv2code.imageuploader.entity.Role;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.repository.RoleRepository;
-import com.luv2code.imageuploader.repository.UserRepository;
-import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import javax.transaction.Transactional;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,12 +15,15 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.luv2code.imageuploader.dto.UserDto;
+import com.luv2code.imageuploader.entity.Package;
+import com.luv2code.imageuploader.entity.Role;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.repository.RoleRepository;
+import com.luv2code.imageuploader.repository.UserRepository;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -81,6 +84,8 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setRoles(Collections.singletonList(roleRepository.findRoleByName("ROLE_USER")));
+        user.setUploadedImagesWithCurrentPackage(0);
+        user.setUploadedImageSizeWithCurrentPackage(0L);
 
         User newUser = userRepository.save(user);
         log.info("Creating new User with username: ´{}´", userDto.getUserName());

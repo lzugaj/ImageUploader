@@ -1,12 +1,12 @@
 package com.luv2code.imageuploader.service;
 
-import com.luv2code.imageuploader.entity.Package;
+import java.util.List;
+
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import com.luv2code.imageuploader.dto.UserDto;
+import com.luv2code.imageuploader.entity.Package;
 import com.luv2code.imageuploader.entity.User;
-
-import java.util.List;
 
 /**
  * Created by lzugaj on Monday, November 2019

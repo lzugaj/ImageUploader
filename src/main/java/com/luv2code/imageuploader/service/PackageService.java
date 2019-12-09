@@ -1,8 +1,8 @@
 package com.luv2code.imageuploader.service;
 
-import com.luv2code.imageuploader.entity.Package;
-
 import java.util.List;
+
+import com.luv2code.imageuploader.entity.Package;
 
 /**
  * Created by lzugaj on Wednesday, November 2019

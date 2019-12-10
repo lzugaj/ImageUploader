@@ -1,18 +1,20 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import com.luv2code.imageuploader.entity.Package;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.PackageService;
-import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import java.security.Principal;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
-import java.util.List;
+import com.luv2code.imageuploader.entity.Package;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.PackageService;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Wednesday, November 2019
@@ -20,7 +22,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/user-package-option")
+@RequestMapping("/user/package/option")
 public class PackageController {
 
 	private final PackageService packageService;

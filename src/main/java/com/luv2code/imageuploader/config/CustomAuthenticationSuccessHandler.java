@@ -1,17 +1,20 @@
 package com.luv2code.imageuploader.config;
 
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.io.IOException;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -38,6 +41,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         HttpSession session = request.getSession();
 
         session.setAttribute("user", theUser);
-        response.sendRedirect(request.getContextPath() + "/user-package-option");
+        response.sendRedirect(request.getContextPath() + "/user/package/option");
     }
 }

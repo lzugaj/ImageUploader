@@ -1,20 +1,22 @@
 package com.luv2code.imageuploader.service.impl;
 
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.repository.PostRepository;
-import com.luv2code.imageuploader.repository.UserRepository;
-import com.luv2code.imageuploader.service.PostService;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.repository.PostRepository;
+import com.luv2code.imageuploader.repository.UserRepository;
+import com.luv2code.imageuploader.service.PostService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -39,6 +41,20 @@ public class PostServiceImpl implements PostService {
 		List<Post> posts = postRepository.findAll();
 		log.info("Getting all Posts.");
 		return posts;
+	}
+
+	@Override
+	public List<Post> findAllForUser(User user) {
+		List<Post> posts = findAll();
+		List<Post> userPosts = new ArrayList<>();
+		log.info("Getting all Posts for User with username: `{}`", user.getUserName());
+		for (Post post : posts) {
+			if (post.getUser().getUserName().equals(user.getUserName())) {
+				userPosts.add(post);
+			}
+		}
+
+		return userPosts;
 	}
 
 	@Override

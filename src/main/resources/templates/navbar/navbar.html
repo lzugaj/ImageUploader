@@ -19,7 +19,7 @@
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li>
                         <div sec:authorize="hasRole('ROLE_USER')">
-                            <form th:action="@{/user-post/create/form/}" method="get">
+                            <form th:action="@{/user/post/create/form/}" method="get">
                                 <button type="submit" id="newPostButton" class="btn btn-primary">Upload new post</button>
                             </form>
                         </div>
@@ -42,7 +42,7 @@
                                 <span th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></span>
                             </div>
                             <hr>
-                            <a class="dropdown-item" th:href="@{/user-profile/details}">
+                            <a class="dropdown-item" th:href="@{/user/profile/{username}(username = ${session.user.userName})}">
                                 <img th:src="@{images/user-options/profile.png}" alt="Profile" title="Profile">Profile
                             </a>
                             <a class="dropdown-item" th:href="@{/content}">

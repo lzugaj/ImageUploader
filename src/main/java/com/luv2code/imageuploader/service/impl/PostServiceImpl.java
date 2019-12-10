@@ -5,6 +5,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,6 +51,7 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public List<Post> findAll() {
 		List<Post> posts = postRepository.findAll();
+		posts.sort(Collections.reverseOrder());
 		log.info("Getting all Posts.");
 		return posts;
 	}

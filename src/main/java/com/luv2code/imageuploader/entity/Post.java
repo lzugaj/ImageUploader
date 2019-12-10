@@ -1,14 +1,27 @@
 package com.luv2code.imageuploader.entity;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+
+import org.hibernate.annotations.Type;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.*;
-import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * Created by lzugaj on Wednesday, November 2019
@@ -19,7 +32,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "post")
-public class Post {
+public class Post implements Comparable<Post> {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -68,4 +81,8 @@ public class Post {
 	@JoinColumn(name = "user_id", nullable = false)
 	private User user;
 
+	@Override
+	public int compareTo(Post post) {
+		return dateOfPost.compareTo(post.dateOfPost);
+	}
 }

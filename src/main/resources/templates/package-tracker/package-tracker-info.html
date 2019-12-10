@@ -21,7 +21,7 @@
                             <a th:href="@{/home}">Home <span id="breadcrumbSeparator">></span></a>
                         </li>
                         <li id="linkToCurrentPage">
-                            <a th:href="@{/user/package-tracker}">Package Tracker</a>
+                            <a th:href="@{/user/package/tracker/{username}(username = ${user.userName})}">Package Tracker</a>
                         </li>
                     </ul>
                 </nav>
@@ -29,26 +29,49 @@
             </div>
             <h1>Your Package Tracker Info</h1>
             <hr>
-            <div>
-                <p>
-                    Package name: <span th:text="${package.name}">Package Name</span>
-                </p>
-            </div>
-            <div>
-                <p>
-                    Daily upload image limit: <span th:text="${package.dailyUploadLimit}">Daily Package Image Limit</span>
-                </p>
-                <p>
-                    Currently uploaded images: <span th:text="${user.uploadedImagesWithCurrentPackage}">Daily Package Image Limit</span>
-                </p>
-            </div>
-            <div>
-                <p>
-                    Daily upload size limit: <span th:text="${package.uploadSize} + 'MB'">Daily Package Upload Size</span>
-                </p>
-                <p>
-                    Currently uploaded images size: <span th:text="${user.uploadedImageSizeWithCurrentPackage + 'KB'}">Daily Package Image Limit</span>
-                </p>
+            <div id="containerInfo">
+                <table>
+                    <tr>
+                        <td>
+                            Package name:
+                        </td>
+                        <td>
+                            <span th:text="${package.name}">Package Name</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Daily upload image limit:
+                        </td>
+                        <td>
+                            <span th:text="${package.dailyUploadLimit}">Daily Package Image Limit</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Currently uploaded images:
+                        </td>
+                        <td>
+                            <span th:text="${user.uploadedImagesWithCurrentPackage}">Daily Package Image Limit</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Daily upload size limit:
+                        </td>
+                        <td>
+                            <span th:text="${package.uploadSize} + ' MB'">Daily Package Upload Size</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Currently uploaded images size:
+                        </td>
+                        <td>
+                            <span th:text="${currentUploadSizeOfImages + ' MB'}">Daily Package Image Limit</span>
+                        </td>
+                    </tr>
+                </table>
             </div>
             <hr>
             <div id="countdown">

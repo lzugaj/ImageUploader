@@ -47,3 +47,13 @@ label {
     text-align: center;
     font-size: 60px;
 }
+
+#containerInfo {
+    text-align: justify;
+    margin-left: 35%;
+    font-size: 22px;
+}
+
+#containerInfo span {
+    color: white;
+}

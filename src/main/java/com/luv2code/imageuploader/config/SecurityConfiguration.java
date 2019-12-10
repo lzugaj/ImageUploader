@@ -1,6 +1,5 @@
 package com.luv2code.imageuploader.config;
 
-import com.luv2code.imageuploader.service.UserService;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +10,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.luv2code.imageuploader.service.UserService;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -39,7 +40,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http.
                 authorizeRequests()
                     .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                    .antMatchers("/").hasRole("USER")
+                    .antMatchers("/", "/user/post/**", "/user/profile/**").hasRole("USER")
                     .antMatchers("/systems/**").hasRole("ADMIN")
                 .and()
                     .formLogin()

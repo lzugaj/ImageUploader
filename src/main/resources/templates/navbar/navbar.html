@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
     <head>
         <title>Image Uploader</title>
         <meta charset="utf-8">
@@ -18,11 +18,11 @@
             <div class="collapse navbar-collapse" id="navbarNavDropdown">
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li>
-                        <div sec:authorize="hasRole('ROLE_USER')">
-                            <form th:action="@{/user-post/create/form/}" method="get">
+                        <form th:action="@{/user/post/create/form/}" method="get">
+                            <div sec:authorize="hasRole('ROLE_USER')">
                                 <button type="submit" id="newPostButton" class="btn btn-primary">Upload new post</button>
-                            </form>
-                        </div>
+                            </div>
+                        </form>
                     </li>
                     <li>
                         <div th:if="${session.user}">
@@ -42,7 +42,7 @@
                                 <span th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></span>
                             </div>
                             <hr>
-                            <a class="dropdown-item" th:href="@{/user-profile/details}">
+                            <a class="dropdown-item" th:href="@{/user/profile/{username}(username = ${session.user.userName})}">
                                 <img th:src="@{images/user-options/profile.png}" alt="Profile" title="Profile">Profile
                             </a>
                             <a class="dropdown-item" th:href="@{/user/package/tracker/{username}(username = ${session.user.userName})}">

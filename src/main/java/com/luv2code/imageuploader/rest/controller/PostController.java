@@ -30,7 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/user-post")
+@RequestMapping("/user/post")
 public class PostController {
 
 	private final PostService postService;
@@ -65,7 +65,7 @@ public class PostController {
 								   Principal principal, RedirectAttributes redirectAttributes) throws IOException {
 		if (file.isEmpty() || description.isEmpty()) {
 			redirectAttributes.addFlashAttribute("errorMessage", "Please fill all fields.");
-			return "redirect:/user-post/create/form";
+			return "redirect:/user/post/create/form";
 		}
 
 		User user = userService.findByUserName(principal.getName());

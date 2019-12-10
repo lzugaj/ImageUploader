@@ -9,6 +9,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -72,41 +75,56 @@ public class PostServiceImpl implements PostService {
 
 	@Override
 	public Post save(User user, MultipartFile postImage, String postDescription, String postHashTags) throws IOException {
-		Post newPost = new Post();
 		User postCreator = userRepository.findById(user.getId()).orElse(null);
 		log.info("Getting User with id: `{}`.", user.getId());
 		String imageFileName = StringUtils.cleanPath(postImage.getOriginalFilename());
 		log.info("Successfully get image file name: `{}`.", imageFileName);
 
-		newPost.setUser(postCreator);
-		newPost.setDescription(postDescription);
-		newPost.setPostImage(postImage.getBytes());
-
-		String generateHashTagsFormat = generateHastTagsFormat(postHashTags);
-		newPost.setHashTag(generateHashTagsFormat);
-
-		newPost.setNumberOfLikes(0);
-		newPost.setNumberOfDownloads(0);
-		newPost.setImageFileSize(postImage.getSize());
-		newPost.setDateOfPost(LocalDateTime.now());
-		newPost.setComments(null);
-		newPost.setDownloadImages(null);
-		log.info("Setting Post attributes.");
+		Post newPost = null;
+		if (postCreator != null) {
+			newPost = setVariablesBeforeSave(postCreator, postImage, postDescription, postHashTags);
+			log.info("Setting Post attributes.");
+		}
 
 		newPost = postRepository.save(newPost);
 		log.info("Saving new Post with id: `{}`.", newPost.getId());
 		return newPost;
 	}
 
-	private String generateHastTagsFormat(String postHashTags) {
-		String[] hashTags = postHashTags.split("\\s+");
-		List<String> newHashTags = new ArrayList<>();
-		for (String hashTag : hashTags) {
-			hashTag = "#" + hashTag;
-			newHashTags.add(hashTag);
-		}
+	private Post setVariablesBeforeSave(User postCreator, MultipartFile postImage, String postDescription, String postHashTags) throws IOException {
+		Post newPost = new Post();
+		String generateHashTagsFormat = generateHastTagsFormat(postHashTags);
 
-		return String.valueOf(newHashTags);
+		newPost.setUser(postCreator);
+		newPost.setDescription(postDescription);
+		newPost.setPostImage(postImage.getBytes());
+		newPost.setHashTag(generateHashTagsFormat);
+		newPost.setNumberOfLikes(0);
+		newPost.setNumberOfDownloads(0);
+		newPost.setImageFileSize(postImage.getSize());
+		newPost.setDateOfPost(LocalDateTime.now());
+		newPost.setComments(null);
+		newPost.setDownloadImages(null);
+
+		postCreator.setUploadedImageSizeWithCurrentPackage(postCreator.getUploadedImageSizeWithCurrentPackage() + postImage.getSize());
+		postCreator.setUploadedImagesWithCurrentPackage(postCreator.getUploadedImagesWithCurrentPackage() + 1);
+
+		return newPost;
+	}
+
+	private String generateHastTagsFormat(String postHashTags) {
+		if (postHashTags != null) {
+			String[] hashTags = postHashTags.split("\\s+");
+			List<String> newHashTags = new ArrayList<>();
+			for (String hashTag : hashTags) {
+				hashTag = "#" + hashTag;
+				newHashTags.add(hashTag);
+			}
+
+			return String.valueOf(newHashTags);
+		} else {
+			return "";
+		}
 	}
 
 	@Override

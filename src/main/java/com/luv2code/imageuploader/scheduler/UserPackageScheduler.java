@@ -28,13 +28,14 @@ public class UserPackageScheduler {
 		this.userRepository = userRepository;
 	}
 
-	// TODO: Later this: @Scheduled(cron = "0/50 * * * * ?")
-
-	@Scheduled(cron = "0 0 2 * * ?")
+	// TODO: Later this: @Scheduled(cron = "0 0/5 * * * ?")
+	@Scheduled(cron = "0 0 12 * * ?")
 	public void resetPackagesOptionForAllUsersAfter12PM() {
 		List<User> users = userService.findAll();
 		for (User user : users) {
 			user.setUserPackage(null);
+			user.setUploadedImagesWithCurrentPackage(0);
+			user.setUploadedImageSizeWithCurrentPackage(0L);
 			log.info("Reset Package for User with username: `{}`.", user.getUserName());
 			userRepository.save(user);
 			log.info("Successfully reset Package for User with username: `{}`.", user.getUserName());

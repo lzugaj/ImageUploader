@@ -63,8 +63,10 @@ public class UserServiceImpl implements UserService {
         List<User> usersWithSamePackageName = new ArrayList<>();
         List<User> users = findAll();
         for (User user : users) {
-            if (user.getUserPackage().getName().equals(searchedPackage.getName())) {
-                usersWithSamePackageName.add(user);
+            if (user.getUserPackage() != null) {
+                if (user.getUserPackage().getName().equals(searchedPackage.getName())) {
+                    usersWithSamePackageName.add(user);
+                }
             }
         }
 
@@ -81,6 +83,10 @@ public class UserServiceImpl implements UserService {
         user.setLastName(userDto.getLastName());
         user.setEmail(userDto.getEmail());
         user.setRoles(Collections.singletonList(roleRepository.findRoleByName("ROLE_USER")));
+        user.setUploadedImagesWithCurrentPackage(0);
+        user.setUploadedImageSizeWithCurrentPackage(0L);
+        user.setUserPackage(null);
+        user.setUserProfile(null);
 
         User newUser = userRepository.save(user);
         log.info("Creating new User with username: ´{}´", userDto.getUserName());

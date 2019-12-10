@@ -1,0 +1,73 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+}
+
+a:hover {
+    color: #ff9900;
+}
+
+#linkToIndexPage {
+    margin-left: -40px;
+}
+
+#linkToPreviousPage {
+    margin: 0 10px;
+}
+
+.profileImage {
+    float: left;
+    margin-right: -80px;
+    margin-left: -25px;
+    margin-top: 3px;
+}
+
+.profileImage img {
+    width: 50px;
+    height: 50px;
+}
+
+.profileDescription {
+    margin-top: 5px;
+}
+
+.postDateText {
+    color: #A9A9A9;
+}
+
+#postIcons {
+    margin-top: 10px;
+}
+
+#postIcons img {
+    width: 25px;
+    height: 25px;
+}
+
+#downloadIcon {
+    margin-left: 10px;
+}
+
+#saveToProfileIcon {
+    margin-left: 10px;
+}

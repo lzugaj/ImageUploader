@@ -46,13 +46,18 @@
                                 </div>
                                 <div class="d-flex flex-row">
                                     <div class="p-2">
-                                        <p class="text-danger">Number of posts: 11</p>
+                                        <p class="text-danger">
+                                            Number of posts: <span th:text="${numberOfUserPosts}">Number of posts</span>
+                                        </p>
                                     </div>
                                     <div class="p-2">
                                         <p class="text-danger">Followers: 295</p>
                                     </div>
                                     <div class="p-2">
                                         <p class="text-danger">Following: 123</p>
+                                    </div>
+                                    <div class="p-2">
+                                        <p class="text-danger">Save posts: 12</p>
                                     </div>
                                 </div>
                             </div>
@@ -70,7 +75,9 @@
                                     <div th:each="image : ${postImages}">
                                         <div th:if="${userPost.id == image.key}">
                                             <div id="image">
-                                                <img th:src="${'data:image/png;base64,' + image.value}">
+                                                <a th:href="@{/user/profile/post/{id}(id = ${userPost.id})}">
+                                                    <img th:src="${'data:image/png;base64,' + image.value}">
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

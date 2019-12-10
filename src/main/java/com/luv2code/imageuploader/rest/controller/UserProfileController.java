@@ -1,8 +1,5 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,21 +40,43 @@ public class UserProfileController {
     private String showUserProfileInfo(@PathVariable("username") String username, Model model) {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", username);
+        model.addAttribute("user", searchedUser);
 
         List<Post> userPosts = postService.findAllForUser(searchedUser);
         log.info("Successfully founded all Posts for User with username: `{}`", username);
-
-        Map<Long, String> postImages = new HashMap<>();
-        for (Post post : userPosts) {
-            byte[] postImage = Base64.getEncoder().encode(post.getPostImage());
-            String imageUrl = new String(postImage, StandardCharsets.UTF_8);
-            postImages.put(post.getId(), imageUrl);
-        }
-
-        model.addAttribute("user", searchedUser);
         model.addAttribute("userPosts", userPosts);
+
+        Map<Long, String> postImages = postService.mapAllPostImages(userPosts);
+        log.info("Successfully mapped all Post images for User with username: `{}`.", username);
         model.addAttribute("postImages", postImages);
+
+        int numberOfUserPosts = postService.findAllForUser(searchedUser).size();
+        log.info("Successfully founded `{}` for User with username `{}`", numberOfUserPosts, username);
+        model.addAttribute("numberOfUserPosts", numberOfUserPosts);
+
         return "user-profile/user-profile";
     }
 
+    @GetMapping("/post/{id}")
+    private String showUserProfileSelectedPost(@PathVariable("id") Long id, Model model) {
+        Post selectedPost = postService.findById(id);
+        log.info("Successfully founded Post with id: `{}`", id);
+        model.addAttribute("selectedPost", selectedPost);
+
+        User postCreator = postService.findById(id).getUser();
+        log.info("Successfully founded User that create this Post with username: `{}`", postCreator.getUserName());
+        model.addAttribute("postCreator", postCreator);
+
+        int dayOfMonth = selectedPost.getDateOfPost().getDayOfMonth();
+        model.addAttribute("dayOfMonth", dayOfMonth);
+
+        String selectedPostImage = postService.getSelectedPostImage(selectedPost);
+        model.addAttribute("selectedPostImage", selectedPostImage);
+
+        String postHashTags = selectedPost.getHashTag();
+        String formattedString = postService.formatHashTags(postHashTags);
+        model.addAttribute("postHashTags", formattedString);
+
+        return "user-profile/selected-profile-post";
+    }
 }

@@ -1,9 +1,6 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.nio.charset.StandardCharsets;
 import java.security.Principal;
-import java.util.Base64;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -43,27 +40,24 @@ public class HomeController {
     public String indexPage(Model model, Principal principal) {
         User user = userService.findByUserName(principal.getName());
         log.info("Successfully founded User with username: `{}`.", user.getUserName());
+        model.addAttribute("user", user);
 
         List<Post> posts = postService.findAll();
         log.info("Successfully founded all Posts.");
         model.addAttribute("posts", posts);
 
-        Map<Long, String> postImages = new HashMap<>();
-        Map<Long, String> hashTags = new HashMap<>();
-        int dayOfMonth = 0;
-        for (Post post : posts) {
-            byte[] postImage = Base64.getEncoder().encode(post.getPostImage());
-            String imageUrl = new String(postImage, StandardCharsets.UTF_8);
-            postImages.put(post.getId(), imageUrl);
-            String hashTag = post.getHashTag().replace("[", "").replace("]", "").replace(',', ' ').trim();
-            hashTags.put(post.getId(), hashTag);
-            dayOfMonth = post.getDateOfPost().getDayOfMonth();
-        }
-
-        model.addAttribute("hashTags", hashTags);
-        model.addAttribute("dayOfMonth", dayOfMonth);
+        Map<Long, String> postImages = postService.mapAllPostImages(posts);
+        log.info("Successfully mapped all Post images.");
         model.addAttribute("postImages", postImages);
-        model.addAttribute("user", user);
+
+        Map<Long, String> hashTags = postService.mapHashTags(posts);
+        log.info("Successfully mapped all HashTag for Post images.");
+        model.addAttribute("hashTags", hashTags);
+
+        Map<Long, Integer> daysOfMonth = postService.mapDateOfAllPosts(posts);
+        log.info("Successfully mapped all day of month foreach Post.");
+        model.addAttribute("daysOfMonth", daysOfMonth);
+
         return "home/index";
     }
 }

@@ -19,11 +19,15 @@
                     </a>
                     <div class="col-md-10 col-8 profileDescription">
                         <span th:text="${post.user.userName}">User</span><br>
-                        <div th:if="${dayOfMonth < 10}" class="postDateText">
-                            <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM d, yyyy')}">Created Date</span>
-                        </div>
-                        <div th:if="${dayOfMonth >= 10}" class="postDateText">
-                            <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM dd, yyyy')}">Created Date</span>
+                        <div th:each="dayOfMonth : ${daysOfMonth}">
+                            <div th:if="${post.id == dayOfMonth.key}">
+                                <div th:if="${dayOfMonth.value < 10}" class="postDateText">
+                                    <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM d, yyyy')}">Created Date</span>
+                                </div>
+                                <div th:if="${dayOfMonth.value >= 10}" class="postDateText">
+                                    <span th:text="'Posted on ' + ${#temporals.format(post.dateOfPost, 'MMM dd, yyyy')}">Created Date</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -32,7 +36,9 @@
                         <div th:each="image : ${postImages}">
                             <div th:if="${post.id == image.key}">
                                 <div id="postImage">
-                                    <img th:src="${'data:image/png;base64,' + image.value}" width="925" height="500">
+                                    <a data-toggle="modal" data-target="#exampleModalLong">
+                                        <img th:src="${'data:image/png;base64,' + image.value}" width="925" height="500">
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -56,6 +62,25 @@
                 </div>
             </div>
             <br>
+        </div>
+
+        <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

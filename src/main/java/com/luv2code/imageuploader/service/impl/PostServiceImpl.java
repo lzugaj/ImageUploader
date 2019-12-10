@@ -1,9 +1,13 @@
 package com.luv2code.imageuploader.service.impl;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +38,13 @@ public class PostServiceImpl implements PostService {
 	public PostServiceImpl(PostRepository postRepository, UserRepository userRepository) {
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
+	}
+
+	@Override
+	public Post findById(Long id) {
+		Post post = postRepository.findById(id).orElse(null);
+		log.info("Getting Post with id: `{}`", id);
+		return post;
 	}
 
 	@Override
@@ -94,5 +105,50 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return String.valueOf(newHashTags);
+	}
+
+	@Override
+	public String formatHashTags(String postHashTags) {
+		return postHashTags.replace("[", "").replace("]", "").replace(',', ' ').trim();
+	}
+
+	@Override
+	public String getSelectedPostImage(Post post) {
+		byte[] postImage = Base64.getEncoder().encode(post.getPostImage());
+		String imageUrl = new String(postImage, StandardCharsets.UTF_8);
+		return imageUrl;
+	}
+
+	@Override
+	public Map<Long, String> mapAllPostImages(List<Post> posts) {
+		Map<Long, String> postImages = new HashMap<>();
+		for (Post post : posts) {
+            byte[] postImage = Base64.getEncoder().encode(post.getPostImage());
+            String imageUrl = new String(postImage, StandardCharsets.UTF_8);
+            postImages.put(post.getId(), imageUrl);
+        }
+
+		return postImages;
+	}
+
+	@Override
+	public Map<Long, String> mapHashTags(List<Post> posts) {
+		Map<Long, String> hashTags = new HashMap<>();
+		for (Post post : posts) {
+			String hashTag = formatHashTags(post.getHashTag());
+			hashTags.put(post.getId(), hashTag);
+		}
+
+		return hashTags;
+	}
+
+	@Override
+	public Map<Long, Integer> mapDateOfAllPosts(List<Post> posts) {
+		Map<Long, Integer> daysOfMonth = new HashMap<>();
+		for (Post post : posts) {
+			daysOfMonth.put(post.getId(), post.getDateOfPost().getDayOfMonth());
+		}
+
+		return daysOfMonth;
 	}
 }

@@ -15,9 +15,9 @@
         <header id="header" th:include="navbar/navbar.html">Header</header>
         <br>
         <div id="container">
-            <div>
-                <p th:text="'First name: ' + ${user.firstName} + ', Last name: ' + ${user.lastName} + ', Email: ' + ${user.email} + ', Package: ' + ${user.userPackage.name}"></p>
-            </div>
+<!--            <div>-->
+<!--                <p th:text="'First name: ' + ${user.firstName} + ', Last name: ' + ${user.lastName} + ', Email: ' + ${user.email} + ', Package: ' + ${user.userPackage.name}"></p>-->
+<!--            </div>-->
             <div>
                 <div th:if="${postSuccessMessage}" class="alert alert-success alert-dismissible fade show" role="alert">
                     <strong th:text="${postSuccessMessage}">Message</strong>

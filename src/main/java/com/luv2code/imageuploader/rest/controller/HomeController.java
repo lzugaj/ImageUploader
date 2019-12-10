@@ -23,7 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequestMapping("/home")
 public class HomeController {
 
     private final UserService userService;
@@ -37,10 +36,13 @@ public class HomeController {
     }
 
     @GetMapping
+    @RequestMapping("/home")
     public String indexPage(Model model, Principal principal) {
-        User user = userService.findByUserName(principal.getName());
-        log.info("Successfully founded User with username: `{}`.", user.getUserName());
-        model.addAttribute("user", user);
+        if (principal != null) {
+            User user = userService.findByUserName(principal.getName());
+            log.info("Successfully founded User with username: `{}`.", user.getUserName());
+            model.addAttribute("user", user);
+        }
 
         List<Post> posts = postService.findAll();
         log.info("Successfully founded all Posts.");

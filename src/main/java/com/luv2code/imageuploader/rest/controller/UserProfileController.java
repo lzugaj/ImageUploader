@@ -1,5 +1,6 @@
 package com.luv2code.imageuploader.rest.controller;
 
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/{username}")
-    private String showUserProfileInfo(@PathVariable("username") String username, Model model) {
+    private String showUserProfileInfo(@PathVariable("username") String username, Model model, Principal principal) {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", username);
         model.addAttribute("user", searchedUser);
@@ -53,6 +54,11 @@ public class UserProfileController {
         int numberOfUserPosts = postService.findAllForUser(searchedUser).size();
         log.info("Successfully founded `{}` for User with username `{}`", numberOfUserPosts, username);
         model.addAttribute("numberOfUserPosts", numberOfUserPosts);
+
+        if (principal.getName().equals(username)) {
+            boolean isThisProfileFromLoggedInUser = true;
+            model.addAttribute("isThisProfileFromLoggedInUser", isThisProfileFromLoggedInUser);
+        }
 
         return "user-profile/user-profile";
     }

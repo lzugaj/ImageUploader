@@ -1,6 +1,5 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
 
@@ -25,25 +23,16 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 public class HomeController {
 
-    private final UserService userService;
-
     private final PostService postService;
 
     @Autowired
-    public HomeController(UserService userService, PostService postService) {
-        this.userService = userService;
+    public HomeController(PostService postService) {
         this.postService = postService;
     }
 
     @GetMapping
     @RequestMapping("/home")
-    public String indexPage(Model model, Principal principal) {
-        if (principal != null) {
-            User user = userService.findByUserName(principal.getName());
-            log.info("Successfully founded User with username: `{}`.", user.getUserName());
-            model.addAttribute("user", user);
-        }
-
+    public String indexPage(Model model) {
         List<Post> posts = postService.findAll();
         log.info("Successfully founded all Posts.");
         model.addAttribute("posts", posts);

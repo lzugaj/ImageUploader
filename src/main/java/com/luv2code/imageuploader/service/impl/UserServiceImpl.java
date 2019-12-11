@@ -2,8 +2,7 @@ package com.luv2code.imageuploader.service.impl;
 
 import com.luv2code.imageuploader.dto.UserDto;
 import com.luv2code.imageuploader.entity.Package;
-import com.luv2code.imageuploader.entity.Role;
-import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.entity.*;
 import com.luv2code.imageuploader.repository.RoleRepository;
 import com.luv2code.imageuploader.repository.UserRepository;
 import com.luv2code.imageuploader.service.UserService;
@@ -16,10 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -76,24 +73,31 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User save(UserDto userDto) {
-        User user = new User();
-        user.setUserName(userDto.getUserName());
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        user.setFirstName(userDto.getFirstName());
-        user.setLastName(userDto.getLastName());
-        user.setEmail(userDto.getEmail());
-        user.setRoles(Collections.singletonList(roleRepository.findRoleByName("ROLE_USER")));
-        user.setUploadedImagesWithCurrentPackage(0);
-        user.setUploadedImageSizeWithCurrentPackage(0L);
-        user.setUserPackage(null);
-        user.setUserProfile(null);
-
+        User user = setVariablesBeforeSave(userDto);
         User newUser = userRepository.save(user);
         log.info("Creating new User with username: ´{}´", userDto.getUserName());
         return newUser;
     }
 
-    @Override
+	private User setVariablesBeforeSave(UserDto userDto) {
+		User user = new User();
+		user.setUserName(userDto.getUserName());
+		user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+		user.setFirstName(userDto.getFirstName());
+		user.setLastName(userDto.getLastName());
+		user.setEmail(userDto.getEmail());
+		user.setRoles(Collections.singletonList(roleRepository.findRoleByName("ROLE_USER")));
+		user.setUploadedImagesWithCurrentPackage(0);
+		user.setUploadedImageSizeWithCurrentPackage(0L);
+		user.setUserPackage(null);
+		user.setUserProfile(null);
+		UserProfile userProfile = new UserProfile();
+		user.setUserProfile(userProfile);
+
+		return user;
+	}
+
+	@Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(userName);
@@ -132,4 +136,18 @@ public class UserServiceImpl implements UserService {
         log.info("Setting User for Package with name: `{}`.", searchedPackage.getName());
         return searchedUser;
     }
+
+	@Override
+	public Map<Long, String> mapAllProfileImages(List<User> users) {
+		Map<Long, String> userProfileImages = new HashMap<>();
+		for (User user : users) {
+			if (user.getUserProfile().getProfileImage() != null) {
+				byte[] userProfileImage = Base64.getEncoder().encode(user.getUserProfile().getProfileImage());
+				String imageUrl = new String(userProfileImage, StandardCharsets.UTF_8);
+				userProfileImages.put(user.getId(), imageUrl);
+			}
+		}
+
+		return userProfileImages;
+	}
 }

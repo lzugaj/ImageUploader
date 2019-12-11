@@ -37,8 +37,8 @@ a:hover {
 
 .profileImage {
     float: left;
-    margin-right: -80px;
-    margin-left: -25px;
+    margin-right: -60px;
+    margin-left: -15px;
     margin-top: 3px;
 }
 
@@ -48,7 +48,7 @@ a:hover {
 }
 
 .profileDescription {
-    margin-top: 5px;
+    margin-top: 10px;
 }
 
 .postDateText {
@@ -70,4 +70,10 @@ a:hover {
 
 #saveToProfileIcon {
     margin-left: 10px;
+}
+
+.profileImage img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
 }

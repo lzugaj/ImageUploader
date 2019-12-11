@@ -23,35 +23,19 @@ li a {
     color: white;
 }
 
+label {
+    display: block;
+    color: white;
+}
+
 a:hover {
     color: #ff9900;
 }
 
-#linkToIndexPage {
+#indexBreadcrumbLink {
     margin-left: -40px;
 }
 
-#linkToCurrentPage {
+#breadcrumbSeparator {
     margin: 0 10px;
-}
-
-label {
-    color: white;
-}
-
-#image img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: cover;
-}
-
-.profileImage img {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-}
-
-.card {
-    width: 400px;
-    height: 270px;
 }

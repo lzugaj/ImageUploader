@@ -1,19 +1,18 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.PostService;
+import com.luv2code.imageuploader.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.service.PostService;
-import com.luv2code.imageuploader.service.UserService;
-
-import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -25,9 +24,12 @@ public class HomeController {
 
     private final PostService postService;
 
+    private final UserService userService;
+
     @Autowired
-    public HomeController(PostService postService) {
+    public HomeController(PostService postService, UserService userService) {
         this.postService = postService;
+        this.userService = userService;
     }
 
     @GetMapping
@@ -48,6 +50,14 @@ public class HomeController {
         Map<Long, Integer> daysOfMonth = postService.mapDateOfAllPosts(posts);
         log.info("Successfully mapped all day of month foreach Post.");
         model.addAttribute("daysOfMonth", daysOfMonth);
+
+        List<User> users = userService.findAll();
+        log.info("Successfully founded all Users.");
+        model.addAttribute("users", users);
+
+        Map<Long, String> userProfileImages = userService.mapAllProfileImages(users);
+        log.info("Successfully mapped all UserProfile images.");
+        model.addAttribute("userProfileImages", userProfileImages);
 
         return "home/index";
     }

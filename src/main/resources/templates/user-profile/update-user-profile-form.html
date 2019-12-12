@@ -39,9 +39,28 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-2 col-4" style="float: left; margin-right: -30px;">
-                                <img th:src="@{/images/avatar/avatar.jpg}"
-                                     style="width: 100px; height: 100px;" th:alt="${searchedUserProfile.firstName} + ' ' + ${searchedUserProfile.lastName}"
-                                     th:title="${searchedUserProfile.firstName} + ' ' + ${searchedUserProfile.lastName}">
+                                <div th:each="user : ${users}">
+                                    <div th:if="${user.userName == userUsername}">
+                                        <div th:if="${user.userProfile.profileImage} != null">
+                                            <div th:each="userProfileImage : ${userProfileImages}">
+                                                <div th:if="${user.id == userProfileImage.key}">
+                                                    <div class="col-md-2 col-4 profileImage">
+                                                        <img th:src="${'data:image/png;base64,' + userProfileImage.value}"
+                                                             th:alt="${user.firstName} + ' ' + ${user.lastName}"
+                                                             th:title="${user.firstName} + ' ' + ${user.lastName}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div th:if="${user.userProfile.profileImage} == null">
+                                            <div class="col-md-2 col-4 profileImage">
+                                                <img th:src="@{/images/avatar/avatar.jpg}"
+                                                     th:alt="${user.firstName} + ' ' + ${user.lastName}"
+                                                     th:title="${user.firstName} + ' ' + ${user.lastName}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-10 col-8">
                                 <h1 th:text="${searchedUserProfile.firstName} + ' ' + ${searchedUserProfile.lastName} + '(' + ${searchedUserProfile.userName} + ')'" class="text-danger">User</h1>

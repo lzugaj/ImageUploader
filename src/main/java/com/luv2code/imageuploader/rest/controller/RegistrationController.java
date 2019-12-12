@@ -1,9 +1,7 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import com.luv2code.imageuploader.dto.UserDto;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import javax.validation.Valid;
+
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +13,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
+import com.luv2code.imageuploader.dto.UserDto;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -65,7 +67,7 @@ public class RegistrationController {
 
         User user = userService.save(userDto);
         log.info("Successfully created new user with username: ´{}´", user.getUserName());
-        redirectAttributes.addFlashAttribute("success", "Thank you " + user.getFirstName() + "!" + " You have successfully registered! :)");
-        return "redirect:/login"; // TODO: Redirect to page where User will choose Package Option!!!
+        redirectAttributes.addFlashAttribute("successfulRegistrationMessage", "Thank you " + user.getFirstName() + "!" + " You have successfully registered! Login now! :)");
+        return "redirect:/login";
     }
 }

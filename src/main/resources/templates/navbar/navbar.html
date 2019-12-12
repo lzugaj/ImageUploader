@@ -19,7 +19,8 @@
                 <ul class="navbar-nav ml-auto nav-flex-icons">
                     <li>
                         <form th:action="@{/user/post/create/form/}" method="get">
-                            <div sec:authorize="hasRole('ROLE_USER')">
+<!--                            sec:authorize="hasRole('ROLE_USER')"-->
+                            <div th:if="${#httpServletRequest.isUserInRole('ROLE_USER')}">
                                 <button type="submit" id="newPostButton" class="btn btn-primary">Upload new post</button>
                             </div>
                         </form>

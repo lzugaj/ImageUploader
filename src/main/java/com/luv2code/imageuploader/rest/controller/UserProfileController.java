@@ -1,24 +1,31 @@
 package com.luv2code.imageuploader.rest.controller;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.entity.UserProfile;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserProfileService;
 import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Tuesday, December 2019
@@ -119,6 +126,15 @@ public class UserProfileController {
         model.addAttribute("newUserProfile", new UserProfile());
         User searchedUserProfile = userProfileService.findUserProfileByUsername(principal.getName());
         model.addAttribute("searchedUserProfile", searchedUserProfile);
+        model.addAttribute("userUsername", searchedUserProfile.getUserName());
+
+        List<User> users = userService.findAll();
+        log.info("Successfully founded all Users.");
+        model.addAttribute("users", users);
+
+        Map<Long, String> userProfileImages = userService.mapAllProfileImages(users);
+        log.info("Successfully mapped all UserProfile images.");
+        model.addAttribute("userProfileImages", userProfileImages);
 
         return "user-profile/update-user-profile-form";
     }

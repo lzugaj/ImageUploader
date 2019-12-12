@@ -45,7 +45,7 @@
                                             </div>
                                         </div>
                                         <div th:if="${user.userProfile.profileImage} == null">
-                                            <div class="col-md-2 col-4">
+                                            <div class="col-md-2 col-4 profileImage">
                                                 <img th:src="@{/images/avatar/avatar.jpg}"
                                                      th:alt="${user.firstName} + ' ' + ${user.lastName}"
                                                      th:title="${user.firstName} + ' ' + ${user.lastName}">
@@ -94,14 +94,12 @@
                     <div class="card-deck">
                         <div th:each="userPost : ${userPosts}" class="col-lg-4 col-md-6 col-sm-6">
                             <div class="card">
-                                <div class="card-body">
-                                    <div th:each="image : ${postImages}">
-                                        <div th:if="${userPost.id == image.key}">
-                                            <div id="image">
-                                                <a th:href="@{/user/profile/post/{id}(id = ${userPost.id})}">
-                                                    <img th:src="${'data:image/png;base64,' + image.value}">
-                                                </a>
-                                            </div>
+                                <div th:each="image : ${postImages}">
+                                    <div th:if="${userPost.id == image.key}">
+                                        <div id="image">
+                                            <a th:href="@{/user/profile/post/{id}(id = ${userPost.id})}">
+                                                <img class="card-img" th:src="${'data:image/png;base64,' + image.value}">
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

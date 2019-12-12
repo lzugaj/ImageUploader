@@ -39,3 +39,9 @@ a:hover {
 #breadcrumbSeparator {
     margin: 0 10px;
 }
+
+.profileImage img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}

@@ -10,11 +10,6 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
         <link rel="stylesheet" type="text/css" th:href="@{/css/aside.css}">
     </head>
-    <script type="text/javascript">
-		$(".form_datetime").datetimepicker({
-			format: "dd MM yyyy - hh:ii"
-		});
-    </script>
     <body>
         <div id="container">
             <form th:action="@{/filter/posts}" method="post" class="form-horizontal" >

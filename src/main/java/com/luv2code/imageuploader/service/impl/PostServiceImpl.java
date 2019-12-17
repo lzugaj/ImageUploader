@@ -6,12 +6,10 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -170,5 +168,73 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return daysOfMonth;
+	}
+
+	@Override
+	public List<Post> filterPostsByMandatoryCriteria(String hashTag, Double sizeFrom, Date dateFrom, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+	}
+
+	@Override
+	public List<Post> filterPostsByMandatoryAndSizeToCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					Double.valueOf(post.getImageFileSize()) <= sizeTo &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+	}
+
+	@Override
+	public List<Post> filterPostsByMandatoryAndDateToCriteria(String hashTag, Double sizeFrom, Date dateFrom, Date dateTo, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getDateOfPost().isBefore(LocalDateTime.parse((CharSequence) dateTo)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+	}
+
+	@Override
+	public List<Post> filterPostsByAllCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, Date dateTo, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					Double.valueOf(post.getImageFileSize()) <= sizeTo &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getDateOfPost().isBefore(LocalDateTime.parse((CharSequence) dateTo)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
 	}
 }

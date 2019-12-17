@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/aside.css}">
+    </head>
+    <script type="text/javascript">
+		$(".form_datetime").datetimepicker({
+			format: "dd MM yyyy - hh:ii"
+		});
+    </script>
+    <body>
+        <div id="container">
+            <form th:action="@{/filter/posts}" method="post" class="form-horizontal" >
+                <div id="filterHashTags">
+                    <label for="hashTag">HashTag: </label><br>
+                    <input type="text" id="hashTag" name="hashTag" placeholder="HashTag" class="form-control">
+                </div>
+                <br>
+                <div id="filterSize">
+                    <div>
+                        <label for="sizeFrom">Size From: </label><br>
+                        <input type="number" id="sizeFrom" name="sizeFrom" class="form-control" placeholder="0 MB">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="sizeTo">Size To: </label><br>
+                        <input type="number" id="sizeTo" name="sizeTo" class="form-control" placeholder="0 MB">
+                    </div>
+                </div>
+                <br>
+                <div id="filterDateRange">
+                    <div>
+                        <label for="dateFrom">Date From: </label><br>
+                        <input type="date" id="dateFrom" name="dateFrom" class="form-control">
+                    </div>
+                    <br>
+                    <div>
+                        <label for="dateTo">Date To: </label><br>
+                        <input type="date" id="dateTo" name="dateTo" class="form-control">
+                    </div>
+                </div>
+                <br>
+                <div id="filterAuthor">
+                    <label for="author">Author: </label><br>
+                    <input type="text" id="author" name="author" placeholder="Author" class="form-control">
+                </div>
+                <br>
+                <div id="searchFilter">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Search</button>
+                </div>
+                <br>
+            </form>
+        </div>
+    </body>
+</html>

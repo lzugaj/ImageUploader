@@ -33,14 +33,14 @@ public interface PostService {
 
 	Map<Long, Integer> mapDateOfAllPosts(List<Post> posts);
 
-  List<Post> filterPostsByMandatoryCriteria(String hashTag, Double sizeFrom, Date dateFrom, String author);
+	Map<Long, Post> mapAllPosts(List<Post> posts);
+
+  	List<Post> filterPostsByMandatoryCriteria(String hashTag, Double sizeFrom, Date dateFrom, String author);
 
 	List<Post> filterPostsByMandatoryAndSizeToCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, String author);
 
 	List<Post> filterPostsByMandatoryAndDateToCriteria(String hashTag, Double sizeFrom, Date dateFrom, Date dateTo, String author);
 
 	List<Post> filterPostsByAllCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, Date dateTo, String author);
-
-	Map<Long, Post> mapAllPosts(List<Post> posts);
 
 }

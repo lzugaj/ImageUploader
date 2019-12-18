@@ -86,8 +86,16 @@
                             </div>
                         </div>
                         <div class="col-md-12" style="margin-left: 35px; margin-top: 10px">
-                            <p th:text="${user.firstName} + ' ' + ${user.lastName}" class="text-danger">User</p>
-                            <p th:text="${user.email}" class="text-danger">Email</p>
+                            <span th:text="${user.firstName} + ' ' + ${user.lastName}" class="text-danger">Name</span>
+                            <span th:if="${user.userProfile.positionName} != null and ${user.userProfile.companyName} != null">
+                                <span th:text=" ', working as ' + ${user.userProfile.positionName} + ' at ' + ${user.userProfile.companyName}" class="text-danger">Company</span>
+                            </span>
+                            <div th:if="${user.userProfile.cityName} != null">
+                                <span th:text="${user.userProfile.cityName}" class="text-danger">Place of living</span>
+                                <span th:if="${user.userProfile.countryName} != null">
+                                    <span th:text="', ' + ${user.userProfile.countryName}" class="text-danger"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <hr>

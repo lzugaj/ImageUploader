@@ -14,6 +14,6 @@ public interface UserProfileService {
 
 	User findUserProfileByUsername(String userName);
 
-	UserProfile save(User updatedUser, MultipartFile userProfileImage) throws IOException;
+	UserProfile save(String username, User updatedUser, MultipartFile userProfileImage) throws IOException;
 
 }

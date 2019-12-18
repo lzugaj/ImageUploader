@@ -1,31 +1,24 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.entity.UserProfile;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserProfileService;
 import com.luv2code.imageuploader.service.UserService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lzugaj on Tuesday, December 2019
@@ -140,11 +133,13 @@ public class UserProfileController {
     }
 
     @PostMapping("/submit/update/form")
-    public String saveUserPostForm(@RequestParam("userProfileImage") MultipartFile userProfileImage, Principal principal) throws IOException {
+    public String saveUserPostForm(@ModelAttribute("searchedUserProfile") User searchedUserProfile,
+                                   @RequestParam("userProfileImage") MultipartFile userProfileImage,
+                                   Principal principal) throws IOException {
         User updatedUser = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", updatedUser.getUserName());
 
-		UserProfile userProfile = userProfileService.save(updatedUser, userProfileImage);
+		UserProfile userProfile = userProfileService.save(updatedUser.getUserName(), searchedUserProfile, userProfileImage);
 		log.info("Successfully updated UserProfile for User with username: `{}`", userProfile.getUser().getUserName());
 
         return "redirect:/user/profile/show/update/form";

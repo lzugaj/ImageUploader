@@ -33,22 +33,38 @@ public class UserProfileServiceImpl implements UserProfileService {
 
 	@Override
 	public User findUserProfileByUsername(String userName) {
-		User user = userRepository.findByUsername(userName);
+		User user = userRepository.findByUserName(userName);
 		log.info("Finding User with username: `{}`", userName);
 		return user;
 	}
 
 	@Override
-	public UserProfile save(User updatedUser, MultipartFile userProfileImage) throws IOException {
-		User user = userRepository.findById(updatedUser.getId()).orElse(null);
+	public UserProfile save(String username, User updatedUser, MultipartFile userProfileImage) throws IOException {
+		User user = userRepository.findByUserName(username);
 		log.info("Getting User with id: `{}`.", updatedUser.getId());
 
 		String imageFileName = StringUtils.cleanPath(userProfileImage.getOriginalFilename());
 		log.info("Successfully get image file name: `{}`.", imageFileName);
 
-		UserProfile updatedUserProfile = userProfileRepository.findById(updatedUser.getId()).orElse(null);
+		UserProfile updatedUserProfile = userProfileRepository.findById(user.getId()).orElse(null);
 		if (updatedUserProfile != null) {
-			updatedUserProfile.setProfileImage(userProfileImage.getBytes());
+			if (userProfileImage.getBytes().length > 0) {
+				updatedUserProfile.setProfileImage(userProfileImage.getBytes());
+			}
+
+			updatedUserProfile.setUserDescription(updatedUser.getUserProfile().getUserDescription());
+			updatedUserProfile.setCountryName(updatedUser.getUserProfile().getCountryName());
+			updatedUserProfile.setCityName(updatedUser.getUserProfile().getCityName());
+			updatedUserProfile.setPositionName(updatedUser.getUserProfile().getPositionName());
+			updatedUserProfile.setCompanyName(updatedUser.getUserProfile().getCompanyName());
+			updatedUserProfile.setStartYear(updatedUser.getUserProfile().getStartYear());
+			updatedUserProfile.setEndYear(updatedUser.getUserProfile().getEndYear());
+			updatedUserProfile.setIsWorkingHere(updatedUser.getUserProfile().getIsWorkingHere());
+			updatedUserProfile.setSchoolName(updatedUser.getUserProfile().getSchoolName());
+			updatedUserProfile.setConcentrationName(updatedUser.getUserProfile().getConcentrationName());
+			updatedUserProfile.setSecondaryConcentrationName(updatedUser.getUserProfile().getSecondaryConcentrationName());
+			updatedUserProfile.setDegreeTypeName(updatedUser.getUserProfile().getDegreeTypeName());
+			updatedUserProfile.setGraduationYear(updatedUser.getUserProfile().getGraduationYear());
 		}
 
 		userRepository.save(user);

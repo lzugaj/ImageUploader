@@ -32,4 +32,6 @@ public interface PostService {
 
 	Map<Long, Integer> mapDateOfAllPosts(List<Post> posts);
 
+	Map<Long, Post> mapAllPosts(List<Post> posts);
+
 }

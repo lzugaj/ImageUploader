@@ -26,4 +26,6 @@ public interface UserService extends UserDetailsService {
 
     Map<Long, String> mapAllProfileImages(List<User> users);
 
+	Map<Long, User> mapAllUsers(List<User> users);
+
 }

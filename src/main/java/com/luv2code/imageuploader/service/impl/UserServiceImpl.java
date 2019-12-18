@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUserName(String userName) {
-        return userRepository.findByUsername(userName);
+        return userRepository.findByUserName(userName);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 	@Override
     @Transactional
     public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(userName);
+        User user = userRepository.findByUserName(userName);
         if (user == null) {
             throw new UsernameNotFoundException("Invalid username or password.");
         }
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User choosePackageOption(Long packageId, String username) {
-        User searchedUser = userRepository.findByUsername(username);
+        User searchedUser = userRepository.findByUserName(username);
         log.info("Successfully founded User with username: `{}`.", username);
 
         Package searchedPackage = packageService.findOne(packageId);
@@ -149,5 +149,15 @@ public class UserServiceImpl implements UserService {
 		}
 
 		return userProfileImages;
+	}
+
+	@Override
+	public Map<Long, User> mapAllUsers(List<User> users) {
+		Map<Long, User> usersMap = new HashMap<>();
+		for (User user : users) {
+			usersMap.put(user.getId(), user);
+		}
+
+		return usersMap;
 	}
 }

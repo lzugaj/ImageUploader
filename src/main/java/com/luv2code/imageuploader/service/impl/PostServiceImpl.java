@@ -165,4 +165,14 @@ public class PostServiceImpl implements PostService {
 
 		return daysOfMonth;
 	}
+
+	@Override
+	public Map<Long, Post> mapAllPosts(List<Post> posts) {
+		Map<Long, Post> postsMap = new HashMap<>();
+		for (Post post : posts) {
+			postsMap.put(post.getId(), post);
+		}
+
+		return postsMap;
+	}
 }

@@ -31,9 +31,28 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="col-md-1 col-8" style="float: left; margin-right: 40px;">
-                                <img th:src="@{/images/avatar/avatar.jpg}"
-                                     style="width: 100px; height: 100px;" th:alt="${user.firstName} + ' ' + ${user.lastName}"
-                                     th:title="${user.firstName} + ' ' + ${user.lastName}">
+                                <div th:each="user : ${users}">
+                                    <div th:if="${user.userName == userUsername}">
+                                        <div th:if="${user.userProfile.profileImage} != null">
+                                            <div th:each="userProfileImage : ${userProfileImages}">
+                                                <div th:if="${user.id == userProfileImage.key}">
+                                                    <div class="col-md-2 col-4 profileImage">
+                                                        <img th:src="${'data:image/png;base64,' + userProfileImage.value}"
+                                                             th:alt="${user.firstName} + ' ' + ${user.lastName}"
+                                                             th:title="${user.firstName} + ' ' + ${user.lastName}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div th:if="${user.userProfile.profileImage} == null">
+                                            <div class="col-md-2 col-4 profileImage">
+                                                <img th:src="@{/images/avatar/avatar.jpg}"
+                                                     th:alt="${user.firstName} + ' ' + ${user.lastName}"
+                                                     th:title="${user.firstName} + ' ' + ${user.lastName}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-11 col-8">
                                 <div class="d-flex flex-row">
@@ -42,7 +61,9 @@
                                     </div>
                                     <div class="p-2">
                                         <div th:if="${isThisProfileFromLoggedInUser}">
-                                            <button type="button" class="btn btn-primary">Update Profile</button>
+                                            <a th:href="@{/user/profile/show/update/form}">
+                                                <button type="button" class="btn btn-primary">Update Profile</button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -64,23 +85,29 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12" style="margin-left: 15px;">
-                            <p th:text="${user.firstName} + ' ' + ${user.lastName}" class="text-danger">User</p>
-                            <p th:text="${user.email}" class="text-danger">Email</p>
+                        <div class="col-md-12" style="margin-left: 35px; margin-top: 10px">
+                            <span th:text="${user.firstName} + ' ' + ${user.lastName}" class="text-danger">Name</span>
+                            <span th:if="${user.userProfile.positionName} != null and ${user.userProfile.companyName} != null">
+                                <span th:text=" ', working as ' + ${user.userProfile.positionName} + ' at ' + ${user.userProfile.companyName}" class="text-danger">Company</span>
+                            </span>
+                            <div th:if="${user.userProfile.cityName} != null">
+                                <span th:text="${user.userProfile.cityName}" class="text-danger">Place of living</span>
+                                <span th:if="${user.userProfile.countryName} != null">
+                                    <span th:text="', ' + ${user.userProfile.countryName}" class="text-danger"></span>
+                                </span>
+                            </div>
                         </div>
                     </div>
                     <hr>
                     <div class="card-deck">
                         <div th:each="userPost : ${userPosts}" class="col-lg-4 col-md-6 col-sm-6">
                             <div class="card">
-                                <div class="card-body">
-                                    <div th:each="image : ${postImages}">
-                                        <div th:if="${userPost.id == image.key}">
-                                            <div id="image">
-                                                <a th:href="@{/user/profile/post/{id}(id = ${userPost.id})}">
-                                                    <img th:src="${'data:image/png;base64,' + image.value}">
-                                                </a>
-                                            </div>
+                                <div th:each="image : ${postImages}">
+                                    <div th:if="${userPost.id == image.key}">
+                                        <div id="image">
+                                            <a th:href="@{/user/profile/post/{id}(id = ${userPost.id})}">
+                                                <img class="card-img" th:src="${'data:image/png;base64,' + image.value}">
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

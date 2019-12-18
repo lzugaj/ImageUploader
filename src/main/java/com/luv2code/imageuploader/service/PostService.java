@@ -1,13 +1,12 @@
 package com.luv2code.imageuploader.service;
 
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.web.multipart.MultipartFile;
-
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -32,5 +31,7 @@ public interface PostService {
 	Map<Long, String> mapHashTags(List<Post> posts);
 
 	Map<Long, Integer> mapDateOfAllPosts(List<Post> posts);
+
+	Map<Long, Post> mapAllPosts(List<Post> posts);
 
 }

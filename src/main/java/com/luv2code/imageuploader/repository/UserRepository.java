@@ -1,10 +1,8 @@
 package com.luv2code.imageuploader.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.stereotype.Repository;
-
 import com.luv2code.imageuploader.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -13,7 +11,9 @@ import com.luv2code.imageuploader.entity.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    @Query("select u from User u where u.userName = ?1")
-    User findByUsername(String userName);
+//    @Query("select u from User u where u.userName = ?1")
+//    User findByUsername(String userName);
+
+    User findByUserName(String userName);
 
 }

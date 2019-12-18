@@ -11,10 +11,27 @@
             <div class="card">
                 <div class="card-header">
                     <a th:href="@{/user/profile/{username}(username = ${post.user.userName})}">
-                        <div class="col-md-2 col-4 profileImage">
-                            <img th:src="@{/images/avatar/avatar.jpg}"
-                                 th:alt="${post.user.firstName} + ' ' + ${post.user.lastName}"
-                                 th:title="${post.user.firstName} + ' ' + ${post.user.lastName}">
+                        <div th:each="user : ${users}">
+                            <div th:if="${user.id == post.user.id}">
+                                <div th:if="${user.userProfile.profileImage} != null">
+                                    <div th:each="userProfileImage : ${userProfileImages}">
+                                        <div th:if="${user.id == userProfileImage.key}">
+                                            <div class="col-md-2 col-4 profileImage">
+                                                <img th:src="${'data:image/png;base64,' + userProfileImage.value}"
+                                                     th:alt="${user.firstName} + ' ' + ${user.lastName}"
+                                                     th:title="${user.firstName} + ' ' + ${user.lastName}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div th:if="${user.userProfile.profileImage} == null">
+                                    <div class="col-md-2 col-4 profileImage">
+                                        <img th:src="@{/images/avatar/avatar.jpg}"
+                                             th:alt="${post.user.firstName} + ' ' + ${post.user.lastName}"
+                                             th:title="${post.user.firstName} + ' ' + ${post.user.lastName}">
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </a>
                     <div class="col-md-10 col-8 profileDescription">
@@ -37,7 +54,7 @@
                             <div th:if="${post.id == image.key}">
                                 <div id="postImage">
                                     <a data-toggle="modal" data-target="#exampleModalLong">
-                                        <img th:src="${'data:image/png;base64,' + image.value}" width="925" height="500">
+                                        <img th:src="${'data:image/*;base64,' + image.value}" width="925" height="500">
                                     </a>
                                 </div>
                             </div>
@@ -62,25 +79,54 @@
                 </div>
             </div>
             <br>
-        </div>
 
-        <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div th:each="postImage : ${postImages}">
+                <div th:if="${post.id == postImage.key}">
+                    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img th:src="${'data:image/*;base64,' + postImage.value}" width="470" height="300">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
+<!--        <div th:each="post : ${posts}">-->
+<!--            <div th:each="postImage : ${postImages}">-->
+<!--                <div th:if="${post.id == postImage.key}">-->
+<!--                    <div class="modal fade bd-example-modal-lg" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">-->
+<!--                        <div class="modal-dialog" role="document">-->
+<!--                            <div class="modal-content">-->
+<!--                                <div class="modal-header">-->
+<!--                                    <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>-->
+<!--                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
+<!--                                        <span aria-hidden="true">&times;</span>-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                                <div class="modal-body">-->
+<!--                                    <img th:src="${'data:image/*;base64,' + postImage.value}" width="470" height="300">-->
+<!--                                </div>-->
+<!--                                <div class="modal-footer">-->
+<!--                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
     </body>
 </html>

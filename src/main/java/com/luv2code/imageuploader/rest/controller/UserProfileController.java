@@ -1,22 +1,24 @@
 package com.luv2code.imageuploader.rest.controller;
 
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.entity.UserProfile;
+import com.luv2code.imageuploader.service.PostService;
+import com.luv2code.imageuploader.service.UserProfileService;
+import com.luv2code.imageuploader.service.UserService;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.PostService;
-import com.luv2code.imageuploader.service.UserService;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Tuesday, December 2019
@@ -31,10 +33,19 @@ public class UserProfileController {
 
     private final PostService postService;
 
+    private final UserProfileService userProfileService;
+
     @Autowired
-    public UserProfileController(UserService userService, PostService postService) {
+    public UserProfileController(UserService userService, PostService postService, UserProfileService userProfileService) {
         this.userService = userService;
         this.postService = postService;
+        this.userProfileService = userProfileService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder dataBinder) {
+        StringTrimmerEditor stringTrimmerEditor = new StringTrimmerEditor(true);
+        dataBinder.registerCustomEditor(String.class, stringTrimmerEditor);
     }
 
     @GetMapping("/{username}")
@@ -42,6 +53,7 @@ public class UserProfileController {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", username);
         model.addAttribute("user", searchedUser);
+        model.addAttribute("userUsername", searchedUser.getUserName());
 
         List<Post> userPosts = postService.findAllForUser(searchedUser);
         log.info("Successfully founded all Posts for User with username: `{}`", username);
@@ -54,6 +66,14 @@ public class UserProfileController {
         int numberOfUserPosts = postService.findAllForUser(searchedUser).size();
         log.info("Successfully founded `{}` for User with username `{}`", numberOfUserPosts, username);
         model.addAttribute("numberOfUserPosts", numberOfUserPosts);
+
+		List<User> users = userService.findAll();
+		log.info("Successfully founded all Users.");
+		model.addAttribute("users", users);
+
+		Map<Long, String> userProfileImages = userService.mapAllProfileImages(users);
+		log.info("Successfully mapped all UserProfile images.");
+		model.addAttribute("userProfileImages", userProfileImages);
 
         if (principal.getName().equals(username)) {
             boolean isThisProfileFromLoggedInUser = true;
@@ -83,6 +103,45 @@ public class UserProfileController {
         String formattedString = postService.formatHashTags(postHashTags);
         model.addAttribute("postHashTags", formattedString);
 
+		List<User> users = userService.findAll();
+		log.info("Successfully founded all Users.");
+		model.addAttribute("users", users);
+
+		Map<Long, String> userProfileImages = userService.mapAllProfileImages(users);
+		log.info("Successfully mapped all UserProfile images.");
+		model.addAttribute("userProfileImages", userProfileImages);
+
         return "user-profile/selected-profile-post";
+    }
+
+    @GetMapping("/show/update/form")
+    private String showUpdateUserProfileForm(Model model, Principal principal) {
+        model.addAttribute("newUserProfile", new UserProfile());
+        User searchedUserProfile = userProfileService.findUserProfileByUsername(principal.getName());
+        model.addAttribute("searchedUserProfile", searchedUserProfile);
+        model.addAttribute("userUsername", searchedUserProfile.getUserName());
+
+        List<User> users = userService.findAll();
+        log.info("Successfully founded all Users.");
+        model.addAttribute("users", users);
+
+        Map<Long, String> userProfileImages = userService.mapAllProfileImages(users);
+        log.info("Successfully mapped all UserProfile images.");
+        model.addAttribute("userProfileImages", userProfileImages);
+
+        return "user-profile/update-user-profile-form";
+    }
+
+    @PostMapping("/submit/update/form")
+    public String saveUserPostForm(@ModelAttribute("searchedUserProfile") User searchedUserProfile,
+                                   @RequestParam("userProfileImage") MultipartFile userProfileImage,
+                                   Principal principal) throws IOException {
+        User updatedUser = userService.findByUserName(principal.getName());
+		log.info("Successfully founded User with username: `{}`", updatedUser.getUserName());
+
+		UserProfile userProfile = userProfileService.save(updatedUser.getUserName(), searchedUserProfile, userProfileImage);
+		log.info("Successfully updated UserProfile for User with username: `{}`", userProfile.getUser().getUserName());
+
+        return "redirect:/user/profile/show/update/form";
     }
 }

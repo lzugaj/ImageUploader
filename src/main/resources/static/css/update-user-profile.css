@@ -23,25 +23,21 @@ li a {
     color: white;
 }
 
+label {
+    display: block;
+    color: white;
+}
+
 a:hover {
     color: #ff9900;
 }
 
-#linkToIndexPage {
+#indexBreadcrumbLink {
     margin-left: -40px;
 }
 
-#linkToCurrentPage {
+#breadcrumbSeparator {
     margin: 0 10px;
-}
-
-label {
-    color: white;
-}
-
-#image img {
-    max-width: 100%;
-    max-height: 100%;
 }
 
 .profileImage img {

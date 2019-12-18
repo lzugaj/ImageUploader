@@ -21,8 +21,16 @@ import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.repository.PostRepository;
 import com.luv2code.imageuploader.repository.UserRepository;
 import com.luv2code.imageuploader.service.PostService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.*;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -133,7 +141,11 @@ public class PostServiceImpl implements PostService {
 	@Override
 	public String getSelectedPostImage(Post post) {
 		byte[] postImage = Base64.getEncoder().encode(post.getPostImage());
+		log.info("Getting post image.");
+
 		String imageUrl = new String(postImage, StandardCharsets.UTF_8);
+		log.info("Successfully founded image url: ``{}", imageUrl);
+
 		return imageUrl;
 	}
 
@@ -236,5 +248,13 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return foundedPosts;
+
+	public Map<Long, Post> mapAllPosts(List<Post> posts) {
+		Map<Long, Post> postsMap = new HashMap<>();
+		for (Post post : posts) {
+			postsMap.put(post.getId(), post);
+		}
+
+		return postsMap;
 	}
 }

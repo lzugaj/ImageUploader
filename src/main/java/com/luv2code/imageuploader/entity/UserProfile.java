@@ -3,6 +3,7 @@ package com.luv2code.imageuploader.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 
@@ -62,8 +63,9 @@ public class UserProfile {
 	private Integer graduationYear;
 
 	@Lob
+	@Type(type="org.hibernate.type.BinaryType")
 	@Column(name = "profile_image")
-	private Byte[] profileImage;
+	private byte[] profileImage;
 
 	@OneToOne(mappedBy = "userProfile")
 	private User user;

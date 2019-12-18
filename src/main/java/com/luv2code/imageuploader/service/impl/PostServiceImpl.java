@@ -1,5 +1,21 @@
 package com.luv2code.imageuploader.service.impl;
 
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.repository.PostRepository;
@@ -167,6 +183,72 @@ public class PostServiceImpl implements PostService {
 	}
 
 	@Override
+	public List<Post> filterPostsByMandatoryCriteria(String hashTag, Double sizeFrom, Date dateFrom, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+	}
+
+	@Override
+	public List<Post> filterPostsByMandatoryAndSizeToCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					Double.valueOf(post.getImageFileSize()) <= sizeTo &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+	}
+
+	@Override
+	public List<Post> filterPostsByMandatoryAndDateToCriteria(String hashTag, Double sizeFrom, Date dateFrom, Date dateTo, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getDateOfPost().isBefore(LocalDateTime.parse((CharSequence) dateTo)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+	}
+
+	@Override
+	public List<Post> filterPostsByAllCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, Date dateTo, String author) {
+		List<Post> posts = findAll();
+		List<Post> foundedPosts = new ArrayList<>();
+		for (Post post : posts) {
+			if (post.getHashTag().contains(hashTag) &&
+					Double.valueOf(post.getImageFileSize()) >= sizeFrom &&
+					Double.valueOf(post.getImageFileSize()) <= sizeTo &&
+					post.getDateOfPost().isAfter(LocalDateTime.parse((CharSequence) dateFrom)) &&
+					post.getDateOfPost().isBefore(LocalDateTime.parse((CharSequence) dateTo)) &&
+					post.getUser().getUserName().contains(author)) {
+				foundedPosts.add(post);
+			}
+		}
+
+		return foundedPosts;
+
 	public Map<Long, Post> mapAllPosts(List<Post> posts) {
 		Map<Long, Post> postsMap = new HashMap<>();
 		for (Post post : posts) {

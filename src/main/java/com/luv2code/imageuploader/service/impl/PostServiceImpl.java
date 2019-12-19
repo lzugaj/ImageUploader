@@ -142,7 +142,7 @@ public class PostServiceImpl implements PostService {
 		log.info("Getting post image.");
 
 		String imageUrl = new String(postImage, StandardCharsets.UTF_8);
-		log.info("Successfully founded image url: ``{}", imageUrl);
+		log.info("Successfully founded image url.");
 
 		return imageUrl;
 	}

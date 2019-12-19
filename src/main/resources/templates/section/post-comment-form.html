@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+    </head>
+    <body>
+        <div id="comment-form">
+            <form th:action="@{/post/comment/{postId}(postId = ${postId})}" method="post" class="form-horizontal">
+                <div class="form-row">
+                    <div class="input-group">
+                        <div class="col-md-1">
+                            <img src="https://icon-library.net/images/facebook-user-icon/facebook-user-icon-17.jpg" class="rounded-circle z-depth-0" alt="avatar image">
+                        </div>
+                        <div class="col-md-9 content">
+                            <input type="text" name="commentDescription" id="commentDescription" placeholder="Add a comment" class="form-control" />
+                        </div>
+                        <div class="col-md-2 content">
+                            <button type="submit" class="btn btn-primary">Comment</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <br>
+            <div id="linkToAllComments">
+                <a th:href="@{/post/{postId}/comments(postId = ${postId})}"> Show all Comments
+                    <span>(</span>
+                    <span th:each="numberOfPostCommentMap : ${numberOfPostCommentsMap}">
+                        <span th:if="${postId} == ${numberOfPostCommentMap.key}">
+                            <span th:if="${numberOfPostCommentMap.value > 0}">
+                                <span th:text="${numberOfPostCommentMap.value}">1</span>
+                            </span>
+                            <span th:if="${numberOfPostCommentMap.value == 0}">
+                                <span>0</span>
+                            </span>
+                        </span>
+                    </span>
+                    <span>)</span>
+                </a>
+            </div>
+        </div>
+    </body>
+</html>

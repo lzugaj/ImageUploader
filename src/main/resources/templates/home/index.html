@@ -22,12 +22,18 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+                <div th:if="${createdNewComment}" class="alert alert-success alert-dismissible fade show" role="alert">
+                    <strong th:text="${createdNewComment}">Message</strong>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
             </div>
             <div class="row">
                 <div id="aside" class="col-3">
                     <h1>Filter</h1>
                     <hr>
-                    <section th:include="aside/aside.html">Aside</section>
+                    <aside th:include="aside/aside.html">Aside</aside>
                 </div>
                 <div id="section" class="col-9">
                     <h1>Section</h1>

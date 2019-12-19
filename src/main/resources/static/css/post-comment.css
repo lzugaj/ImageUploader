@@ -1,0 +1,25 @@
+.form-row {
+    max-width: 100%;
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+    background-color: #e0e0eb;
+    border-radius: 15px;
+}
+
+#comment-form img {
+    width: 50px;
+    height: 50px;
+}
+
+.content {
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;;
+}
+
+#linkToAllComments {
+    margin-top:auto;
+    margin-bottom:auto;
+    text-align:center;
+}

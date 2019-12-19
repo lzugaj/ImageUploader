@@ -5,6 +5,7 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" th:href="@{/css/section.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/css/post-comment.css}">
     </head>
     <body>
         <div th:each="post : ${posts}">
@@ -94,6 +95,9 @@
                                 <span th:text="${hashTag.value}">HashTags</span>
                             </div>
                         </div>
+                        <hr>
+                        <div th:include="section/post-comment-form.html" th:with="postId = ${post.id}">Post Comment</div>
+                        <hr>
                     </div>
                 </div>
             </div>

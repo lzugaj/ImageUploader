@@ -6,6 +6,8 @@ import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +19,11 @@ import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
 
 import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -46,6 +53,8 @@ public class HomeController {
             Objects.requireNonNull(cacheManager.getCache(name)).clear();
         }
 
+        checkIfUserIsAnonymousOrLoggedIn(model);
+
         List<Post> posts = postService.findAll();
         log.info("Successfully founded all Posts.");
         model.addAttribute("posts", posts);
@@ -70,10 +79,12 @@ public class HomeController {
         log.info("Successfully mapped all UserProfile images.");
         model.addAttribute("userProfileImages", userProfileImages);
 
+        // TODO: Delete?
         Map<Long, User> usersMap = userService.mapAllUsers(users);
         log.info("Successfully mapped all Users.");
         model.addAttribute("usersMap", usersMap);
 
+        // TODO: Delete?
         Map<Long, Post> postsMap = postService.mapAllPosts(posts);
         log.info("Successfully mapped all UserProfile images.");
         model.addAttribute("postsMap", postsMap);
@@ -83,5 +94,22 @@ public class HomeController {
         model.addAttribute("numberOfPostCommentsMap", numberOfPostCommentsMap);
 
         return "home/index";
+    }
+
+    private void checkIfUserIsAnonymousOrLoggedIn(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String username = auth.getName();
+        if (!username.equals("anonymousUser")) {
+            User loggedInUser = userService.findByUserName(username);
+            log.info("Successfully founded logged in User with username: `{}`", loggedInUser.getUserName());
+            model.addAttribute("loggedInUser", loggedInUser);
+            if (loggedInUser.getUserProfile().getProfileImage() != null) {
+                byte[] userProfileImage = Base64.getEncoder().encode(loggedInUser.getUserProfile().getProfileImage());
+                String imageUrl = new String(userProfileImage, StandardCharsets.UTF_8);
+                model.addAttribute("imageUrl", imageUrl);
+            }
+        } else {
+            model.addAttribute("anonymousUser", username);
+        }
     }
 }

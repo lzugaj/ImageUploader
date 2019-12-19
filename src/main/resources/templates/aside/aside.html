@@ -9,105 +9,84 @@
         <div id="container">
             <form th:action="@{/filter/posts}" method="post" class="form-horizontal" >
                 <div th:if="!${errorMessage}">
-                    <div class="form-group row">
-                        <label for="hashTag">HashTag: </label><br>
-                        <input type="text" id="hashTag" name="hashTag" placeholder="HashTag" class="form-control">
-                    </div>
+                    <label for="hashTag">HashTag: </label><br>
+                    <input type="text" id="hashTag" name="hashTag" placeholder="HashTag" class="form-control">
                 </div>
                 <div th:if="${errorMessage}" class="text-danger">
-                    <div class="form-group row">
-                        <label for="hashTag">HashTag: </label><br>
-                        <input type="text" id="hashTag" name="hashTag" placeholder="HashTag" class="form-control is-invalid">
-                        <div class="col-md-10">
-                            <p class="col-form-label text-danger">
-                                HashTag is required
-                            </p>
-                        </div>
+                    <label for="hashTag">HashTag: </label><br>
+                    <input type="text" id="hashTag" name="hashTag" placeholder="HashTag" class="form-control is-invalid">
+                    <div class="col-md-10">
+                        <p class="col-form-label text-danger">
+                            HashTag is required
+                        </p>
                     </div>
                 </div>
                 <br>
                 <div id="filterSize">
                     <div>
                         <div th:if="!${errorMessage}">
-                            <div class="form-group row">
-                                <label for="sizeFrom">Size From: </label><br>
-                                <input type="number" id="sizeFrom" name="sizeFrom" class="form-control" placeholder="0 MB">
-                            </div>
+                            <label for="sizeFrom">Size From: </label><br>
+                            <input type="number" id="sizeFrom" name="sizeFrom" class="form-control" placeholder="0 MB">
                         </div>
                         <div th:if="${errorMessage}" class="text-danger">
-                            <div class="form-group row">
-                                <label for="sizeFrom">Size From: </label><br>
-                                <input type="number" id="sizeFrom" name="sizeFrom" class="form-control is-invalid" placeholder="0 MB">
-                                <div class="col-md-10">
-                                    <p class="col-form-label text-danger">
-                                        Size from is required
-                                    </p>
-                                </div>
+                            <label for="sizeFrom">Size From: </label><br>
+                            <input type="number" id="sizeFrom" name="sizeFrom" class="form-control is-invalid" placeholder="0 MB">
+                            <div class="col-md-10">
+                                <p class="col-form-label text-danger">
+                                    Size from is required
+                                </p>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div>
-                        <div class="form-group row">
-                            <label for="sizeTo">Size To: </label><br>
-                            <input type="number" id="sizeTo" name="sizeTo" class="form-control" placeholder="0 MB">
-                        </div>
+                        <label for="sizeTo">Size To: </label><br>
+                        <input type="number" id="sizeTo" name="sizeTo" class="form-control" placeholder="0 MB">
                     </div>
                 </div>
                 <br>
                 <div id="filterDateRange">
                     <div>
                         <div th:if="!${errorMessage}">
-                            <div class="form-group row">
-                                <label for="dateFrom">Date From: </label><br>
-                                <input type="date" id="dateFrom" name="dateFrom" class="form-control">
-                            </div>
+                            <label for="dateFrom">Date From: </label><br>
+                            <input type="date" id="dateFrom" name="dateFrom" class="form-control">
                         </div>
                         <div th:if="${errorMessage}" class="text-danger">
-                            <div class="form-group row">
-                                <label for="dateFrom">Date From: </label><br>
-                                <input type="date" id="dateFrom" name="dateFrom" class="form-control is-invalid">
-                                <div class="col-md-10">
-                                    <p class="col-form-label text-danger">
-                                        Date from is required
-                                    </p>
-                                </div>
+                            <label for="dateFrom">Date From: </label><br>
+                            <input type="date" id="dateFrom" name="dateFrom" class="form-control is-invalid">
+                            <div class="col-md-10">
+                                <p class="col-form-label text-danger">
+                                    Date from is required
+                                </p>
                             </div>
                         </div>
                     </div>
                     <br>
                     <div>
-                        <div class="form-group row">
-                            <label for="dateTo">Date To: </label><br>
-                            <input type="date" id="dateTo" name="dateTo" class="form-control">
-                        </div>
+                        <label for="dateTo">Date To: </label><br>
+                        <input type="date" id="dateTo" name="dateTo" class="form-control">
                     </div>
                 </div>
                 <br>
                 <div id="filterAuthor">
                     <div th:if="!${errorMessage}">
-                        <div class="form-group row">
-                            <label for="author">Author: </label><br>
-                            <input type="text" id="author" name="author" placeholder="Author" class="form-control">
-                        </div>
+                        <label for="author">Author: </label><br>
+                        <input type="text" id="author" name="author" placeholder="Author" class="form-control">
                     </div>
                     <div th:if="${errorMessage}" class="text-danger">
-                        <div class="form-group row">
-                            <label for="author">Author: </label><br>
-                            <input type="text" id="author" name="author" placeholder="Author" class="form-control is-invalid">
-                            <div class="col-md-10">
-                                <p class="col-form-label text-danger">
-                                    Author is required
-                                </p>
-                            </div>
+                        <label for="author">Author: </label><br>
+                        <input type="text" id="author" name="author" placeholder="Author" class="form-control is-invalid">
+                        <div class="col-md-10">
+                            <p class="col-form-label text-danger">
+                                Author is required
+                            </p>
                         </div>
                     </div>
                 </div>
                 <br>
+                <hr>
                 <div id="searchFilter">
-                    <div class="form-group row">
-                        <button type="submit" class="btn btn-primary btn-lg btn-block">Search</button>
-                    </div>
+                    <button type="submit" class="btn btn-primary btn-lg btn-block">Search</button>
                 </div>
                 <br>
             </form>

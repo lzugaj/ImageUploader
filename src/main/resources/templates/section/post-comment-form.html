@@ -10,7 +10,18 @@
                 <div class="form-row">
                     <div class="input-group">
                         <div class="col-md-1">
-                            <img src="https://icon-library.net/images/facebook-user-icon/facebook-user-icon-17.jpg" class="rounded-circle z-depth-0" alt="avatar image">
+<!--                            <img src="https://icon-library.net/images/facebook-user-icon/facebook-user-icon-17.jpg" class="rounded-circle z-depth-0" alt="avatar image">-->
+                            <span th:if="${loggedInUser}">
+                                <span th:if="${loggedInUser.userProfile.profileImage != null}">
+                                    <img th:src="${'data:image/png;base64,' + imageUrl}" class="rounded-circle z-depth-0">
+                                </span>
+                                <span th:if="${loggedInUser.userProfile.profileImage == null}">
+                                    <img th:src="@{/images/avatar/avatar.jpg}" class="rounded-circle z-depth-0" alt="avatar image">
+                                </span>
+                            </span>
+                            <span th:if="${anonymousUser}">
+                                <img src="https://icon-library.net/images/facebook-user-icon/facebook-user-icon-17.jpg" class="rounded-circle z-depth-0" alt="avatar image">
+                            </span>
                         </div>
                         <div class="col-md-9 content">
                             <input type="text" name="commentDescription" id="commentDescription" placeholder="Add a comment" class="form-control" />

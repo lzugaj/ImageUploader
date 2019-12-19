@@ -14,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -84,10 +85,15 @@ public class UserProfileController {
     }
 
     @GetMapping("/post/{id}")
-    private String showUserProfileSelectedPost(@PathVariable("id") Long id, Model model) {
+    private String showUserProfileSelectedPost(@PathVariable("id") Long id, Model model, Principal principal) {
         Post selectedPost = postService.findById(id);
         log.info("Successfully founded Post with id: `{}`", id);
         model.addAttribute("selectedPost", selectedPost);
+
+        if (principal.getName().equals(selectedPost.getUser().getUserName())) {
+            boolean isThisProfileFromLoggedInUser = true;
+            model.addAttribute("isThisProfileFromLoggedInUser", isThisProfileFromLoggedInUser);
+        }
 
         User postCreator = postService.findById(id).getUser();
         log.info("Successfully founded User that create this Post with username: `{}`", postCreator.getUserName());
@@ -135,13 +141,14 @@ public class UserProfileController {
     @PostMapping("/submit/update/form")
     public String saveUserPostForm(@ModelAttribute("searchedUserProfile") User searchedUserProfile,
                                    @RequestParam("userProfileImage") MultipartFile userProfileImage,
-                                   Principal principal) throws IOException {
+                                   Principal principal, RedirectAttributes redirectAttributes) throws IOException {
         User updatedUser = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", updatedUser.getUserName());
 
 		UserProfile userProfile = userProfileService.save(updatedUser.getUserName(), searchedUserProfile, userProfileImage);
 		log.info("Successfully updated UserProfile for User with username: `{}`", userProfile.getUser().getUserName());
 
+        redirectAttributes.addFlashAttribute("updateProfileMessage", updatedUser.getFirstName() + ", you have successfully updated your Profile!");
         return "redirect:/user/profile/show/update/form";
     }
 }

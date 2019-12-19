@@ -63,6 +63,12 @@
                         </div>
                     </div>
                 </div>
+                <br>
+                <div th:if="${isThisProfileFromLoggedInUser}" style="margin-left: 20px">
+                    <a>
+                        <button type="button" class="btn btn-danger">Delete Post</button>
+                    </a>
+                </div>
                 <div id="card-content">
                     <div class="card-body">
                         <div>

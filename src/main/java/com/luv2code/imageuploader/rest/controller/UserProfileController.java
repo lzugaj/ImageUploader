@@ -1,24 +1,34 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.entity.UserProfile;
-import com.luv2code.imageuploader.service.PostService;
-import com.luv2code.imageuploader.service.UserProfileService;
-import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
+import com.luv2code.imageuploader.entity.Comment;
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.entity.UserProfile;
+import com.luv2code.imageuploader.service.CommentService;
+import com.luv2code.imageuploader.service.PostService;
+import com.luv2code.imageuploader.service.UserProfileService;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Tuesday, December 2019
@@ -33,12 +43,16 @@ public class UserProfileController {
 
     private final PostService postService;
 
+    private final CommentService commentService;
+
     private final UserProfileService userProfileService;
 
     @Autowired
-    public UserProfileController(UserService userService, PostService postService, UserProfileService userProfileService) {
+    public UserProfileController(UserService userService, PostService postService,
+            CommentService commentService, UserProfileService userProfileService) {
         this.userService = userService;
         this.postService = postService;
+        this.commentService = commentService;
         this.userProfileService = userProfileService;
     }
 
@@ -110,6 +124,10 @@ public class UserProfileController {
 		Map<Long, String> userProfileImages = userService.mapAllProfileImages(users);
 		log.info("Successfully mapped all UserProfile images.");
 		model.addAttribute("userProfileImages", userProfileImages);
+
+        List<Comment> comments = commentService.findAll(id);
+        log.info("Successfully founded all Comments for Post id: `{}`", id);
+        model.addAttribute("comments", comments);
 
         return "user-profile/selected-profile-post";
     }

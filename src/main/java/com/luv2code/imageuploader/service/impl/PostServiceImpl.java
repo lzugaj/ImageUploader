@@ -1,21 +1,30 @@
 package com.luv2code.imageuploader.service.impl;
 
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.repository.PostRepository;
-import com.luv2code.imageuploader.repository.UserRepository;
-import com.luv2code.imageuploader.service.PostService;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.repository.PostRepository;
+import com.luv2code.imageuploader.repository.UserRepository;
+import com.luv2code.imageuploader.service.CommentService;
+import com.luv2code.imageuploader.service.PostService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -29,10 +38,14 @@ public class PostServiceImpl implements PostService {
 
 	private final UserRepository userRepository;
 
+	private final CommentService commentService;
+
 	@Autowired
-	public PostServiceImpl(PostRepository postRepository, UserRepository userRepository) {
+	public PostServiceImpl(PostRepository postRepository, UserRepository userRepository,
+			CommentService commentService) {
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
+		this.commentService = commentService;
 	}
 
 	@Override
@@ -242,5 +255,15 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return postsMap;
+	}
+
+	@Override
+	public Map<Long, Integer> numberOfPostComments(List<Post> posts) {
+		Map<Long, Integer> numberOfPostCommentsMap = new HashMap<>();
+		for (Post post : posts) {
+			numberOfPostCommentsMap.put(post.getId(), commentService.numberOfCommentsForPost(post.getId()));
+		}
+
+		return numberOfPostCommentsMap;
 	}
 }

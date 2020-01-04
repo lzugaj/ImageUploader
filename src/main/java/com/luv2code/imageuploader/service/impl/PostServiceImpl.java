@@ -1,30 +1,22 @@
 package com.luv2code.imageuploader.service.impl;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.repository.PostRepository;
 import com.luv2code.imageuploader.repository.UserRepository;
 import com.luv2code.imageuploader.service.CommentService;
 import com.luv2code.imageuploader.service.PostService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -42,7 +34,7 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	public PostServiceImpl(PostRepository postRepository, UserRepository userRepository,
-			CommentService commentService) {
+						   CommentService commentService) {
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
 		this.commentService = commentService;
@@ -265,5 +257,15 @@ public class PostServiceImpl implements PostService {
 		}
 
 		return numberOfPostCommentsMap;
+	}
+
+	@Override
+	public Post delete(Long id) {
+		Post selectedUserPost = postRepository.findById(id).orElse(null);
+		log.info("Successfully founded Post with id: `{}`", id);
+
+		postRepository.delete(selectedUserPost);
+		log.info("Deleting Post with id: `{}`", id);
+		return selectedUserPost;
 	}
 }

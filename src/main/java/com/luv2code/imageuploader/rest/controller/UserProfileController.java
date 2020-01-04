@@ -1,25 +1,5 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.luv2code.imageuploader.entity.Comment;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
@@ -28,8 +8,20 @@ import com.luv2code.imageuploader.service.CommentService;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserProfileService;
 import com.luv2code.imageuploader.service.UserService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.io.IOException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lzugaj on Tuesday, December 2019
@@ -99,7 +91,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/post/{id}")
-    private String showUserProfileSelectedPost(@PathVariable("id") Long id, Model model, Principal principal) {
+    private String showUserProfileSelectedPost(@PathVariable Long id, Model model, Principal principal) {
         Post selectedPost = postService.findById(id);
         log.info("Successfully founded Post with id: `{}`", id);
         model.addAttribute("selectedPost", selectedPost);
@@ -168,5 +160,16 @@ public class UserProfileController {
 
         redirectAttributes.addFlashAttribute("updateProfileMessage", updatedUser.getFirstName() + ", you have successfully updated your Profile!");
         return "redirect:/user/profile/show/update/form";
+    }
+
+    @GetMapping("/delete/{username}/post/{id}")
+    public String deleteUserPost(@PathVariable String username, @PathVariable Long id,
+                                 Model model, RedirectAttributes redirectAttributes) {
+        Post selectedPost = postService.delete(id);
+        log.info("Successfully deleted Post with id: `{}`", selectedPost.getId());
+
+        model.addAttribute("selectedPostId", id);
+        redirectAttributes.addFlashAttribute("deletedUserPost", username + ", you have successfully deleted your Post!");
+        return "redirect:/user/profile/{username}";
     }
 }

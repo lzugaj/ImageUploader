@@ -43,6 +43,8 @@ public interface PostService {
 
 	List<Post> filterPostsByAllCriteria(String hashTag, Double sizeFrom, Double sizeTo, Date dateFrom, Date dateTo, String author);
 
-  Map<Long, Integer> numberOfPostComments(List<Post> posts);
+  	Map<Long, Integer> numberOfPostComments(List<Post> posts);
+
+  	Post delete(Long id);
 
 }

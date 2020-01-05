@@ -42,3 +42,13 @@ insert into "package_image_format" values (3, 5);
 insert into "package_image_format" values (3, 6);
 insert into "package_image_format" values (3, 7);
 insert into "package_image_format" values (3, 8);
+
+-- Insert into table UserProfile
+insert into "user_profile" values (100, 'Administrator', 'Croatia', 'Zagreb', 'Developer of this application', 'Zugi Corporation', 1996, 2100, true, 'Algebra University', 'Developer', 'Mobile developer', 'MS', 2021, null);
+
+-- Insert into table User
+insert into "user" values (100, 'Admin', 'Administrator', 'admin@gmail.com', 'admin', '$2y$10$qKLSxu4VhA31IKOHK014aemsJkoTzVSPF6HgzHrdY0g4zkUULG3Ga', 0, 0, 100, 3);
+
+-- Insert into table UserRoles
+insert into "user_roles" values (100, 1);
+insert into "user_roles" values (100, 2);

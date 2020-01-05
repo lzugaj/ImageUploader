@@ -52,6 +52,9 @@
                                 <span th:text="${session.user.firstName} + ' ' + ${session.user.lastName}"></span>
                             </div>
                             <hr>
+                            <a class="dropdown-item" th:href="@{/users/list}" th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+                                <img th:src="@{images/user-options/users-list.png}" alt="Users List" title="Users List">Users List
+                            </a>
                             <a class="dropdown-item" th:href="@{/user/profile/{username}(username = ${session.user.userName})}">
                                 <img th:src="@{images/user-options/profile.png}" alt="Profile" title="Profile">Profile
                             </a>

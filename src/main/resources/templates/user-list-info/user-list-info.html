@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Image Uploader</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" type="text/css" th:href="@{/css/user-list-info.css}">
+    </head>
+    <body>
+        <div id="container">
+            <br>
+            <h1>List of all Users in application and their information(statistics)</h1>
+            <hr>
+            <table>
+                <thead>
+                    <tr>
+                        <td>First name</td>
+                        <td>Last name</td>
+                        <td>Username</td>
+                        <td>Email</td>
+                        <td>Package name</td>
+                        <td>User Info</td>
+                        <td>Update User</td>
+                        <td>Delete User</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="user : ${users}">
+                        <td><span th:text="${user.firstName}">First Name</span></td>
+                        <td><span th:text="${user.lastName}">Last Name</span></td>
+                        <td><span th:text="${user.userName}">Username</span></td>
+                        <td><span th:text="${user.email}">Email</span></td>
+                        <td><span th:text="${user.userPackage.name}">Package name</span></td>
+                        <td>
+                            <a th:href="@{/users/list/{username}/info(username = ${user.userName})}">
+                                <img th:src="@{/images/user-list-info/user-info.png}" alt="User info" title="User info">
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="@{/users/list/{username}/update(username = ${user.userName})}">
+                                <img th:src="@{/images/user-list-info/user-update.png}" alt="User update" title="User update">
+                            </a>
+                        </td>
+                        <td>
+                            <a th:href="@{/users/list/{username}/delete(username = ${user.userName})}">
+                                <img th:src="@{/images/user-list-info/user-delete.png}" alt="User delete" title="User delete">
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

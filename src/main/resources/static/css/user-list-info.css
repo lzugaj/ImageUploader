@@ -1,0 +1,35 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+table {
+    width: 100%;
+    margin: 20px auto;
+    table-layout: auto;
+}
+
+.fixed {
+    table-layout: fixed;
+}
+
+table, td, th {
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border: solid 1px;
+    text-align: center;
+}
+
+img {
+    width: 25px;
+    height: 25px;
+}

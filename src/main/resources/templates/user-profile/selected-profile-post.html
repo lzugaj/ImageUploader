@@ -69,6 +69,9 @@
                 <div th:if="${isThisProfileFromLoggedInUser}" style="margin-left: 20px">
                     <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#updateModal">Delete Post</button>
                 </div>
+                <span th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}" style="margin-left: 20px">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#updateModal">Delete Post</button>
+                </span>
 
                 <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">

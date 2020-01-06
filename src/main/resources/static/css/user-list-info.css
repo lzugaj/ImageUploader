@@ -33,3 +33,30 @@ img {
     width: 25px;
     height: 25px;
 }
+
+ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+}
+
+a:hover {
+    color: #ff9900;
+}
+
+#linkToIndexPage {
+    margin-left: -40px;
+}
+
+#linkToPreviousPage {
+    color: white;
+    margin: 0 10px;
+}

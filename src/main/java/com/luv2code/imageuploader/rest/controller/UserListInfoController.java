@@ -10,9 +10,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Created by lzugaj on Sunday, January 2020
@@ -57,6 +59,35 @@ public class UserListInfoController {
 		log.info("Successfully mapped all UserProfile images.");
 		model.addAttribute("userProfileImages", userProfileImages);
 
+		int numberOfPostsForUser = userListInfoService.getNumberOfPostsForUser(username);
+		log.info("Successfully founded all Posts for searched User with username: `{}`", username);
+		model.addAttribute("numberOfPostsForUser", numberOfPostsForUser);
+
+		int numberOfCommentsForUser = userListInfoService.getNumberOfCommentsForUser(username);
+		log.info("Successfully founded all Comments for searched User with username: `{}`", username);
+		model.addAttribute("numberOfCommentsForUser", numberOfCommentsForUser);
+
+		int numberOfDownloadImagesForUser = userListInfoService.getNumberOfDownloadImagesForUser(username);
+		log.info("Successfully founded all downloaded images for searched User with username: `{}`", username);
+		model.addAttribute("numberOfDownloadImagesForUser", numberOfDownloadImagesForUser);
+
+		int numberOfUploadedImagesWithCurrentPackage = userListInfoService.getNumberOfUploadedImagesWithCurrentPackageForUser(username);
+		log.info("Successfully founded all uploaded images with current package for searched User with username: `{}`", username);
+		model.addAttribute("numberOfUploadedImagesWithCurrentPackage", numberOfUploadedImagesWithCurrentPackage);
+
+		long numberOfUploadedImageSizeWithCurrentPackage = userListInfoService.getNumberOfUploadedImageSizeWithCurrentPackageForUser(username);
+		log.info("Successfully founded all uploaded image size with current package for searched User with username: `{}`", username);
+		model.addAttribute("numberOfUploadedImageSizeWithCurrentPackage", numberOfUploadedImageSizeWithCurrentPackage);
+
 		return "user-list-info/user-info";
+	}
+
+	@GetMapping("/{id}/delete")
+	public String deleteUserFromList(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+		Optional<User> chosenUser = userListInfoService.delete(id);
+		log.info("Successfully delete User with id: `{}`", id);
+
+		redirectAttributes.addFlashAttribute("deleteUserMessage", "You have successfully deleted User with id: " + id);
+		return "redirect:/users/list";
 	}
 }

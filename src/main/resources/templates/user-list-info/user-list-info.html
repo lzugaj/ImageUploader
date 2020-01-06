@@ -12,6 +12,20 @@
     </head>
     <body>
         <div id="container">
+            <div>
+                <br>
+                <nav>
+                    <ul>
+                        <li id="linkToIndexPage">
+                            <a th:href="@{/home}">Home <span id="breadcrumbSeparator">></span></a>
+                        </li>
+                        <li id="linkToPreviousPage">
+                            <a>User List</a>
+                        </li>
+                    </ul>
+                </nav>
+                <br>
+            </div>
             <br>
             <h1>List of all Users in application and their information(statistics)</h1>
             <hr>
@@ -46,10 +60,34 @@
                             </a>
                         </td>
                         <td>
-                            <a th:href="@{/users/list/{username}/delete(username = ${user.userName})}">
+                            <a data-toggle="modal" data-target="#updateModal">
                                 <img th:src="@{/images/user-list-info/user-delete.png}" alt="User delete" title="User delete">
                             </a>
                         </td>
+
+                        <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete User Post</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <p class="col-form-label">Are you sure you want to delete selected User?</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <a th:href="@{/users/list/{id}/delete(id = ${user.id})}">
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </tr>
                 </tbody>
             </table>

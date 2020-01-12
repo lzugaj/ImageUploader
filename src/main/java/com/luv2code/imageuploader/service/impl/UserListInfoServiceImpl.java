@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * Created by lzugaj on Sunday, January 2020
@@ -118,8 +117,8 @@ public class UserListInfoServiceImpl implements UserListInfoService {
 	}
 
 	@Override
-	public Optional<User> delete(Long id) {
-		Optional<User> searchedUser = userRepository.findById(id);
+	public User delete(Long id) {
+		User searchedUser = userRepository.findById(id).orElse(null);
 		log.info("Successfully founded User with id: `{}`", id);
 
 		userRepository.deleteById(id);

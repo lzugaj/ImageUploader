@@ -35,7 +35,7 @@ public class PackageTrackerController {
     }
 
     @GetMapping("/{username}")
-    private String showUserPackageTracker(@PathVariable("username") String username, Model model) {
+    private String showUserPackageTracker(@PathVariable String username, Model model) {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", searchedUser.getUserName());
 

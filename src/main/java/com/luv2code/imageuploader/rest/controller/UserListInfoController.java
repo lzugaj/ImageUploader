@@ -1,6 +1,7 @@
 package com.luv2code.imageuploader.rest.controller;
 
 import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserListInfoService;
 import com.luv2code.imageuploader.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 /**
  * Created by lzugaj on Sunday, January 2020
@@ -29,10 +29,14 @@ public class UserListInfoController {
 
 	private UserService userService;
 
+	private PostService postService;
+
 	@Autowired
-	public UserListInfoController(UserListInfoService userListInfoService, UserService userService) {
+	public UserListInfoController(UserListInfoService userListInfoService, UserService userService,
+			PostService postService) {
 		this.userListInfoService = userListInfoService;
 		this.userService = userService;
+		this.postService = postService;
 	}
 
 	@GetMapping
@@ -84,8 +88,11 @@ public class UserListInfoController {
 
 	@GetMapping("/{id}/delete")
 	public String deleteUserFromList(@PathVariable Long id, RedirectAttributes redirectAttributes) {
-		Optional<User> chosenUser = userListInfoService.delete(id);
-		log.info("Successfully delete User with id: `{}`", id);
+		postService.deleteAllUserPosts(id);
+		log.info("Successfully deleted all Posts for User with id: `{}`", id);
+
+		User chosenUser = userListInfoService.delete(id);
+		log.info("Successfully delete User with username: `{}`", chosenUser.getUserName());
 
 		redirectAttributes.addFlashAttribute("deleteUserMessage", "You have successfully deleted User with id: " + id);
 		return "redirect:/users/list";

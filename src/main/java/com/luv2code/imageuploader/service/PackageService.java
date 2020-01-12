@@ -1,8 +1,8 @@
 package com.luv2code.imageuploader.service;
 
-import java.util.List;
-
 import com.luv2code.imageuploader.entity.Package;
+
+import java.util.List;
 
 /**
  * Created by lzugaj on Wednesday, November 2019
@@ -10,7 +10,7 @@ import com.luv2code.imageuploader.entity.Package;
 
 public interface PackageService {
 
-	Package findOne(Long id);
+	Package findById(Long id);
 
 	List<Package> findAll();
 

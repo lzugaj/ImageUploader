@@ -4,6 +4,7 @@ import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
+import com.luv2code.imageuploader.utils.MessageError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -47,7 +48,7 @@ public class FilterPostController {
             @RequestParam(value = "author", required = false) String author,
             RedirectAttributes redirectAttributes) throws ParseException {
         if (hashTag.isEmpty() || sizeFrom == null || dateFrom.equals("") || author.isEmpty()) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Please fill all fields.");
+            redirectAttributes.addFlashAttribute("errorMessage", MessageError.PLEASE_FILL_ALL_REQUIRED_FIELDS);
             return "redirect:/home";
         }
 

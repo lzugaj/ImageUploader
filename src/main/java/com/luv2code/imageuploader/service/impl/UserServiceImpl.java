@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
         User searchedUser = userRepository.findByUserName(username);
         log.info("Successfully founded User with username: `{}`.", username);
 
-        Package searchedPackage = packageService.findOne(packageId);
+        Package searchedPackage = packageService.findById(packageId);
         log.info("Successfully founded Package with id: `{}`.", packageId);
 
         searchedUser.setUserPackage(searchedPackage);

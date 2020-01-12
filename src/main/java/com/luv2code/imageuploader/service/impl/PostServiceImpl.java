@@ -75,7 +75,6 @@ public class PostServiceImpl implements PostService {
 		log.info("Getting User with id: `{}`.", user.getId());
 		String imageFileName = StringUtils.cleanPath(postImage.getOriginalFilename());
 		log.info("Successfully get image file name: `{}`.", imageFileName);
-
 		Post newPost = null;
 		if (postCreator != null) {
 			newPost = setVariablesBeforeSave(postCreator, postImage, postDescription, postHashTags);

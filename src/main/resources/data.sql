@@ -23,9 +23,9 @@ insert into "image_format" values (7, 'bmp');
 insert into "image_format" values (8, 'bpg');
 
 -- Insert into table Package
-insert into "package" values (1, 'FREE', 1, 10);
-insert into "package" values (2, 'PRO', 8, 20);
-insert into "package" values (3, 'GOLD', 25, 50);
+insert into "package" values (1, 'FREE', 1, 5);
+insert into "package" values (2, 'PRO', 5, 10);
+insert into "package" values (3, 'GOLD', 15, 20);
 
 -- Insert into table PackageImageFormat
 insert into "package_image_format" values (1, 1);

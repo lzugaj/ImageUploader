@@ -39,7 +39,7 @@ public class PackageTrackerController {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", searchedUser.getUserName());
 
-        Package userPackage = packageService.findOne(searchedUser.getUserPackage().getId());
+        Package userPackage = packageService.findById(searchedUser.getUserPackage().getId());
         log.info("Successfully founded Package(´{}´) for User with username: `{}`", userPackage.getName(), searchedUser.getUserName());
 
         BigDecimal currentUploadSizeOfImages = BigDecimal.valueOf(searchedUser.getUploadedImageSizeWithCurrentPackage()).divide(BigDecimal.valueOf(1000000), 3, RoundingMode.CEILING);

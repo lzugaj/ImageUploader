@@ -1,30 +1,24 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.luv2code.imageuploader.entity.Comment;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.CommentService;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
-
+import com.luv2code.imageuploader.utils.MessageSuccess;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by lzugaj on Thursday, December 2019
@@ -60,7 +54,7 @@ public class CommentController {
         Comment newComment = commentService.save(description, principal.getName(), postId);
         log.info("Successfully create new Comment for `{}` with id: `{}`", principal.getName(), newComment.getId());
 
-        redirectAttributes.addFlashAttribute("createdNewComment", principal.getName() + ", you have successfully added new comment! :)");
+        redirectAttributes.addFlashAttribute("createdNewComment", principal.getName() + MessageSuccess.SUCCESSFULLY_ADDED_COMMENT);
         return "redirect:/home";
     }
 

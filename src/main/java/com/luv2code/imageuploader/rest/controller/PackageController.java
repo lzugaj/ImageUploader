@@ -1,20 +1,18 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import java.security.Principal;
-import java.util.List;
-
+import com.luv2code.imageuploader.entity.Package;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.PackageService;
+import com.luv2code.imageuploader.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.luv2code.imageuploader.entity.Package;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.PackageService;
-import com.luv2code.imageuploader.service.UserService;
-
-import lombok.extern.slf4j.Slf4j;
+import java.security.Principal;
+import java.util.List;
 
 /**
  * Created by lzugaj on Wednesday, November 2019
@@ -50,7 +48,7 @@ public class PackageController {
 	}
 
 	@GetMapping("/{packageId}")
-	private String saveUserPackageOptionForm(@PathVariable("packageId") Long packageId, Principal principal, Model model) {
+	private String saveUserPackageOptionForm(@PathVariable Long packageId, Principal principal, Model model) {
 		String username = principal.getName();
 		log.info("Saving Package option for User with username: `{}`.", username);
 		User user = userService.choosePackageOption(packageId, principal.getName());

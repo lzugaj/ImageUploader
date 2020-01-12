@@ -268,4 +268,15 @@ public class PostServiceImpl implements PostService {
 		log.info("Deleting Post with id: `{}`", id);
 		return selectedUserPost;
 	}
+
+	@Override
+	public void deleteAllUserPosts(Long id) {
+		List<Post> posts = findAll();
+		log.info("Successfully founded all Posts for User with id: `{}`", id);
+		for (Post post : posts) {
+			if (post.getUser().getId().equals(id)) {
+				delete(post.getId());
+			}
+		}
+	}
 }

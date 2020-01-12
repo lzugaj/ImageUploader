@@ -56,7 +56,7 @@ public class UserProfileController {
     }
 
     @GetMapping("/{username}")
-    private String showUserProfileInfo(@PathVariable("username") String username, Model model, Principal principal) {
+    private String showUserProfileInfo(@PathVariable String username, Model model, Principal principal) {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", username);
         model.addAttribute("user", searchedUser);

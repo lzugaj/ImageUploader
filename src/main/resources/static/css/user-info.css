@@ -1,0 +1,64 @@
+body {
+    background: #C33764;
+    background: -webkit-linear-gradient(to right, #1D2671, #C33764);
+    background: linear-gradient(to right, #1D2671, #C33764);
+}
+
+#container {
+    margin: 0 auto;
+    max-width: 1300px;
+}
+
+#image img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.profileImage img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+}
+
+.info {
+    text-align: justify;
+}
+
+.col {
+    font-size: 25px;
+}
+
+.info-text {
+    font-style: italic;
+}
+
+.info-div {
+    margin-top: 30px;
+}
+
+ul {
+    list-style-type: none;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+}
+
+a:hover {
+    color: #ff9900;
+}
+
+#linkToIndexPage {
+    margin-left: -40px;
+}
+
+#linkToPreviousPage {
+    color: white;
+    margin: 0 10px;
+}

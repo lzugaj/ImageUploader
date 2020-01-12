@@ -47,4 +47,6 @@ public interface PostService {
 
   	Post delete(Long id);
 
+  	void deleteAllUserPosts(Long id);
+
 }

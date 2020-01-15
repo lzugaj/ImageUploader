@@ -20,6 +20,8 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.Objects;
 
@@ -74,6 +76,7 @@ public class PostController {
 		switch (user.getUserPackage().getName()) {
 			case Utils.FREE:
 				if (isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, Utils.ID_FREE)
+						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, Utils.ID_FREE)
 						|| !isImageFileContainsExtensionForCurrentPackage(imageExtension, Utils.ID_FREE)) {
 					redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
 					return "redirect:/user/post/create/form";
@@ -85,6 +88,7 @@ public class PostController {
 				break;
 			case Utils.PRO:
 				if (isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, Utils.ID_PRO)
+						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, Utils.ID_PRO)
 						|| !isImageFileContainsExtensionForCurrentPackage(imageExtension, Utils.ID_PRO)) {
 					redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
 					return "redirect:/user/post/create/form";
@@ -96,6 +100,7 @@ public class PostController {
 				break;
 			case Utils.GOLD:
 				if (isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, Utils.ID_GOLD)
+						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, Utils.ID_GOLD)
 						|| !isImageFileContainsExtensionForCurrentPackage(imageExtension, Utils.ID_GOLD)) {
 					redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
 					return "redirect:/user/post/create/form";
@@ -114,6 +119,17 @@ public class PostController {
 	private boolean isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(User user, Long packageId) {
 		boolean result = false;
 		if (user.getUploadedImagesWithCurrentPackage() >= packageService.findById(packageId).getDailyUploadLimit()) {
+			result = true;
+		}
+
+		return result;
+	}
+
+	private boolean isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(User user, Long packageId) {
+		boolean result = false;
+		BigDecimal currentImageSize = BigDecimal.valueOf(user.getUploadedImageSizeWithCurrentPackage()).divide(BigDecimal.valueOf(1000000), 3, RoundingMode.CEILING);
+		BigDecimal uploadSize = BigDecimal.valueOf(packageService.findById(packageId).getUploadSize());
+		if (Double.parseDouble(String.valueOf(currentImageSize)) > Double.parseDouble(String.valueOf(uploadSize))) {
 			result = true;
 		}
 

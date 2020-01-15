@@ -38,15 +38,15 @@ public class PackageTrackerController {
     private String showUserPackageTracker(@PathVariable String username, Model model) {
         User searchedUser = userService.findByUserName(username);
         log.info("Successfully founded User with username: `{}`", searchedUser.getUserName());
+        model.addAttribute("user", searchedUser);
 
         Package userPackage = packageService.findById(searchedUser.getUserPackage().getId());
         log.info("Successfully founded Package(´{}´) for User with username: `{}`", userPackage.getName(), searchedUser.getUserName());
+        model.addAttribute("package", userPackage);
 
         BigDecimal currentUploadSizeOfImages = BigDecimal.valueOf(searchedUser.getUploadedImageSizeWithCurrentPackage()).divide(BigDecimal.valueOf(1000000), 3, RoundingMode.CEILING);
         model.addAttribute("currentUploadSizeOfImages", currentUploadSizeOfImages);
 
-        model.addAttribute("package", userPackage);
-        model.addAttribute("user", searchedUser);
         return "package-tracker/package-tracker-info";
     }
 }

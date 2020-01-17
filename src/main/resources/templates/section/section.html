@@ -52,10 +52,10 @@
                 <div id="card-content">
                     <div class="card-body">
                         <div th:each="image : ${postImages}">
-                            <div th:if="${post.id == image.key}">
+                            <div th:if="${image.key == post.id}">
                                 <div id="postImage">
                                     <a data-toggle="modal" data-target="#exampleModalLong">
-                                        <img th:src="${'data:image/*;base64,' + image.value}" width="925" height="500">
+                                        <img th:src="${'data:image/png;base64,' + image.value}" width="925" height="500">
                                     </a>
                                 </div>
 

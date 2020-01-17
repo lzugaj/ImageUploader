@@ -1,5 +1,6 @@
 package com.luv2code.imageuploader.rest.controller;
 
+import com.luv2code.imageuploader.entity.ImageFormat;
 import com.luv2code.imageuploader.entity.Package;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PackageService;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 /**
  * Created by lzugaj on Monday, December 2019
@@ -46,6 +48,16 @@ public class PackageTrackerController {
 
         BigDecimal currentUploadSizeOfImages = BigDecimal.valueOf(searchedUser.getUploadedImageSizeWithCurrentPackage()).divide(BigDecimal.valueOf(1000000), 3, RoundingMode.CEILING);
         model.addAttribute("currentUploadSizeOfImages", currentUploadSizeOfImages);
+
+        List<ImageFormat> packageExtensions = userPackage.getImageFormats();
+        log.info("Successfully founded all ImageFormat extensions for User with username: `{}`", username);
+
+        StringBuilder extensions = new StringBuilder();
+        for (ImageFormat imageFormat : packageExtensions) {
+            extensions.append(imageFormat.getExtensionName()).append(", ");
+        }
+
+        model.addAttribute("packageExtensions", extensions);
 
         return "package-tracker/package-tracker-info";
     }

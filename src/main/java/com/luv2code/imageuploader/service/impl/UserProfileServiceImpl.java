@@ -12,6 +12,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Objects;
 
 /**
  * Created by lzugaj on Tuesday, December 2019
@@ -43,7 +44,7 @@ public class UserProfileServiceImpl implements UserProfileService {
 		User user = userRepository.findByUserName(username);
 		log.info("Getting User with id: `{}`.", updatedUser.getId());
 
-		String imageFileName = StringUtils.cleanPath(userProfileImage.getOriginalFilename());
+		String imageFileName = StringUtils.cleanPath(Objects.requireNonNull(userProfileImage.getOriginalFilename()));
 		log.info("Successfully get image file name: `{}`.", imageFileName);
 
 		UserProfile updatedUserProfile = userProfileRepository.findById(user.getId()).orElse(null);

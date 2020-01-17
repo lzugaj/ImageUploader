@@ -8,6 +8,7 @@ import com.luv2code.imageuploader.service.CommentService;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserProfileService;
 import com.luv2code.imageuploader.service.UserService;
+import com.luv2code.imageuploader.utils.MessageSuccess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -158,7 +159,7 @@ public class UserProfileController {
 		UserProfile userProfile = userProfileService.save(updatedUser.getUserName(), searchedUserProfile, userProfileImage);
 		log.info("Successfully updated UserProfile for User with username: `{}`", userProfile.getUser().getUserName());
 
-        redirectAttributes.addFlashAttribute("updateProfileMessage", updatedUser.getFirstName() + ", you have successfully updated your Profile!");
+        redirectAttributes.addFlashAttribute("updateProfileMessage", updatedUser.getFirstName() + MessageSuccess.SUCCESSFULLY_UPDATE_USER_PROFILE);
         return "redirect:/user/profile/show/update/form";
     }
 
@@ -169,7 +170,7 @@ public class UserProfileController {
         log.info("Successfully deleted Post with id: `{}`", selectedPost.getId());
 
         model.addAttribute("selectedPostId", id);
-        redirectAttributes.addFlashAttribute("deletedUserPost", username + ", you have successfully deleted your Post!");
+        redirectAttributes.addFlashAttribute("deletedUserPost", username + MessageSuccess.SUCCESSFULLY_DELETE_POST);
         return "redirect:/user/profile/{username}";
     }
 }

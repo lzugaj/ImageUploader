@@ -71,6 +71,15 @@
                             <span th:text="${currentUploadSizeOfImages + ' MB'}">Daily Package Image Limit</span>
                         </td>
                     </tr>
+
+                    <tr>
+                        <td>
+                            Available image extensions:
+                        </td>
+                        <td>
+                            <span th:text="${packageExtensions}">Image extensions</span>
+                        </td>
+                    </tr>
                 </table>
             </div>
             <hr>

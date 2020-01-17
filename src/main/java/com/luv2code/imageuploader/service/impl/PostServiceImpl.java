@@ -73,17 +73,22 @@ public class PostServiceImpl implements PostService {
 	public Post save(User user, MultipartFile postImage, String postDescription, String postHashTags) throws IOException {
 		User postCreator = userRepository.findById(user.getId()).orElse(null);
 		log.info("Getting User with id: `{}`.", user.getId());
-		String imageFileName = StringUtils.cleanPath(postImage.getOriginalFilename());
+		String imageFileName = StringUtils.cleanPath(Objects.requireNonNull(postImage.getOriginalFilename()));
 		log.info("Successfully get image file name: `{}`.", imageFileName);
-
 		Post newPost = null;
 		if (postCreator != null) {
 			newPost = setVariablesBeforeSave(postCreator, postImage, postDescription, postHashTags);
 			log.info("Setting Post attributes.");
 		}
 
-		newPost = postRepository.save(newPost);
-		log.info("Saving new Post with id: `{}`.", newPost.getId());
+		if (newPost != null) {
+			newPost = postRepository.save(newPost);
+		}
+
+		if (newPost != null) {
+			log.info("Saving new Post with id: `{}`.", newPost.getId());
+		}
+
 		return newPost;
 	}
 
@@ -263,8 +268,15 @@ public class PostServiceImpl implements PostService {
 	public Post delete(Long id) {
 		Post selectedUserPost = postRepository.findById(id).orElse(null);
 		log.info("Successfully founded Post with id: `{}`", id);
+		if (selectedUserPost != null) {
+			postRepository.delete(selectedUserPost);
 
-		postRepository.delete(selectedUserPost);
+			User searchedUser = selectedUserPost.getUser();
+			searchedUser.setUploadedImagesWithCurrentPackage(searchedUser.getUploadedImagesWithCurrentPackage() - 1);
+			searchedUser.setUploadedImageSizeWithCurrentPackage(searchedUser.getUploadedImageSizeWithCurrentPackage() - selectedUserPost.getImageFileSize());
+			userRepository.save(searchedUser);
+		}
+
 		log.info("Deleting Post with id: `{}`", id);
 		return selectedUserPost;
 	}

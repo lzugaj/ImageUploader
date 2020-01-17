@@ -4,6 +4,7 @@ import com.luv2code.imageuploader.entity.Package;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PackageService;
 import com.luv2code.imageuploader.service.UserService;
+import com.luv2code.imageuploader.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,6 +45,26 @@ public class PackageController {
 		List<Package> packages = packageService.findAll();
 		model.addAttribute("packages", packages);
 		log.info("Successfully fetched all Packages.");
+
+		StringBuilder freeExtensions = new StringBuilder();
+		for (String extension : Utils.FREE_EXTENSION_LIST) {
+			freeExtensions.append(extension).append(", ");
+		}
+
+		StringBuilder proExtensions = new StringBuilder();
+		for (String extension : Utils.PRO_EXTENSION_LIST) {
+			proExtensions.append(extension).append(", ");
+		}
+
+		StringBuilder goldExtensions = new StringBuilder();
+		for (String extension : Utils.GOLD_EXTENSION_LIST) {
+			goldExtensions.append(extension).append(", ");
+		}
+
+		model.addAttribute("freeExtensions", freeExtensions);
+		model.addAttribute("proExtensions", proExtensions);
+		model.addAttribute("goldExtensions", goldExtensions);
+
 		return "user-package/user-package-form";
 	}
 
@@ -51,9 +72,11 @@ public class PackageController {
 	private String saveUserPackageOptionForm(@PathVariable Long packageId, Principal principal, Model model) {
 		String username = principal.getName();
 		log.info("Saving Package option for User with username: `{}`.", username);
+
 		User user = userService.choosePackageOption(packageId, principal.getName());
 		log.info("Successfully saved Package option with id `{}` to User with username `{}`.", packageId, username);
 		model.addAttribute("user", user);
+
 		return "redirect:/home";
 	}
 }

@@ -4,6 +4,7 @@ import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserListInfoService;
 import com.luv2code.imageuploader.service.UserService;
+import com.luv2code.imageuploader.utils.MessageSuccess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -94,7 +95,7 @@ public class UserListInfoController {
 		User chosenUser = userListInfoService.delete(id);
 		log.info("Successfully delete User with username: `{}`", chosenUser.getUserName());
 
-		redirectAttributes.addFlashAttribute("deleteUserMessage", "You have successfully deleted User with id: " + id);
+		redirectAttributes.addFlashAttribute("deleteUserMessage", MessageSuccess.SUCCESSFULLY_DELETE_USER + id);
 		return "redirect:/users/list";
 	}
 }

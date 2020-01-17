@@ -23,7 +23,7 @@ public class PackageServiceImpl implements PackageService {
 	}
 
 	@Override
-	public Package findOne(Long id) {
+	public Package findById(Long id) {
 		Package searchedPackage = packageRepository.findById(id).orElse(null);
 		log.info("Searching Package with id: `{}`.", id);
 		return searchedPackage;

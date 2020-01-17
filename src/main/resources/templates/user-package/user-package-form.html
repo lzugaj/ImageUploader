@@ -43,6 +43,22 @@
                                         <p th:text="${package.dailyUploadLimit} + ' images'" class="card-text">Content</p>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <p>Available image extensions: </p>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <span th:if="${package.name == 'FREE'}">
+                                            <p th:text="${freeExtensions}" class="card-text">Extensions</p>
+                                        </span>
+                                        <span th:if="${package.name == 'PRO'}">
+                                            <p th:text="${proExtensions}" class="card-text">Extensions</p>
+                                        </span>
+                                        <span th:if="${package.name == 'GOLD'}">
+                                            <p th:text="${goldExtensions}" class="card-text">Extensions</p>
+                                        </span>
+                                    </div>
+                                </div>
                                 <br>
                                 <div class="text-center">
                                     <a th:href="@{/user/package/option/{packageId}(packageId = ${package.id})}" class="btn btn-primary">Choose</a>

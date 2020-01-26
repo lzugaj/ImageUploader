@@ -46,7 +46,9 @@ a:hover {
     margin-bottom: 25px;
 }
 
-#loginButton {
+.loginButton {
+    position: relative;
+    left: 25%;
     text-align: center;
     margin-top: 10px;
 }

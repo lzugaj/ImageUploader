@@ -34,7 +34,30 @@ public class PackageController {
 	}
 
 	@GetMapping
-	private String showUserPackageOptionForm(Model model, Principal principal) {
+	private String showUserPackageOptionForm(Model model, Principal principal /*OAuth2AuthenticationToken authentication*/) {
+//		OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
+//				authentication.getAuthorizedClientRegistrationId(),
+//				authentication.getName());
+//		String userInfoEndpointUri = client.getClientRegistration()
+//				.getProviderDetails()
+//				.getUserInfoEndpoint()
+//				.getUri();
+//
+//		if (!StringUtils.isEmpty(userInfoEndpointUri)) {
+//			RestTemplate restTemplate = new RestTemplate();
+//			HttpHeaders headers = new HttpHeaders();
+//			headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + client.getAccessToken().getTokenValue());
+//			HttpEntity<String> entity = new HttpEntity<>("", headers);
+//			ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
+//			Map userAttributes = response.getBody();
+//			if (userAttributes != null) {
+//				model.addAttribute("name", userAttributes.get("name"));
+//			}
+//
+//			log.info("Founded user: ´{}´", userAttributes.get("name"));
+//			log.info("Social Sign In with: ´{}´", authentication.getAuthorizedClientRegistrationId());
+//		}
+
 		User user = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 		if (user.getUserPackage() != null) {

@@ -6,6 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <link rel="stylesheet" type="text/css" th:href="@{/css/user-list-info.css}">
@@ -29,6 +30,8 @@
             <br>
             <h1>List of all Users in application and their information(statistics)</h1>
             <hr>
+            <a th:href="@{/users/list}" class="btn btn-primary">Sort by name ASC</a>
+            <a th:href="@{/users/list/sort-by-name-desc}" class="btn btn-primary">Sort by name DESC</a>
             <table>
                 <thead>
                     <tr>
@@ -60,11 +63,14 @@
                             </a>
                         </td>
                         <td>
-                            <a data-toggle="modal" data-target="#updateModal">
-                                <img th:src="@{/images/user-list-info/user-delete.png}" alt="User delete" title="User delete">
+                            <a th:href="@{/users/list/{id}/delete(id = ${user.id})}">
+                                <button class="btn" type="submit">
+                                    <i class="fa fa-trash fa-2x" style="color:black"></i>
+                                </button>
                             </a>
                         </td>
 
+<!--                        data-toggle="modal" data-target="#updateModal"-->
                         <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
@@ -78,6 +84,8 @@
                                         <div class="form-group">
                                             <p class="col-form-label">Are you sure you want to delete selected User?</p>
                                         </div>
+                                        <p th:text="${user.id}"></p>
+                                        <p th:text="${user.userName}"></p>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

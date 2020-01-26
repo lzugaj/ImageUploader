@@ -4,6 +4,8 @@ import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserListInfoService;
 import com.luv2code.imageuploader.service.UserService;
+import com.luv2code.imageuploader.service.impl.sort.SortUserByNameAscImpl;
+import com.luv2code.imageuploader.service.impl.sort.SortUserByNameDescImpl;
 import com.luv2code.imageuploader.utils.MessageSuccess;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +45,18 @@ public class UserListInfoController {
 	@GetMapping
 	public String showUserListInfoTable(Model model) {
 		List<User> users = userListInfoService.findAll();
-		log.info("Successfully founded all Users except Admin");
+		users.sort(new SortUserByNameAscImpl());
+		log.info("Successfully founded all Users except Admin sorted by name in asc mode.");
+
+		model.addAttribute("users", users);
+		return "user-list-info/user-list-info";
+	}
+
+	@GetMapping("/sort-by-name-desc")
+	public String sortUserListInfoTableByNameDESC(Model model) {
+		List<User> users = userListInfoService.findAll();
+		users.sort(new SortUserByNameDescImpl());
+		log.info("Successfully founded all Users except Admin sorted by name in desc mode.");
 
 		model.addAttribute("users", users);
 		return "user-list-info/user-list-info";

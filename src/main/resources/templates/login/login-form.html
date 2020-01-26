@@ -7,6 +7,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
         <script	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/5.1.1/bootstrap-social.css">
         <link rel="stylesheet" type="text/css" th:href="@{css/login.css}">
     </head>
     <body>
@@ -52,9 +54,26 @@
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                 <input type="password" name="password" placeholder="Password" class="form-control" >
                             </div>
-                            <div id="loginButton" class="form-group">
-                                <div class="col-sm-12 controls">
+                            <div class="form-group loginButton">
+                                <div class="col-lg-6 col-md-6 col-sm-6">
                                     <button type="submit" class="btn btn-success">Login</button>
+                                </div>
+                            </div>
+                            <hr>
+                            <div>
+                                <div class="form-group loginButton">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <a id="google-button" th:href="${googleUrl}" class="btn btn-block btn-social btn-google">
+                                            <i class="fa fa-google"></i> Sign in with Google
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="form-group loginButton">
+                                    <div class="col-lg-6 col-md-6 col-sm-6">
+                                        <a id="github-button" th:href="${githubUrl}" class="btn btn-block btn-social btn-github">
+                                            <i  class="fa fa-github"></i> Sign in with Github
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </form>

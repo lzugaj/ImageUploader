@@ -81,7 +81,11 @@
                         </div>
                         <div id="postIcons" class="input-group">
                             <img th:src="@{/images/post/hearth.png}" alt="Like" title="Like" id="hearthIcon">
-                            <img th:src="@{/images/post/download.png}" alt="Download" title="Download" id="downloadIcon">
+
+                            <a th:href="@{/download/image/{id}(id = ${post.id})}">
+                                <img th:src="@{/images/post/download.png}" alt="Download" title="Download" id="downloadIcon">
+                            </a>
+
                             <img th:src="@{/images/post/save.png}" alt="Save To Profile" title="Save To Profile" id="saveToProfileIcon">
                         </div>
                         <br>

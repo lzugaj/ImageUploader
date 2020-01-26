@@ -24,6 +24,8 @@ public abstract class Utils {
 
 	public static final String[] GOLD_EXTENSION_LIST = {"jpg", "png", "gif", "jpeg", "exif", "tiff", "bmp", "bpg"};
 
+	public static final String ADMIN = "admin";
+
 	private Utils() {
 		// Default constructor
 	}

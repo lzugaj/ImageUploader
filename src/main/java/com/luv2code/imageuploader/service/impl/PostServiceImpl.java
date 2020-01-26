@@ -83,9 +83,6 @@ public class PostServiceImpl implements PostService {
 
 		if (newPost != null) {
 			newPost = postRepository.save(newPost);
-		}
-
-		if (newPost != null) {
 			log.info("Saving new Post with id: `{}`.", newPost.getId());
 		}
 

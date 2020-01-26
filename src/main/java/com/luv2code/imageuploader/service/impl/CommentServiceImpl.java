@@ -1,13 +1,5 @@
 package com.luv2code.imageuploader.service.impl;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
-
 import com.luv2code.imageuploader.entity.Comment;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
@@ -15,8 +7,14 @@ import com.luv2code.imageuploader.repository.CommentRepository;
 import com.luv2code.imageuploader.service.CommentService;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
-
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by lzugaj on Thursday, December 2019
@@ -57,7 +55,7 @@ public class CommentServiceImpl implements CommentService {
         return newComment;
     }
 
-    private void setUpVariables(Comment newComment, String description, User user, Post commentedPost) {
+    private static void setUpVariables(Comment newComment, String description, User user, Post commentedPost) {
         newComment.setDescription(description);
         newComment.setNumberOfLikes(0);
         newComment.setNumberOfDislikes(0);

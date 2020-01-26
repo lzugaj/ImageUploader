@@ -58,7 +58,6 @@ public class PackageTrackerController {
         }
 
         model.addAttribute("packageExtensions", extensions);
-
         return "package-tracker/package-tracker-info";
     }
 }

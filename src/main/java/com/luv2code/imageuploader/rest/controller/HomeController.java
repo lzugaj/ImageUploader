@@ -96,6 +96,11 @@ public class HomeController {
         String username = auth.getName();
         if (!username.equals("anonymousUser")) {
             User loggedInUser = userService.findByUserName(username);
+            if (loggedInUser == null) {
+                model.addAttribute("anonymousUser", username);
+                return;
+            }
+
             log.info("Successfully founded logged in User with username: `{}`", loggedInUser.getUserName());
             model.addAttribute("loggedInUser", loggedInUser);
             if (loggedInUser.getUserProfile().getProfileImage() != null) {

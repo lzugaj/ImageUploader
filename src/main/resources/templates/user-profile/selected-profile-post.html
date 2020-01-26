@@ -66,31 +66,60 @@
                     </div>
                 </div>
                 <br>
-                <div th:if="${isThisProfileFromLoggedInUser}" style="margin-left: 20px">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#updateModal">Delete Post</button>
+                <div class="btn-toolbar" th:if="${isThisProfileFromLoggedInUser}" style="margin-left: 20px">
+                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" style="margin-right: 15px">Delete</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">Update</button>
                 </div>
-                <span th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}" style="margin-left: 20px">
-                    <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#updateModal">Delete Post</button>
-                </span>
 
-                <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="btn-toolbar">
+                    <span th:if="${#httpServletRequest.isUserInRole('ROLE_ADMIN')}">
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal" style="margin-right: 15px">Delete</button>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#updateModal">Update</button>
+                    </span>
+                </div>
+
+                <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleDeleteModalLabel" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Delete User Post</h5>
+                                <h5 class="modal-title" id="exampleDeleteModalLabel">Delete User Post</h5>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
                             </div>
                             <div class="modal-body">
                                 <div class="form-group">
-                                    <p class="col-form-label">Are you sure you want to delete your Post?</p>
+                                    <p class="col-form-label">Are you sure you want to delete this Post?</p>
                                 </div>
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                 <a th:href="@{/user/profile/delete/{username}/post/{id}(username = ${selectedPost.user.userName}, id = ${selectedPost.id})}">
                                     <button type="submit" class="btn btn-danger">Delete</button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleUpdateModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleUpdateModalLabel">Update User Post</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <p class="col-form-label">Are you sure you want to update this Post?</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <a th:href="@{/user/profile/update/{username}/post/{id}(username = ${selectedPost.user.userName}, id = ${selectedPost.id})}">
+                                    <button type="submit" class="btn btn-danger">Update</button>
                                 </a>
                             </div>
                         </div>

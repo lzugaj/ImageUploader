@@ -26,4 +26,6 @@ public interface UserListInfoService {
 
 	User delete(Long id);
 
+
+
 }

@@ -54,7 +54,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                     .invalidateHttpSession(true)
                     .deleteCookies("JSESSIONID")
                 .and()
-                    .exceptionHandling().accessDeniedPage("/access-denied");
+                    .exceptionHandling().accessDeniedPage("/access-denied")
+                .and()
+                    .csrf()
+                        .disable();
     }
 
     @Bean

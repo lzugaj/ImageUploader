@@ -1,14 +1,11 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import com.luv2code.imageuploader.entity.Package;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.PackageService;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
 import com.luv2code.imageuploader.utils.MessageError;
 import com.luv2code.imageuploader.utils.MessageSuccess;
-import com.luv2code.imageuploader.utils.Utils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -20,8 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.security.Principal;
 import java.util.Objects;
 
@@ -38,13 +33,10 @@ public class PostController {
 
 	private final UserService userService;
 
-	private final PackageService packageService;
-
 	@Autowired
-	public PostController(PostService postService, UserService userService, PackageService packageService) {
+	public PostController(PostService postService, UserService userService) {
 		this.postService = postService;
 		this.userService = userService;
-		this.packageService = packageService;
 	}
 
 	@InitBinder
@@ -72,96 +64,16 @@ public class PostController {
 		User user = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 
-		String imageExtension = Objects.requireNonNull(file.getOriginalFilename()).split("\\.")[1];
-		switch (user.getUserPackage().getName()) {
-			case Utils.FREE:
-				if (isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, Utils.ID_FREE)
-						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, Utils.ID_FREE)
-						|| !isImageFileContainsExtensionForCurrentPackage(imageExtension, Utils.ID_FREE)) {
-					redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
-					return "redirect:/user/post/create/form";
-				} else {
-					Post post = postService.save(user, file, description, hashTags);
-					log.info("Successfully saved new Post with id: ´{}´, for User with id: `{}`", post.getId(), user.getId());
-				}
-
-				break;
-			case Utils.PRO:
-				if (isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, Utils.ID_PRO)
-						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, Utils.ID_PRO)
-						|| !isImageFileContainsExtensionForCurrentPackage(imageExtension, Utils.ID_PRO)) {
-					redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
-					return "redirect:/user/post/create/form";
-				} else {
-					Post post = postService.save(user, file, description, hashTags);
-					log.info("Successfully saved new Post with id: ´{}´, for User with id: `{}`", post.getId(), user.getId());
-				}
-
-				break;
-			case Utils.GOLD:
-				if (isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, Utils.ID_GOLD)
-						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, Utils.ID_GOLD)
-						|| !isImageFileContainsExtensionForCurrentPackage(imageExtension, Utils.ID_GOLD)) {
-					redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
-					return "redirect:/user/post/create/form";
-				} else {
-					Post post = postService.save(user, file, description, hashTags);
-					log.info("Successfully saved new Post with id: ´{}´, for User with id: `{}`", post.getId(), user.getId());
-				}
-
-				break;
+		String contentType = Objects.requireNonNull(file.getContentType()).substring(6);
+		if (postService.validatePostPackage(user.getUserPackage().getName(), user, contentType)) {
+			redirectAttributes.addFlashAttribute("limitError", MessageError.PACKAGE_TRACKER_VALIDATION);
+			return "redirect:/user/post/create/form";
+		} else {
+			Post post = postService.save(user, file, description, hashTags);
+			log.info("Successfully saved new Post with id: ´{}´, for User with id: `{}`", post.getId(), user.getId());
 		}
 
 		redirectAttributes.addFlashAttribute("postSuccessMessage", principal.getName() + MessageSuccess.SUCCESSFULLY_ADDED_POST);
 		return "redirect:/home";
-	}
-
-	private boolean isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(User user, Long packageId) {
-		boolean result = false;
-		if (user.getUploadedImagesWithCurrentPackage() >= packageService.findById(packageId).getDailyUploadLimit()) {
-			result = true;
-		}
-
-		return result;
-	}
-
-	private boolean isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(User user, Long packageId) {
-		boolean result = false;
-		BigDecimal currentImageSize = BigDecimal.valueOf(user.getUploadedImageSizeWithCurrentPackage()).divide(BigDecimal.valueOf(1000000), 3, RoundingMode.CEILING);
-		BigDecimal uploadSize = BigDecimal.valueOf(packageService.findById(packageId).getUploadSize());
-		if (Double.parseDouble(String.valueOf(currentImageSize)) > Double.parseDouble(String.valueOf(uploadSize))) {
-			result = true;
-		}
-
-		return result;
-	}
-
-	private boolean isImageFileContainsExtensionForCurrentPackage(String imageExtension, Long packageId) {
-		boolean result = false;
-		Package searchedPackage = packageService.findById(packageId);
-		if (searchedPackage.getName().equals(Utils.FREE)) {
-			for (String extension : Utils.FREE_EXTENSION_LIST) {
-				if (extension.equals(imageExtension)) {
-					result = true;
-					break;
-				}
-			}
-		} else if (searchedPackage.getName().equals(Utils.PRO)) {
-			for (String extension : Utils.PRO_EXTENSION_LIST) {
-				if (extension.equals(imageExtension)) {
-					result = true;
-					break;
-				}
-			}
-		} else {
-			for (String extension : Utils.GOLD_EXTENSION_LIST) {
-				if (extension.equals(imageExtension)) {
-					result = true;
-					break;
-				}
-			}
-		}
-
-		return result;
 	}
 }

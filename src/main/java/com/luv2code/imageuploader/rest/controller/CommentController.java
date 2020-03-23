@@ -50,7 +50,7 @@ public class CommentController {
 
     @PostMapping("/comment/{postId}")
     public String submitCommentToPost(@PathVariable Long postId, @RequestParam("commentDescription") String description,
-            Principal principal, RedirectAttributes redirectAttributes, Model model) {
+                                      Principal principal, RedirectAttributes redirectAttributes) {
         Comment newComment = commentService.save(description, principal.getName(), postId);
         log.info("Successfully create new Comment for `{}` with id: `{}`", principal.getName(), newComment.getId());
 

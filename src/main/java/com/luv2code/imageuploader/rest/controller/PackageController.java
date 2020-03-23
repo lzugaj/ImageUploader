@@ -2,6 +2,7 @@ package com.luv2code.imageuploader.rest.controller;
 
 import com.luv2code.imageuploader.entity.Package;
 import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.ImageFormatService;
 import com.luv2code.imageuploader.service.PackageService;
 import com.luv2code.imageuploader.service.UserService;
 import com.luv2code.imageuploader.utils.Utils;
@@ -28,36 +29,16 @@ public class PackageController {
 
 	private final UserService userService;
 
-	public PackageController(PackageService packageService, UserService userService) {
+	private final ImageFormatService imageFormatService;
+
+	public PackageController(PackageService packageService, UserService userService, ImageFormatService imageFormatService) {
 		this.packageService = packageService;
 		this.userService = userService;
+		this.imageFormatService = imageFormatService;
 	}
 
 	@GetMapping
-	private String showUserPackageOptionForm(Model model, Principal principal /*OAuth2AuthenticationToken authentication*/) {
-//		OAuth2AuthorizedClient client = authorizedClientService.loadAuthorizedClient(
-//				authentication.getAuthorizedClientRegistrationId(),
-//				authentication.getName());
-//		String userInfoEndpointUri = client.getClientRegistration()
-//				.getProviderDetails()
-//				.getUserInfoEndpoint()
-//				.getUri();
-//
-//		if (!StringUtils.isEmpty(userInfoEndpointUri)) {
-//			RestTemplate restTemplate = new RestTemplate();
-//			HttpHeaders headers = new HttpHeaders();
-//			headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + client.getAccessToken().getTokenValue());
-//			HttpEntity<String> entity = new HttpEntity<>("", headers);
-//			ResponseEntity<Map> response = restTemplate.exchange(userInfoEndpointUri, HttpMethod.GET, entity, Map.class);
-//			Map userAttributes = response.getBody();
-//			if (userAttributes != null) {
-//				model.addAttribute("name", userAttributes.get("name"));
-//			}
-//
-//			log.info("Founded user: ´{}´", userAttributes.get("name"));
-//			log.info("Social Sign In with: ´{}´", authentication.getAuthorizedClientRegistrationId());
-//		}
-
+	private String showUserPackageOptionForm(Model model, Principal principal) {
 		User user = userService.findByUserName(principal.getName());
 		log.info("Successfully founded User with username: `{}`", user.getUserName());
 		if (user.getUserPackage() != null) {
@@ -69,26 +50,20 @@ public class PackageController {
 		model.addAttribute("packages", packages);
 		log.info("Successfully fetched all Packages.");
 
-		StringBuilder freeExtensions = new StringBuilder();
-		for (String extension : Utils.FREE_EXTENSION_LIST) {
-			freeExtensions.append(extension).append(", ");
-		}
-
-		StringBuilder proExtensions = new StringBuilder();
-		for (String extension : Utils.PRO_EXTENSION_LIST) {
-			proExtensions.append(extension).append(", ");
-		}
-
-		StringBuilder goldExtensions = new StringBuilder();
-		for (String extension : Utils.GOLD_EXTENSION_LIST) {
-			goldExtensions.append(extension).append(", ");
-		}
+		String freeExtensions = getListOfExtensions(Utils.ID_FREE);
+		String proExtensions = getListOfExtensions(Utils.ID_PRO);
+		String goldExtensions = getListOfExtensions(Utils.ID_GOLD);
 
 		model.addAttribute("freeExtensions", freeExtensions);
 		model.addAttribute("proExtensions", proExtensions);
 		model.addAttribute("goldExtensions", goldExtensions);
 
 		return "user-package/user-package-form";
+	}
+
+	private String getListOfExtensions(Long packageId) {
+		List<String> imageFormats = imageFormatService.findAllForPackage(packageId);
+		return imageFormats.toString();
 	}
 
 	@GetMapping("/{packageId}")

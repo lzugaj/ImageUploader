@@ -49,4 +49,6 @@ public interface PostService {
 
   	void deleteAllUserPosts(Long id);
 
+	boolean validatePostPackage(String userPackage, User user, String contentType);
+
 }

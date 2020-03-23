@@ -1,8 +1,8 @@
 package com.luv2code.imageuploader.service;
 
-import java.util.List;
-
 import com.luv2code.imageuploader.entity.ImageFormat;
+
+import java.util.List;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -11,5 +11,7 @@ import com.luv2code.imageuploader.entity.ImageFormat;
 public interface ImageFormatService {
 
     List<ImageFormat> findAll();
+
+    List<String> findAllForPackage(Long packageId);
 
 }

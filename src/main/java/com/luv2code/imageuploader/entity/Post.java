@@ -19,7 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "post")
-public class Post implements Comparable<Post> {
+public class Post implements Comparable<Post>, Cloneable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -71,5 +71,18 @@ public class Post implements Comparable<Post> {
 	@Override
 	public int compareTo(Post post) {
 		return dateOfPost.compareTo(post.dateOfPost);
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		Object clone = null;
+		try {
+			clone = super.clone();
+		}
+		catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+
+		return clone;
 	}
 }

@@ -1,22 +1,35 @@
 package com.luv2code.imageuploader.service.impl;
 
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.repository.PostRepository;
-import com.luv2code.imageuploader.repository.UserRepository;
-import com.luv2code.imageuploader.service.CommentService;
-import com.luv2code.imageuploader.service.PostService;
-import lombok.extern.slf4j.Slf4j;
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.*;
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.repository.PostRepository;
+import com.luv2code.imageuploader.repository.UserRepository;
+import com.luv2code.imageuploader.service.CommentService;
+import com.luv2code.imageuploader.service.PackageService;
+import com.luv2code.imageuploader.service.PostService;
+import com.luv2code.imageuploader.utils.Utils;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -32,12 +45,15 @@ public class PostServiceImpl implements PostService {
 
 	private final CommentService commentService;
 
+	private final PackageService packageService;
+
 	@Autowired
 	public PostServiceImpl(PostRepository postRepository, UserRepository userRepository,
-						   CommentService commentService) {
+						   CommentService commentService, PackageService packageService) {
 		this.postRepository = postRepository;
 		this.userRepository = userRepository;
 		this.commentService = commentService;
+		this.packageService = packageService;
 	}
 
 	@Override
@@ -288,4 +304,48 @@ public class PostServiceImpl implements PostService {
 			}
 		}
 	}
+
+	@Override
+	public boolean validatePostPackage(String userPackage, User user, String contentType) {
+		boolean isValid = false;
+		for (String pack : Utils.PACKAGES) {
+			if (userPackage.equals(pack)) {
+				isValid = isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(user, user.getUserPackage().getId())
+						|| isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(user, user.getUserPackage().getId());
+			}
+		}
+
+		return isValid;
+	}
+
+	private boolean isCurrentNumberOfUploadedImageGreaterThanPackageImageSize(User user, Long packageId) {
+		boolean result = false;
+		if (user.getUploadedImagesWithCurrentPackage() >= packageService.findById(packageId).getDailyUploadLimit()) {
+			result = true;
+		}
+
+		return result;
+	}
+
+	private boolean isCurrentImageSizeOfUploadedImagesGreaterThanPackageImageSize(User user, Long packageId) {
+		boolean result = false;
+		BigDecimal currentImageSize = BigDecimal.valueOf(user.getUploadedImageSizeWithCurrentPackage()).divide(BigDecimal.valueOf(1000000), 3, RoundingMode.CEILING);
+		BigDecimal uploadSize = BigDecimal.valueOf(packageService.findById(packageId).getUploadSize());
+		if (Double.parseDouble(String.valueOf(currentImageSize)) > Double.parseDouble(String.valueOf(uploadSize))) {
+			result = true;
+		}
+
+		return result;
+	}
+
+//	private boolean isImageFileContainsExtensionForCurrentPackage(List<ImageFormat> imageExtension, String contentType) {
+//		boolean result = false;
+//		for (ImageFormat imageFormat : imageExtension) {
+//			if (imageFormat.getExtensionName().equals(contentType)) {
+//				result = true;
+//			}
+//		}
+//
+//		return result;
+//	}
 }

@@ -32,7 +32,8 @@ public class ImageFormatServiceImpl implements ImageFormatService {
         this.packageService = packageService;
     }
 
-    @Override public List<ImageFormat> findAll() {
+    @Override
+    public List<ImageFormat> findAll() {
         List<ImageFormat> imageFormats = imageFormatRepository.findAll();
         log.info("Getting all Image formats.");
         return imageFormats;

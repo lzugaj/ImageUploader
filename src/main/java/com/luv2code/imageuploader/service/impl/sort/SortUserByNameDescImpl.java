@@ -1,8 +1,9 @@
 package com.luv2code.imageuploader.service.impl.sort;
 
-import com.luv2code.imageuploader.entity.User;
-
 import java.util.Comparator;
+
+import com.luv2code.imageuploader.aop.TrackExecutionTime;
+import com.luv2code.imageuploader.entity.User;
 
 /**
  * Created by lzugaj on Wednesday, January 2020
@@ -10,6 +11,7 @@ import java.util.Comparator;
 
 public class SortUserByNameDescImpl implements Comparator<User> {
 
+	@TrackExecutionTime
 	@Override
 	public int compare(User firstUser, User secondUser) {
 		if (firstUser.getLastName().equals(secondUser.getLastName())) {

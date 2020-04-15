@@ -1,24 +1,31 @@
 package com.luv2code.imageuploader.rest.controller;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.luv2code.imageuploader.aop.TrackExecutionTime;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
 import com.luv2code.imageuploader.utils.MessageError;
 import com.luv2code.imageuploader.utils.MessageSuccess;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.propertyeditors.StringTrimmerEditor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.IOException;
-import java.security.Principal;
-import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Sunday, November 2019
@@ -51,6 +58,7 @@ public class PostController {
 		return "user-post/post-form";
 	}
 
+	@TrackExecutionTime
 	@PostMapping("/submit/form")
 	public String saveUserPostForm(@RequestParam("postImage") MultipartFile file,
 								   @RequestParam("postDescription") String description,

@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.luv2code.imageuploader.aop.TrackExecutionTime;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.repository.PostRepository;
@@ -56,6 +57,7 @@ public class PostServiceImpl implements PostService {
 		this.packageService = packageService;
 	}
 
+	@TrackExecutionTime
 	@Override
 	public Post findById(Long id) {
 		Post post = postRepository.findById(id).orElse(null);
@@ -63,6 +65,7 @@ public class PostServiceImpl implements PostService {
 		return post;
 	}
 
+	@TrackExecutionTime
 	@Override
 	public List<Post> findAll() {
 		List<Post> posts = postRepository.findAll();

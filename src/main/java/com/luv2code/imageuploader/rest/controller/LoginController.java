@@ -1,8 +1,11 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.luv2code.imageuploader.aop.TrackExecutionTime;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class LoginController {
 
+    @TrackExecutionTime
     @GetMapping("/login")
     public String showLoginForm() {
         log.info("Uploading Login Form");

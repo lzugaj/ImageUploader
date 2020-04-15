@@ -1,10 +1,11 @@
 package com.luv2code.imageuploader.rest.controller;
 
-import com.luv2code.imageuploader.entity.Post;
-import com.luv2code.imageuploader.entity.User;
-import com.luv2code.imageuploader.service.PostService;
-import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.CacheManager;
 import org.springframework.security.core.Authentication;
@@ -14,11 +15,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.nio.charset.StandardCharsets;
-import java.util.Base64;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import com.luv2code.imageuploader.aop.TrackExecutionTime;
+import com.luv2code.imageuploader.entity.Post;
+import com.luv2code.imageuploader.entity.User;
+import com.luv2code.imageuploader.service.PostService;
+import com.luv2code.imageuploader.service.UserService;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Monday, November 2019
@@ -42,6 +45,7 @@ public class HomeController {
         this.cacheManager = cacheManager;
     }
 
+    @TrackExecutionTime
     @GetMapping
     public String indexPage(Model model) {
         for(String name : cacheManager.getCacheNames()){

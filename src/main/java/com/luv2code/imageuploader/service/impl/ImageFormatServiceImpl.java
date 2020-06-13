@@ -2,6 +2,7 @@ package com.luv2code.imageuploader.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,10 +42,10 @@ public class ImageFormatServiceImpl implements ImageFormatService {
 
     @Override
     public List<String> findAllForPackage(Long packageId) {
-        Package aPackage = packageService.findById(packageId);
+        Package thePackage = packageService.findById(packageId);
         List<String> imageFormats = new ArrayList<>();
         for (ImageFormat imageFormat : findAll()) {
-            if (aPackage.getImageFormats().contains(imageFormat)) {
+            if (thePackage.getImageFormats().contains(imageFormat)) {
                 imageFormats.add(imageFormat.getExtensionName());
             }
         }

@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8050
   servlet:
     context-path: /image-uploader
 spring:
@@ -39,3 +39,25 @@ spring:
           github:
             client-id: 4e747a9b02bd9d1e7aeb
             client-secret: 203cf15cd2a2a458cc0dbe02da273f2451ea33a7
+
+# http://localhost:8050/image-uploader/actuator
+# http://localhost:9090/graph
+# http://localhost:3000/?orgId=1 == admin/password
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+global:
+  scrape_interval:     5s
+  evaluation_interval: 5s
+scrape_configs:
+  - job_name: 'image-uploader'
+    metrics_path: '/actuator/prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+  - job_name: 'grafana'
+    metrics_path: '/metrics'
+    static_configs:
+      - targets: ['localhost:3000']

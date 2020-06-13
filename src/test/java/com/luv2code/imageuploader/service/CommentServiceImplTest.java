@@ -21,8 +21,6 @@ import com.luv2code.imageuploader.entity.User;
 import com.luv2code.imageuploader.repository.CommentRepository;
 import com.luv2code.imageuploader.service.impl.CommentServiceImpl;
 
-;
-
 /**
  * Created by lzugaj on Monday, March 2020
  */

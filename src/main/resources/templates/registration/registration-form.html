@@ -48,7 +48,7 @@
                                 <div th:if="!${#fields.hasErrors('firstName')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input type="text" th:field="*{firstName}" placeholder="First name" class="form-control" th:errorclass="fieldError" />
+                                        <input id="firstName" type="text" th:field="*{firstName}" placeholder="First name" class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
                                 <div th:if="${#fields.hasErrors('firstName')}">
@@ -67,7 +67,7 @@
                                 <div th:if="!${#fields.hasErrors('lastName')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input type="text" th:field="*{lastName}" placeholder="Last name" class="form-control" th:errorclass="fieldError" />
+                                        <input id="lastName" type="text" th:field="*{lastName}" placeholder="Last name" class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
                                 <div th:if="${#fields.hasErrors('lastName')}">
@@ -87,7 +87,7 @@
                                 <div th:if="!${#fields.hasErrors('email')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                        <input type="text" th:field="*{email}" placeholder="Email" class="form-control" th:errorclass="fieldError" />
+                                        <input id="email" type="text" th:field="*{email}" placeholder="Email" class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
                                 <div th:if="${#fields.hasErrors('email')}">
@@ -106,7 +106,7 @@
                                 <div th:if="!${#fields.hasErrors('userName')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input type="text" th:field="*{userName}" placeholder="Username" class="form-control" th:errorclass="fieldError" />
+                                        <input id="username" type="text" th:field="*{userName}" placeholder="Username" class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
                                 <div th:if="${#fields.hasErrors('userName')}">
@@ -125,7 +125,7 @@
                                 <div th:if="!${#fields.hasErrors('password')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input type="password" th:field="*{password}" placeholder="Password"
+                                        <input id="password" type="password" th:field="*{password}" placeholder="Password"
                                                class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
@@ -146,7 +146,7 @@
                                 <div th:if="!${#fields.hasErrors('matchingPassword')}">
                                     <div class="input-group input-fields">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                        <input type="password" th:field="*{matchingPassword}" placeholder="Confirm password"
+                                        <input id="matchingPassword" type="password" th:field="*{matchingPassword}" placeholder="Confirm password"
                                                class="form-control" th:errorclass="fieldError" />
                                     </div>
                                 </div>
@@ -165,7 +165,7 @@
                             </div>
                             <div id="signUpButton" class="form-group">
                                 <div class="col-sm-12 controls">
-                                    <button type="submit" class="btn btn-primary">Sign Up</button>
+                                    <button type="submit" class="btn btn-primary" id="signUpButtonButton">Sign Up</button>
                                 </div>
                             </div>
                         </form>

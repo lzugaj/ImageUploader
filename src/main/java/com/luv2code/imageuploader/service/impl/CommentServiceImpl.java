@@ -1,5 +1,13 @@
 package com.luv2code.imageuploader.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Service;
+
 import com.luv2code.imageuploader.entity.Comment;
 import com.luv2code.imageuploader.entity.Post;
 import com.luv2code.imageuploader.entity.User;
@@ -7,14 +15,8 @@ import com.luv2code.imageuploader.repository.CommentRepository;
 import com.luv2code.imageuploader.service.CommentService;
 import com.luv2code.imageuploader.service.PostService;
 import com.luv2code.imageuploader.service.UserService;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * Created by lzugaj on Thursday, December 2019
@@ -69,14 +71,18 @@ public class CommentServiceImpl implements CommentService {
         List<Comment> comments = commentRepository.findAll();
         log.info("Successfully founded all Comments");
 
-        List<Comment> foundedComments = new ArrayList<>();
-        for (Comment comment : comments) {
-            if (comment.getPost().getId().equals(postId)) {
-                foundedComments.add(comment);
-            }
-        }
+//        List<Comment> foundedComments = new ArrayList<>();
+//        for (Comment comment : comments) {
+//            if (comment.getPost().getId().equals(postId)) {
+//                foundedComments.add(comment);
+//            }
+//        }
 
-        return foundedComments;
+        return comments.stream()
+                .filter(comment -> comment.getPost().getId().equals(postId))
+                .collect(Collectors.toList());
+
+//        return foundedComments;
     }
 
     @Override

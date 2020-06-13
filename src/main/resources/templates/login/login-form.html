@@ -30,7 +30,7 @@
             <div id="loginContainer" class="col-lg-6 col-md-6 col-sm-6">
                 <div class="panel panel-info">
                     <div class="panel-heading">
-                        <div class="panel-title">Sign In</div>
+                        <div class="panel-title" id="abc">Sign In</div>
                     </div>
                     <div class="panel-body">
                         <form th:action="@{/authenticateTheUser}" method="post" class="form-horizontal">
@@ -48,15 +48,15 @@
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input type="text" name="username" placeholder="Username" class="form-control">
+                                <input type="text" name="username" placeholder="Username" class="form-control" id="username">
                             </div>
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-                                <input type="password" name="password" placeholder="Password" class="form-control" >
+                                <input type="password" name="password" placeholder="Password" class="form-control" id="password">
                             </div>
                             <div class="form-group loginButton">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <button type="submit" class="btn btn-success">Login</button>
+                                    <button type="submit" class="btn btn-success" id="loginBtn">Login</button>
                                 </div>
                             </div>
                             <hr>
@@ -81,7 +81,7 @@
                 </div>
                 <div id="signUpButton">
                     <span>Don't have an account?</span>
-                    <a th:href="@{/registration}" class="btn btn-primary" role="button" aria-pressed="true">Sign Up</a>
+                    <a th:href="@{/registration}" class="btn btn-primary" role="button" aria-pressed="true" id="signUpBtn">Sign Up</a>
                 </div>
             </div>
         </div>

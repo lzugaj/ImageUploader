@@ -301,11 +301,17 @@ public class PostServiceImpl implements PostService {
 	public void deleteAllUserPosts(Long id) {
 		List<Post> posts = findAll();
 		log.info("Successfully founded all Posts for User with id: `{}`", id);
-		for (Post post : posts) {
-			if (post.getUser().getId().equals(id)) {
-				delete(post.getId());
-			}
-		}
+//		for (Post post : posts) {
+//			if (post.getUser().getId().equals(id)) {
+//				delete(post.getId());
+//			}
+//		}
+
+		posts.stream()
+				.filter(post -> post.getUser().getId().equals(id))
+				.forEach(
+						post -> delete(post.getId())
+				);
 	}
 
 	@Override

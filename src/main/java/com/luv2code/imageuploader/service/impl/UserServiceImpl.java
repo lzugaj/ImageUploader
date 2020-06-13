@@ -1,7 +1,6 @@
 package com.luv2code.imageuploader.service.impl;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
@@ -48,7 +47,7 @@ public class UserServiceImpl implements UserService {
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserServiceImpl(UserRepository userRepository, RoleRepository roleRepository,
-                           PackageServiceImpl packageService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+            PackageServiceImpl packageService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.packageService = packageService;
@@ -69,17 +68,22 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAllByPackageName(Package searchedPackage) {
-        List<User> usersWithSamePackageName = new ArrayList<>();
-        List<User> users = findAll();
-        for (User user : users) {
-            if (user.getUserPackage() != null) {
-                if (user.getUserPackage().getName().equals(searchedPackage.getName())) {
-                    usersWithSamePackageName.add(user);
-                }
-            }
-        }
+//        List<User> usersWithSamePackageName = new ArrayList<>();
+//        List<User> users = findAll();
+//        for (User user : users) {
+//            if (user.getUserPackage() != null) {
+//                if (user.getUserPackage().getName().equals(searchedPackage.getName())) {
+//                    usersWithSamePackageName.add(user);
+//                }
+//            }
+//        }
 
-        return usersWithSamePackageName;
+//        return usersWithSamePackageName;
+
+        return findAll().stream()
+                .filter(user -> user.getUserPackage() != null)
+                .filter(user -> user.getUserPackage().getName().equals(searchedPackage.getName()))
+                .collect(Collectors.toList());
     }
 
     @TrackExecutionTime
@@ -152,25 +156,37 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public Map<Long, String> mapAllProfileImages(List<User> users) {
-		Map<Long, String> userProfileImages = new HashMap<>();
-		for (User user : users) {
-			if (user.getUserProfile().getProfileImage() != null) {
-				byte[] userProfileImage = Base64.getEncoder().encode(user.getUserProfile().getProfileImage());
-				String imageUrl = new String(userProfileImage, StandardCharsets.UTF_8);
-				userProfileImages.put(user.getId(), imageUrl);
-			}
-		}
+//		Map<Long, String> userProfileImages = new HashMap<>();
+//		for (User user : users) {
+//			if (user.getUserProfile().getProfileImage() != null) {
+//				byte[] userProfileImage = Base64.getEncoder().encode(user.getUserProfile().getProfileImage());
+//				String imageUrl = new String(userProfileImage, StandardCharsets.UTF_8);
+//				userProfileImages.put(user.getId(), imageUrl);
+//			}
+//		}
+//
+//		return userProfileImages;
 
-		return userProfileImages;
+        Map<Long, String> userProfileImages = new HashMap<>();
+        users.stream()
+                .filter(user -> user.getUserProfile().getProfileImage() != null)
+                .forEach(
+                        user -> userProfileImages.put(user.getId(), new String(Base64.getEncoder().encode(user.getUserProfile().getProfileImage()), StandardCharsets.UTF_8))
+                );
+
+        return userProfileImages;
 	}
 
 	@Override
 	public Map<Long, User> mapAllUsers(List<User> users) {
 		Map<Long, User> usersMap = new HashMap<>();
-		for (User user : users) {
-			usersMap.put(user.getId(), user);
-		}
+//		for (User user : users) {
+//			usersMap.put(user.getId(), user);
+//		}
+//
+//		return usersMap;
 
-		return usersMap;
+        users.forEach(user -> usersMap.put(user.getId(), user));
+        return usersMap;
 	}
 }

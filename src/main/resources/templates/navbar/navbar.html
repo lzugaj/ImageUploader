@@ -44,7 +44,7 @@
                             </span>
                         </a>
                         <div th:if="${session.user == null}" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
-                            <a class="dropdown-item" th:href="@{/login}">Sign In</a>
+                            <a class="dropdown-item" th:href="@{/login}" id="signInButtoncic">Sign In</a>
                             <a class="dropdown-item" th:href="@{/registration}">Sign Up</a>
                         </div>
                         <div th:if="${session.user}" class="dropdown-menu dropdown-menu-lg-right dropdown-secondary" aria-labelledby="navbarDropdownMenuLink-55">
